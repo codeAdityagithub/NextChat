@@ -19,7 +19,7 @@ const createUser = async (data: UserType) => {
 
 const Register = () => {
     const [user, setUser] = useState<UserType>({
-        user_username: "",
+        user_name: "",
         user_email: "",
         user_password: "",
     });
