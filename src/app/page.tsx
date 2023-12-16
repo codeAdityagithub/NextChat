@@ -1,9 +1,11 @@
+import HomeRedirect from "@/components/HomeRedirect";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
     return (
         <div className="flex flex-col gap-y-4 h-full items-center justify-center">
+            <HomeRedirect />
             <Image
                 src="/logo.png"
                 alt="Logo"
