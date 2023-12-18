@@ -23,7 +23,7 @@ export const POST = async (req: NextRequest) => {
             data,
             "user_email",
             "user_password",
-            "user_username"
+            "user_name"
         )}
         returning user_id
       `;
