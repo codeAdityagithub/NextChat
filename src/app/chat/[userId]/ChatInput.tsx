@@ -1,6 +1,7 @@
 "use client";
+import { socket } from "@/utils/socket";
 
-import { FormEvent } from "react";
+import { FormEvent, useEffect } from "react";
 
 import { BiSolidSend } from "react-icons/bi";
 
@@ -11,7 +12,29 @@ const ChatInput = (props: Props) => {
         e.preventDefault();
         const form = e.currentTarget as any;
         console.log(form[0].value);
+        socket.emit("message", form[0].value);
+        form.reset();
     };
+    useEffect(() => {
+        // fetch("http://localhost:8000/", {
+        //     credentials: "include",
+        // });
+        socket.connect();
+        // socket.emit("test");
+        const fn = (error: any) => {
+            console.log(error.message);
+        };
+        const getName = (name:string) => {
+            console.log(name);
+        };
+        socket.on("connect_error", fn);
+        socket.on("userdata", getName);
+        return () => {
+            socket.off("connect_error", fn);
+            socket.off("userdata", getName);
+            socket.disconnect();
+        };
+    }, []);
     return (
         <form onSubmit={handleSubmit} className="relative">
             <div className="flex rounded-lg">
