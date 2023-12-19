@@ -12,16 +12,26 @@ const ChatInput = (props: Props) => {
         e.preventDefault();
         const form = e.currentTarget as any;
         console.log(form[0].value);
+        socket.emit("message", form[0].value);
+        form.reset();
     };
     useEffect(() => {
+        // fetch("http://localhost:8000/", {
+        //     credentials: "include",
+        // });
         socket.connect();
-        socket.emit("test");
-        const fn = (hi: string) => {
-            console.log(hi);
+        // socket.emit("test");
+        const fn = (error: any) => {
+            console.log(error.message);
         };
-        socket.on("hi", fn);
+        const getName = (name:string) => {
+            console.log(name);
+        };
+        socket.on("connect_error", fn);
+        socket.on("userdata", getName);
         return () => {
-            socket.off("hi", fn);
+            socket.off("connect_error", fn);
+            socket.off("userdata", getName);
             socket.disconnect();
         };
     }, []);

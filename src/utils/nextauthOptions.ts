@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import sql from "@/utils/db";
+import jwt from "jsonwebtoken";
 // import { UserType } from "@/types";
 
 const authOptions: NextAuthOptions = {
@@ -87,6 +88,17 @@ const authOptions: NextAuthOptions = {
             return true;
         },
     },
+    jwt: {
+        async encode({ secret, token, maxAge }) {
+            return jwt.sign(token!, secret);
+        },
+        // @ts-expect-error
+        async decode({ secret, token }) {
+            // console.log(token);
+            return jwt.verify(token!, secret);
+        },
+    },
+
 };
 
 export default authOptions;
