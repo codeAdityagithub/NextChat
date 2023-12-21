@@ -34,12 +34,9 @@ const authOptions: NextAuthOptions = {
                 const password = credentials?.password;
                 if (!email || !password) return null;
                 try {
-                    // const dbuser = await sql<
-                    //     UserType[]
-                    // >`select * from users where user_email=${email}`;
                     const dbuser =
                         await sql`select * from users where user_email=${email}`;
-                    console.log(dbuser);
+                    // console.log(dbuser);
                     if (dbuser.length == 0) return null;
                     const user = dbuser[0];
                     const isCorrectPassword = await bcrypt.compare(
@@ -53,7 +50,7 @@ const authOptions: NextAuthOptions = {
                         name: user.user_name,
                         email: user.user_email,
                     };
-                    console.log(requser);
+                    // console.log(requser);
                     return requser;
                 } catch (err) {
                     throw new Error("Something went wrong");
@@ -63,18 +60,8 @@ const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         async signIn({ user, account, profile }) {
-            //   const isAllowedToSignIn = true
-            //   if (isAllowedToSignIn) {
-            //     return true
-            //   } else {
-            //     // Return false to display a default error message
-            //     return false
-            //     // Or you can return a URL to redirect to:
-            //     // return '/unauthorized'
-
             if (account?.provider === "google") {
                 if (!user.email || !user.name) return false;
-
                 const dbuser =
                     await sql`select * from users where user_email=${user.email}`;
                 if (dbuser.length != 0) return true;
@@ -87,9 +74,18 @@ const authOptions: NextAuthOptions = {
             }
             return true;
         },
+        async session({ session, token }) {
+            // Send properties to the client, like an access_token and user id from a provider.
+            if (token.sub) {
+                session.user.id = token.sub;
+            }
+            return session;
+        },
+        
     },
     jwt: {
-        async encode({ secret, token, maxAge }) {
+        async encode({ secret, token }) {
+            console.log(token);
             return jwt.sign(token!, secret);
         },
         // @ts-expect-error
@@ -98,7 +94,6 @@ const authOptions: NextAuthOptions = {
             return jwt.verify(token!, secret);
         },
     },
-
 };
 
 export default authOptions;

@@ -1,13 +1,15 @@
 "use client";
 import { socket } from "@/utils/socket";
+import { useSession } from "next-auth/react";
+import { useParams } from "next/navigation";
 
 import { FormEvent, useEffect } from "react";
 
 import { BiSolidSend } from "react-icons/bi";
 
-type Props = {};
-
-const ChatInput = (props: Props) => {
+const ChatInput = () => {
+    const { userId } = useParams();
+    const { data } = useSession();
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const form = e.currentTarget as any;
@@ -16,15 +18,12 @@ const ChatInput = (props: Props) => {
         form.reset();
     };
     useEffect(() => {
-        // fetch("http://localhost:8000/", {
-        //     credentials: "include",
-        // });
-        socket.connect();
-        // socket.emit("test");
+        socket.emit("joined_user", userId);
+        console.log(data);
         const fn = (error: any) => {
             console.log(error.message);
         };
-        const getName = (name:string) => {
+        const getName = (name: string) => {
             console.log(name);
         };
         socket.on("connect_error", fn);
@@ -32,7 +31,6 @@ const ChatInput = (props: Props) => {
         return () => {
             socket.off("connect_error", fn);
             socket.off("userdata", getName);
-            socket.disconnect();
         };
     }, []);
     return (
