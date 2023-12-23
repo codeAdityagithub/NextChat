@@ -4,6 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import sql from "@/utils/db";
 import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from "uuid";
 // import { UserType } from "@/types";
 
 const authOptions: NextAuthOptions = {
@@ -59,18 +60,20 @@ const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        async signIn({ user, account, profile }) {
+        async signIn({ user, account }) {
             if (account?.provider === "google") {
                 if (!user.email || !user.name) return false;
                 const dbuser =
                     await sql`select * from users where user_email=${user.email}`;
                 if (dbuser.length != 0) return true;
-
+                // console.log("signin callback");
                 // if no user in db
+                const user_id = uuidv4();
                 const insertUser =
-                    await sql`insert into users(user_name, user_email) values(${user.name}, ${user.email}) returning user_email`;
+                    await sql`insert into users(user_id, user_name, user_email) values(${user_id},${user.name}, ${user.email}) returning user_email`;
                 // console.log(insertUser);
                 if (!insertUser || !insertUser[0].user_email) return false;
+                user.id = user_id;
             }
             return true;
         },
@@ -79,13 +82,13 @@ const authOptions: NextAuthOptions = {
             if (token.sub) {
                 session.user.id = token.sub;
             }
+            // console.log("session callback");
             return session;
         },
-        
     },
     jwt: {
         async encode({ secret, token }) {
-            console.log(token);
+            // console.log(token);
             return jwt.sign(token!, secret);
         },
         // @ts-expect-error
