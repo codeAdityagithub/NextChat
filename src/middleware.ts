@@ -11,7 +11,7 @@ export default withAuth({
         },
     },
     callbacks: {
-        authorized: ({ token, req }) => {
+        authorized: ({ req }) => {
             const cookie = req.cookies.get("next-auth.session-token")?.value;
             // console.log(cookie, "cookie");
             return !!cookie;

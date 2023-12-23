@@ -19,7 +19,7 @@ const createUser = async (data: UserType) => {
 
 const Register = () => {
     const [user, setUser] = useState<UserType>({
-        user_username: "",
+        user_name: "",
         user_email: "",
         user_password: "",
     });
@@ -52,7 +52,7 @@ const Register = () => {
                     <input
                         required
                         type="text"
-                        value={user?.user_username}
+                        value={user?.user_name}
                         maxLength={255}
                         name="user_username"
                         onChange={handleChange}
