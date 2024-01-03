@@ -19,7 +19,7 @@ const ChatInput = () => {
     };
     useEffect(() => {
         socket.emit("joined_user", userId);
-        console.log(data);
+        // console.log(data);
         const fn = (error: any) => {
             console.log(error.message);
         };
