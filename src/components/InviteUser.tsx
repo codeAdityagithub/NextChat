@@ -7,20 +7,22 @@ import { FormEvent, useEffect, useState } from "react";
 
 type Props = {};
 
-const sendInvite = async (userId: string) => {
-    const data = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/invite?userId=${userId}`,
+const sendInvite = async (email: string) => {
+    const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/invite?email=${email}`,
         { withCredentials: true }
     );
-    return data;
+    return res.data;
 };
 
 const InviteUser = (props: Props) => {
     const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState<string | null>(null);
     const { mutate, isPending } = useMutation({
         mutationFn: sendInvite,
         onSuccess(data) {
-            console.log(data);
+            setSuccess(data);
+            setTimeout(() => setSuccess(null), 3000);
         },
         onError(error: any) {
             // console.log((error))
@@ -37,8 +39,8 @@ const InviteUser = (props: Props) => {
     };
 
     useEffect(() => {
-        const req = (userId: string) => {
-            console.log(userId, "userId");
+        const req = (email: string) => {
+            console.log(email, "email");
         };
         socket.on("invite_request", req);
 
@@ -52,7 +54,7 @@ const InviteUser = (props: Props) => {
             className="w-full flex flex-col items-center gap-3 bg-white p-2 rounded-lg relative shadow-lg"
             onSubmit={handleSubmit}
         >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 w-full">
                 <input
                     type="text"
                     id="invite_user_input"
@@ -67,8 +69,11 @@ const InviteUser = (props: Props) => {
                     send
                 </button>
             </div>
-            <div className="messages text-left w-full empty:hidden empty:opacity-0 transition-all duration-500 opacity-100 text-red-300">
+            <div className="messages text-left w-full empty:hidden empty:opacity-0 transition-all duration-500 opacity-100 text-red-500">
                 {error}
+            </div>
+            <div className="messages text-left w-full empty:hidden empty:opacity-0 transition-all duration-500 opacity-100 text-green-500">
+                {success}
             </div>
         </form>
     );
