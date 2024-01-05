@@ -9,10 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.17.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/uuid": "^9.0.7",
-    "axios": "^1.6.2",
+    "axios": "^1.6.4",
     "bcryptjs": "^2.4.3",
     "clsx": "^2.0.0",
     "jsonwebtoken": "^9.0.2",

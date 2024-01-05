@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Roboto } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/utils/AuthProvider";
+import ReactQueryProvider from "@/utils/ReactQueryProvider";
 
 const roboto = Roboto({
     weight: ["100", "300", "400", "500", "700", "900"],
@@ -22,7 +23,9 @@ export default function RootLayout({
         <html lang="en">
             <body className={roboto.className}>
                 <main className="h-screen">
-                    <AuthProvider>{children}</AuthProvider>
+                    <AuthProvider>
+                        <ReactQueryProvider>{children}</ReactQueryProvider>
+                    </AuthProvider>
                 </main>
             </body>
         </html>

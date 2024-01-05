@@ -65,7 +65,11 @@ const authOptions: NextAuthOptions = {
                 if (!user.email || !user.name) return false;
                 const dbuser =
                     await sql`select * from users where user_email=${user.email}`;
-                if (dbuser.length != 0) return true;
+                if (dbuser.length != 0) {
+                    // console.log(dbuser[0]);
+                    user.id = dbuser[0].user_id;
+                    return true;
+                }
                 // console.log("signin callback");
                 // if no user in db
                 const user_id = uuidv4();
@@ -80,6 +84,7 @@ const authOptions: NextAuthOptions = {
         async session({ session, token }) {
             // Send properties to the client, like an access_token and user id from a provider.
             if (token.sub) {
+                // console.log(token);
                 session.user.id = token.sub;
             }
             // console.log("session callback");
