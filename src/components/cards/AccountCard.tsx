@@ -16,7 +16,7 @@ const AccountCard = async (props: Props) => {
             console.log(err.message);
             return [];
         });
-    console.log(data);
+    // console.log(data);
     return (
         <div className="w-full flex items-center justify-between pr-2 gap-3 bg-transparent">
             <div className="flex items-center gap-3">

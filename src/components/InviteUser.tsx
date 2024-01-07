@@ -38,16 +38,16 @@ const InviteUser = (props: Props) => {
         mutate(input.value);
     };
 
-    useEffect(() => {
-        const req = (email: string) => {
-            console.log(email, "email");
-        };
-        socket.on("invite_request", req);
+    // useEffect(() => {
+    //     const req = (email: string) => {
+    //         console.log(email, "email");
+    //     };
+    //     socket.on("invite_request", req);
 
-        return () => {
-            socket.off("invite_request", req);
-        };
-    }, []);
+    //     return () => {
+    //         socket.off("invite_request", req);
+    //     };
+    // }, []);
 
     return (
         <form
