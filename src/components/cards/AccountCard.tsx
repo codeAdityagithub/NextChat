@@ -2,20 +2,22 @@ import authOptions from "@/utils/nextauthOptions";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 import InviteNotifications from "../InviteNotifications";
-import { InvitationType } from "@/types";
+import { InviteNotification } from "@/types";
 
 type Props = {};
 
 const AccountCard = async (props: Props) => {
     const session = await getServerSession(authOptions);
-    const data: InvitationType[] = await fetch(
-        `${process.env.NEXTAUTH_URL}/api/private/invite?userId=${session?.user.id}`
+    const data: InviteNotification[] = await fetch(
+        `${process.env.NEXTAUTH_URL}/api/private/invite`,
+        { body: JSON.stringify({ userId: session?.user.id }), method: "POST" }
     )
         .then(async (res) => await res.json())
         .catch((err) => {
             console.log(err.message);
             return [];
         });
+    const names = JSON.parse(session?.user.name!);
     // console.log(data);
     return (
         <div className="w-full flex items-center justify-between pr-2 gap-3 bg-transparent">
@@ -33,10 +35,10 @@ const AccountCard = async (props: Props) => {
                 />
                 <div className="flex items-start justify-center flex-col h-full">
                     <div className="text-lg font-medium text-primary-content">
-                        {session?.user.name}
+                        {names.name}
                     </div>
                     <div className="text-sm font-light text-gray-500">
-                        @{session?.user.name}
+                        @{names.username}
                     </div>
                 </div>
             </div>

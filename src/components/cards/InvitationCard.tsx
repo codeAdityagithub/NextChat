@@ -1,17 +1,17 @@
 "use client";
-import { InvitationType } from "@/types";
+import { InviteNotification } from "@/types";
 import Image from "next/image";
 import { format } from "timeago.js";
 import { FaCheckCircle } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 
-type Props = InvitationType & {
+type Props = InviteNotification & {
     handleAccept: (invitation_id: number) => Promise<void>;
 };
 
 const InvitationCard = ({
-    user_email,
-    user_name,
+    username,
+    name,
     sent_at,
     invitation_id,
     handleAccept,
@@ -37,11 +37,9 @@ const InvitationCard = ({
                 height={30}
             />
             <div className="flex relative items-start justify-center flex-col h-full w-full peer-hover:blur-[1px]">
-                <div className="font-medium text-sm text-slate-400">
-                    {user_name}
-                </div>
+                <div className="font-medium text-sm text-slate-400">{name}</div>
                 <div className="text-xs font-light line-clamp-1 text-accent">
-                    {user_email}
+                    @{username}
                 </div>
                 <div className="absolute text-xs font-light right-0 top-0 text-slate-400">
                     {format(sent_at)}

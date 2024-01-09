@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 import sql from "@/utils/db";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
-// import { UserType } from "@/types";
+import { User as dbUser } from "@/dbtypes";
 
 const authOptions: NextAuthOptions = {
     // Configure one or more authentication providers
@@ -35,21 +35,26 @@ const authOptions: NextAuthOptions = {
                 const password = credentials?.password;
                 if (!email || !password) return null;
                 try {
-                    const dbuser =
-                        await sql`select * from users where user_email=${email}`;
-                    // console.log(dbuser);
+                    const dbuser = await sql<
+                        dbUser[]
+                    >`select * from users where email=${email}`;
                     if (dbuser.length == 0) return null;
                     const user = dbuser[0];
+                    // console.log(user);
                     const isCorrectPassword = await bcrypt.compare(
                         password,
-                        user.user_password
+                        user.password!
                     );
                     // console.log(isCorrectPassword);
                     if (!isCorrectPassword) return null;
+                    const name = {
+                        name: user.name,
+                        username: user.username,
+                    };
                     const requser: User = {
-                        id: user.user_id,
-                        name: user.user_name,
-                        email: user.user_email,
+                        id: user.id!,
+                        name: JSON.stringify(name),
+                        email: user.email,
                     };
                     // console.log(requser);
                     return requser;
@@ -63,21 +68,47 @@ const authOptions: NextAuthOptions = {
         async signIn({ user, account }) {
             if (account?.provider === "google") {
                 if (!user.email || !user.name) return false;
-                const dbuser =
-                    await sql`select * from users where user_email=${user.email}`;
+                const dbuser = await sql<
+                    dbUser[]
+                >`select * from users where email=${user.email}`;
                 if (dbuser.length != 0) {
                     // console.log(dbuser[0]);
-                    user.id = dbuser[0].user_id;
+                    user.id = dbuser[0].id!;
+                    const name = {
+                        name: user.name,
+                        username: dbuser[0].username,
+                    };
+                    user.name = JSON.stringify(name);
                     return true;
                 }
                 // console.log("signin callback");
+                // get users with same name as this
+                const usernames = await sql<
+                    { username: string }[]
+                >`select username from users where name=${user.name} order by username desc`;
                 // if no user in db
+                const suffix: string =
+                    usernames.length === 0
+                        ? Math.floor(Math.random() * 101).toString()
+                        : (
+                              parseInt(
+                                  usernames[0].username.split("_").pop()!
+                              ) + 1
+                          ).toString();
+
+                // console.log(suffix);
                 const user_id = uuidv4();
+                const username = user.name + "_" + suffix;
                 const insertUser =
-                    await sql`insert into users(user_id, user_name, user_email) values(${user_id},${user.name}, ${user.email}) returning user_email`;
+                    await sql`insert into users(id, name, email, username) values(${user_id},${user.name}, ${user.email}, ${username}) returning email`;
                 // console.log(insertUser);
-                if (!insertUser || !insertUser[0].user_email) return false;
+                if (!insertUser || !insertUser[0].email) return false;
                 user.id = user_id;
+                const name = {
+                    name: user.name,
+                    username: username,
+                };
+                user.name = JSON.stringify(name);
             }
             return true;
         },
@@ -86,8 +117,9 @@ const authOptions: NextAuthOptions = {
             if (token.sub) {
                 // console.log(token);
                 session.user.id = token.sub;
+                // session.user.username = token.username!;
             }
-            // console.log("session callback");
+            // console.log(session);
             return session;
         },
     },

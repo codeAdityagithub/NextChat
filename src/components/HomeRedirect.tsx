@@ -7,7 +7,7 @@ const HomeRedirect = () => {
     const router = useRouter();
     const session = useSession();
     useEffect(() => {
-        // console.log(session);
+        console.log(session);
         if (session.status === "authenticated") router.push("/chat");
     }, [session]);
     return <div className="empty:hidden"></div>;

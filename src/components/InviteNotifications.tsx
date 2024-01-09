@@ -1,16 +1,12 @@
 "use client";
-import { InvitationType } from "@/types";
+import { InviteNotification } from "@/types";
 import { IoIosNotificationsOutline as NotificationIcon } from "react-icons/io";
 import InvitationCard from "./cards/InvitationCard";
-import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { format } from "timeago.js";
-import { useCallback, useEffect, useState } from "react";
-import { socket } from "@/utils/socket";
 import useInvitation from "@/hooks/useInvitation";
 
 type Props = {
-    invitations: InvitationType[];
+    invitations: InviteNotification[];
 };
 
 const acceptInvite = async (invitation_id: number): Promise<string> => {
@@ -64,8 +60,8 @@ const InviteNotifications = ({ invitations }: Props) => {
                         <InvitationCard
                             invitation_id={invite.invitation_id}
                             sent_at={invite.sent_at}
-                            user_email={invite.user_email}
-                            user_name={invite.user_name}
+                            username={invite.username}
+                            name={invite.name}
                             handleAccept={handleAccept}
                         />
                     </li>

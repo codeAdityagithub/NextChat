@@ -1,16 +1,16 @@
-import { InvitationType } from "@/types";
+import { InviteNotification } from "@/types";
 import { socket } from "@/utils/socket";
 import React, { useEffect, useState } from "react";
 
 type Props = {
-    invitations: InvitationType[];
+    invitations: InviteNotification[];
 };
 
-const useInvitation = (invitations: InvitationType[]) => {
-    const [invites, setInvites] = useState<InvitationType[]>(invitations);
+const useInvitation = (invitations: InviteNotification[]) => {
+    const [invites, setInvites] = useState<InviteNotification[]>(invitations);
 
     useEffect(() => {
-        function handleInvite(invite: InvitationType) {
+        function handleInvite(invite: InviteNotification) {
             setInvites((prev) => [...prev, invite]);
             // console.log(invite);
         }
