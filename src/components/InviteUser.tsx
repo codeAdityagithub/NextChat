@@ -1,5 +1,6 @@
 "use client";
 
+import { UserCardInfo } from "@/types";
 import { socket } from "@/utils/socket";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
@@ -38,16 +39,15 @@ const InviteUser = (props: Props) => {
         mutate(input.value);
     };
 
-    // useEffect(() => {
-    //     const req = (email: string) => {
-    //         console.log(email, "email");
-    //     };
-    //     socket.on("invite_request", req);
-
-    //     return () => {
-    //         socket.off("invite_request", req);
-    //     };
-    // }, []);
+    useEffect(() => {
+        const getConv = (conversation: UserCardInfo) => {
+            console.log(conversation);
+        };
+        socket.on("add_conversation", getConv);
+        return () => {
+            socket.off("add_conversation", getConv);
+        };
+    }, []);
 
     return (
         <form

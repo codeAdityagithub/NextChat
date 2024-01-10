@@ -11,7 +11,7 @@ export type InviteNotification = {
 };
 
 export type UserCardInfo = {
-    conversation_id: string;
+    conversation_id: number;
     last_contacted_at: Date;
     name: string;
     username: string;
