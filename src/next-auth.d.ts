@@ -1,4 +1,9 @@
-import NextAuth, { DefaultSession } from "next-auth";
+import NextAuth, { DefaultSession, DefaultUser } from "next-auth";
+import { DefaultJWT } from "next-auth/jwt";
+
+// interface Iuser {
+//     username?: string;
+// }
 
 declare module "next-auth" {
     /**
@@ -9,4 +14,14 @@ declare module "next-auth" {
             id: string;
         } & DefaultSession["user"];
     }
+    // interface User extends DefaultUser {
+    //     username: string;
+    // }
 }
+
+// declare module "next-auth/jwt" {
+//     /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
+//     interface JWT extends DefaultJWT {
+//         username: string;
+//     }
+// }

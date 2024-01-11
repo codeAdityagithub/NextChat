@@ -1,4 +1,5 @@
 "use client";
+import { UserCardInfo } from "@/types";
 import { socket } from "@/utils/socket";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
@@ -23,14 +24,10 @@ const ChatInput = () => {
         const fn = (error: any) => {
             console.log(error.message);
         };
-        const getName = (name: string) => {
-            console.log(name);
-        };
         socket.on("connect_error", fn);
-        socket.on("userdata", getName);
+
         return () => {
             socket.off("connect_error", fn);
-            socket.off("userdata", getName);
         };
     }, []);
     return (

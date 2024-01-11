@@ -1,15 +1,17 @@
 "use client";
 
+import { UserCardInfo } from "@/types";
 import { socket } from "@/utils/socket";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { FormEvent, useEffect, useState } from "react";
+import UserCard from "./cards/UserCard";
 
 type Props = {};
 
-const sendInvite = async (email: string) => {
+const sendInvite = async (username: string) => {
     const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/invite?email=${email}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/invite?username=${username}`,
         { withCredentials: true }
     );
     return res.data;
@@ -38,16 +40,17 @@ const InviteUser = (props: Props) => {
         mutate(input.value);
     };
 
-    useEffect(() => {
-        const req = (email: string) => {
-            console.log(email, "email");
-        };
-        socket.on("invite_request", req);
-
-        return () => {
-            socket.off("invite_request", req);
-        };
-    }, []);
+    // useEffect(() => {
+    //     const getConv = (conversation: UserCardInfo) => {
+    //         const conversations = document.getElementById("conversations");
+    //         // const card = <UserCard {...conversation} />;
+    //         // conversations?.prepend(card);
+    //     };
+    //     socket.on("add_conversation", getConv);
+    //     return () => {
+    //         socket.off("add_conversation", getConv);
+    //     };
+    // }, []);
 
     return (
         <form
@@ -58,7 +61,7 @@ const InviteUser = (props: Props) => {
                 <input
                     type="text"
                     id="invite_user_input"
-                    placeholder="Send a invite ..."
+                    placeholder="Send a invite to ..."
                     className="p-2 bg-transparent text-primary-content flex-1 focus:ring-1 ring-primary-content outline-none rounded-md"
                 />
                 <button

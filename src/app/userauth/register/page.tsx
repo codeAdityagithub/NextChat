@@ -1,11 +1,17 @@
 "use client";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { UserType } from "@/types";
+import { User } from "@/dbtypes";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
-const createUser = async (data: UserType) => {
+const checkValid = (inputVal: string) => {
+    return inputVal.includes("|") || inputVal.includes("_");
+};
+
+const createUser = async (data: User) => {
     try {
         const res = await axios.post(`/api/auth/register`, data);
         return res.data;
@@ -18,20 +24,43 @@ const createUser = async (data: UserType) => {
 };
 
 const Register = () => {
-    const [user, setUser] = useState<UserType>({
-        user_name: "",
-        user_email: "",
-        user_password: "",
+    const router = useRouter();
+    const session = useSession();
+    const [user, setUser] = useState<User>({
+        name: "",
+        email: "",
+        password: "",
+        username: "",
     });
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
 
+    useEffect(() => {
+        if (session.status === "authenticated") {
+            router.replace("/chat");
+        }
+    }, [session]);
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        // console.log(user.name, user.username);
+        if (checkValid(user.name) || checkValid(user.username)) {
+            setError("name or username cannot contain '|' or '_'");
+            setTimeout(() => setError(""), 3000);
+            return;
+        }
         const res = await createUser(user);
         console.log(res);
-        if (res.error) setError(res.error);
-        else if (res.message) setMessage(res.message);
+        if (res.error) {
+            setError(res.error);
+            setTimeout(() => setError(""), 3000);
+        } else if (res.message) {
+            setMessage(res.message);
+            setTimeout(() => {
+                setMessage("");
+                router.replace("/api/auth/signin");
+            }, 2000);
+        }
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,8 +72,12 @@ const Register = () => {
     return (
         <div className="w-full h-full overflow-y-auto flex relative font-sans justify-center items-center box-border">
             <div className="w-[300px] p-4 bg-primary-content rounded-md shadow-md shadow-gray-800">
-                <p className="bg-green-400 text-gray-200 test-xs">{message}</p>
-                <p className="bg-red-400 text-gray-200 test-xs">{error}</p>
+                <p className="text-success-content bg-success  test-xs text-center">
+                    {message}
+                </p>
+                <p className="text-error-content bg-error test-xs text-center">
+                    {error}
+                </p>
                 <h2 className="w-full p-2 text-gray-200 text-center text-2xl">
                     Register
                 </h2>
@@ -52,18 +85,28 @@ const Register = () => {
                     <input
                         required
                         type="text"
-                        value={user?.user_name}
+                        value={user?.name}
                         maxLength={255}
-                        name="user_username"
+                        name="name"
                         onChange={handleChange}
-                        placeholder="Your Username..."
+                        placeholder="Your name..."
+                        className="w-full p-2 text-gray-200 placeholder:text-gray-400 my-2 bg-transparent rounded-md"
+                    />
+                    <input
+                        required
+                        type="text"
+                        value={user?.username}
+                        maxLength={255}
+                        name="username"
+                        onChange={handleChange}
+                        placeholder="Your Username thats unique ..."
                         className="w-full p-2 text-gray-200 placeholder:text-gray-400 my-2 bg-transparent rounded-md"
                     />
                     <input
                         required
                         type="email"
-                        value={user?.user_email}
-                        name="user_email"
+                        value={user?.email}
+                        name="email"
                         onChange={handleChange}
                         placeholder="Your email..."
                         className="w-full p-2 text-gray-200 placeholder:text-gray-400 my-2 bg-transparent rounded-md"
@@ -71,9 +114,9 @@ const Register = () => {
                     <input
                         required
                         type="password"
-                        name="user_password"
+                        name="password"
                         onChange={handleChange}
-                        value={user?.user_password}
+                        value={user?.password}
                         minLength={8}
                         maxLength={255}
                         placeholder="Your Password"
@@ -83,7 +126,7 @@ const Register = () => {
                 </form>
 
                 <Link
-                    href="/api/auth/login"
+                    href="/api/auth/signin"
                     className="text-gray-400 text-sm p-2 mt-4"
                 >
                     Already registered? Login

@@ -1,10 +1,18 @@
-export type UserType = {
-    user_name:string
-    user_email:string
-    user_password:string
-}
-export type InvitationType = {
-    user_name:string
-    user_email:string
-    sent_at:string
-}
+// export type UserType = {
+//     name: string;
+//     email: string;
+//     password: string;
+// };
+export type InviteNotification = {
+    name: string;
+    username: string;
+    sent_at: Date;
+    invitation_id: number;
+};
+
+export type UserCardInfo = {
+    conversation_id: number;
+    last_contacted_at: Date;
+    name: string;
+    username: string;
+};
