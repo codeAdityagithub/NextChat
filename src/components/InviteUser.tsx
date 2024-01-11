@@ -5,6 +5,7 @@ import { socket } from "@/utils/socket";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { FormEvent, useEffect, useState } from "react";
+import UserCard from "./cards/UserCard";
 
 type Props = {};
 
@@ -39,15 +40,17 @@ const InviteUser = (props: Props) => {
         mutate(input.value);
     };
 
-    useEffect(() => {
-        const getConv = (conversation: UserCardInfo) => {
-            console.log(conversation);
-        };
-        socket.on("add_conversation", getConv);
-        return () => {
-            socket.off("add_conversation", getConv);
-        };
-    }, []);
+    // useEffect(() => {
+    //     const getConv = (conversation: UserCardInfo) => {
+    //         const conversations = document.getElementById("conversations");
+    //         // const card = <UserCard {...conversation} />;
+    //         // conversations?.prepend(card);
+    //     };
+    //     socket.on("add_conversation", getConv);
+    //     return () => {
+    //         socket.off("add_conversation", getConv);
+    //     };
+    // }, []);
 
     return (
         <form

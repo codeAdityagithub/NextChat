@@ -4,6 +4,7 @@ import AccountCard from "./cards/AccountCard";
 import UserCard from "./cards/UserCard";
 import { getServerSession } from "next-auth";
 import { UserCardInfo } from "@/types";
+import Conversations from "./Conversations";
 
 type Props = {};
 
@@ -19,11 +20,7 @@ const Sidebar = async (props: Props) => {
         <aside className="flex flex-1 flex-col gap-2 max-w-[350px]">
             <AccountCard />
             <InviteUser />
-            <div className="bg-white h-full rounded-lg p-4 shadow-lg">
-                {chatUsers.map((cardInfo) => (
-                    <UserCard key={cardInfo.conversation_id} {...cardInfo} />
-                ))}
-            </div>
+            <Conversations chatUsers={chatUsers} />
         </aside>
     );
 };

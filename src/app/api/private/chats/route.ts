@@ -26,7 +26,7 @@ export const POST = async (req: NextRequest) => {
         JOIN
             ids ON cu.conversation_id = ids.conversation_id
         WHERE
-            cu.user_id != ${userId};`;
+            cu.user_id != ${userId} order by c.last_contacted_at desc`;
 
         return NextResponse.json(conversations, { status: 200 });
     } catch (error: any) {
