@@ -6,17 +6,22 @@ import { InviteNotification } from "@/types";
 
 type Props = {};
 
-const AccountCard = async (props: Props) => {
-    const session = await getServerSession(authOptions);
-    const data: InviteNotification[] = await fetch(
-        `${process.env.NEXTAUTH_URL}/api/private/invite`,
-        { body: JSON.stringify({ userId: session?.user.id }), method: "POST" }
-    )
+const getData = async (userId: string) => {
+    const data = await fetch(`${process.env.NEXTAUTH_URL}/api/private/invite`, {
+        body: JSON.stringify({ userId: userId }),
+        method: "POST",
+    })
         .then(async (res) => await res.json())
         .catch((err) => {
             console.log(err.message);
             return [];
         });
+    return data;
+};
+
+const AccountCard = async (props: Props) => {
+    const session = await getServerSession(authOptions);
+    const data: InviteNotification[] = await getData(session?.user.id!);
     const names = JSON.parse(session?.user.name!);
     // console.log(data);
     return (

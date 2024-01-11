@@ -23,6 +23,22 @@ const acceptInvite = async (invitation_id: number): Promise<string> => {
         return "error";
     }
 };
+const rejectInvite = async (invitation_id: number): Promise<string> => {
+    try {
+        const res = await axios.delete(
+            `${process.env.NEXT_PUBLIC_API_URL}/invite`,
+            {
+                data: { invitation_id },
+                withCredentials: true,
+            }
+        );
+        // console.log(res.data);
+        return res.data;
+    } catch (error) {
+        console.log(error);
+        return "error";
+    }
+};
 
 const InviteNotifications = ({ invitations }: Props) => {
     const [invites, setInvites] = useInvitation(invitations);
@@ -31,7 +47,15 @@ const InviteNotifications = ({ invitations }: Props) => {
         const res = await acceptInvite(invitation_id);
         if (res === "accepted") {
             setInvites((prev) =>
-                prev.filter((invite) => invite.invitation_id != invitation_id)
+                prev.filter((invite) => invite.invitation_id !== invitation_id)
+            );
+        }
+    };
+    const handleReject = async (invitation_id: number) => {
+        const res = await rejectInvite(invitation_id);
+        if (res === "rejected") {
+            setInvites((prev) =>
+                prev.filter((invite) => invite.invitation_id !== invitation_id)
             );
         }
     };
@@ -63,6 +87,7 @@ const InviteNotifications = ({ invitations }: Props) => {
                             username={invite.username}
                             name={invite.name}
                             handleAccept={handleAccept}
+                            handleReject={handleReject}
                         />
                     </li>
                 ))}

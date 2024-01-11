@@ -7,6 +7,7 @@ import { ImCross } from "react-icons/im";
 
 type Props = InviteNotification & {
     handleAccept: (invitation_id: number) => Promise<void>;
+    handleReject: (invitation_id: number) => Promise<void>;
 };
 
 const InvitationCard = ({
@@ -15,6 +16,7 @@ const InvitationCard = ({
     sent_at,
     invitation_id,
     handleAccept,
+    handleReject,
 }: Props) => {
     return (
         <div className="w-full group flex items-center gap-3 transition-colors rounded-xl px-2 relative">
@@ -25,7 +27,10 @@ const InvitationCard = ({
                 >
                     <FaCheckCircle className="w-full h-full hover:text-green-500" />
                 </button>
-                <button className="rounded-full flex items-center justify-center w-8 h-8 p-1 bg-slate-600 hover:bg-red-500">
+                <button
+                    className="rounded-full flex items-center justify-center w-8 h-8 p-1 bg-slate-600 hover:bg-red-500"
+                    onClick={() => handleReject(invitation_id)}
+                >
                     <ImCross className="w-4 h-4 text-slate-100" />
                 </button>
             </div>

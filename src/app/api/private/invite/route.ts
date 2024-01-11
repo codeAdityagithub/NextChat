@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
     const { userId } = await req.json();
-    // console.log(userId);
+    // console.log("fetch invitation");
     if (!userId)
         return NextResponse.json("No userId provided", { status: 400 });
     try {

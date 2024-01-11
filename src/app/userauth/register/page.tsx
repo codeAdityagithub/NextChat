@@ -43,7 +43,8 @@ const Register = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!checkValid(user.name) || !checkValid(user.username)) {
+        // console.log(user.name, user.username);
+        if (checkValid(user.name) || checkValid(user.username)) {
             setError("name or username cannot contain '|' or '_'");
             setTimeout(() => setError(""), 3000);
             return;

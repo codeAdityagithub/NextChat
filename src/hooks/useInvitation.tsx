@@ -14,10 +14,18 @@ const useInvitation = (invitations: InviteNotification[]) => {
             setInvites((prev) => [...prev, invite]);
             // console.log(invite);
         }
+        // function handleReject(invitation_id: number) {
+        //     console.log("socket reject");
+        //     setInvites((prev) =>
+        //         prev.filter((invite) => invite.invitation_id !== invitation_id)
+        //     );
+        // }
         socket.on("invite_request", handleInvite);
+        // socket.on("invite_reject", handleReject);
 
         return () => {
             socket.off("invite_request", handleInvite);
+            // socket.off("invite_reject", handleReject);
         };
     }, [invites, socket]);
     return [invites, setInvites] as const;
