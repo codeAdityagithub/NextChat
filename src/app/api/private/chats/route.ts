@@ -1,6 +1,28 @@
 import { UserCardInfo } from "@/types";
 import sql from "@/utils/db";
+import authOptions from "@/utils/nextauthOptions";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+
+// export const GET = async (req: NextRequest) => {
+//     const conversation_id = req.nextUrl.searchParams.get("conversation_id");
+//     console.log(conversation_id);
+//     if (!conversation_id)
+//         return NextResponse.json("No conversation_id", { status: 401 });
+//     const session = await getServerSession(authOptions);
+//     const userid = session;
+//     console.log(userid);
+//     try {
+//         const conversations =
+//             await sql`select c from conversation c join conversation_users cu on c.conversation_id=cu.conversation_id where c.conversation_id=${conversation_id}`;
+//         console.log(conversations);
+//     } catch (error) {
+//         console.log(error);
+//         return NextResponse.json("Something went wrong", { status: 500 });
+//     }
+
+//     NextResponse.json("chats get");
+// };
 
 export const POST = async (req: NextRequest) => {
     const { userId } = await req.json();
