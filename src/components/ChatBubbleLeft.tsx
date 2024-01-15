@@ -1,12 +1,19 @@
 type Props = {
-    data?:{
-        name:string
-        text:string
-        delivered:boolean
-    }
+    // message: Pick<Message, "content" | "created_at" | "status">;
+    content: string;
+    created_at: Date;
+    name: string;
 };
 
-const ChatBubbleLeft = ({data}: Props) => {
+const ChatBubbleLeft = ({ content, created_at, name }: Props) => {
+    const getTime = (time: Date) => {
+        const date = new Date(time);
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        return `${hours < 10 ? "0" : ""}${hours}:${
+            minutes < 10 ? "0" : ""
+        }${minutes}`;
+    };
     return (
         <div className="chat chat-start">
             <div className="chat-image avatar">
@@ -18,14 +25,13 @@ const ChatBubbleLeft = ({data}: Props) => {
                 </div>
             </div>
             <div className="chat-header text-primary-content opacity-50">
-                Obi-Wan Kenobi
-                <time className="text-xs opacity-50">12:45</time>
+                {name}
             </div>
-            <div className="chat-bubble bg-base text-gray-300">
-                You were the Chosen One!
+            <div className="chat-bubble bg-slate-500 rounded-md text-gray-300 relative">
+                {content}
             </div>
             <div className="chat-footer text-primary-content opacity-50">
-                Delivered
+                {getTime(created_at)}
             </div>
         </div>
     );

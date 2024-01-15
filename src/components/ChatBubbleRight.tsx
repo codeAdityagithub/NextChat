@@ -1,26 +1,32 @@
-type Props = {};
+type Props = {
+    // message: Pick<Message, "content" | "created_at" | "status">;
+    content: string;
+    created_at: Date;
+    status: "read" | "delivered";
+    name: string;
+};
 
-const ChatBubbleRight = (props: Props) => {
+const ChatBubbleRight = ({ content, created_at, name, status }: Props) => {
+    const getTime = (time: Date) => {
+        const date = new Date(time);
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        return `${hours < 10 ? "0" : ""}${hours}:${
+            minutes < 10 ? "0" : ""
+        }${minutes}`;
+    };
     return (
-        
         <div className="chat chat-end">
-        <div className="chat-image avatar">
-            <div className="w-10 rounded-full">
-                <img
-                    alt="Tailwind CSS chat bubble component"
-                    src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                />
+            <div className="chat-header text-primary-content opacity-50">
+                {name}
+            </div>
+            <div className="chat-bubble bg-base text-gray-300 relative bg-primary rounded-md">
+                {content}
+            </div>
+            <div className="chat-footer text-primary-content opacity-50">
+                {getTime(created_at)} {status}
             </div>
         </div>
-        <div className="chat-header text-primary-content opacity-50">
-            Anakin
-            <time className="text-xs">12:46</time>
-        </div>
-        <div className="chat-bubble bg-primary text-white">I hate you!</div>
-        <div className="chat-footer text-primary-content opacity-50">
-            Seen at 12:46
-        </div>
-    </div>
     );
 };
 

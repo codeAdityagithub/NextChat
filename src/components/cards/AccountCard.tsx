@@ -3,20 +3,21 @@ import { getServerSession } from "next-auth";
 import Image from "next/image";
 import InviteNotifications from "../InviteNotifications";
 import { InviteNotification } from "@/types";
+import sql from "@/utils/db";
 
 type Props = {};
 
 const getData = async (userId: string) => {
-    const data = await fetch(`${process.env.NEXTAUTH_URL}/api/private/invite`, {
-        body: JSON.stringify({ userId: userId }),
-        method: "POST",
-    })
-        .then(async (res) => await res.json())
-        .catch((err) => {
-            console.log(err.message);
-            return [];
-        });
-    return data;
+    if (!userId) return [];
+    try {
+        const invitations = await sql<
+            InviteNotification[]
+        >`select u.name, u.username, i.sent_at, i.invitation_id from users u join invitation i on i.sender_id=u.id where i.recipient_id=${userId} and i.status='pending'`;
+        return invitations;
+    } catch (error: any) {
+        console.log(error.message);
+        return [];
+    }
 };
 
 const AccountCard = async (props: Props) => {

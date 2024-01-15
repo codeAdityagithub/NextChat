@@ -9,6 +9,31 @@ const UserCard = ({
     name,
     username,
 }: UserCardInfo) => {
+    // console.log(last_contacted_at);
+    function formatTime(inputTime: Date): string {
+        const today = new Date();
+        const yesterday = new Date(today);
+        yesterday.setDate(today.getDate() - 1);
+
+        const inputDate = inputTime.toDateString();
+        const todayDate = today.toDateString();
+        const yesterdayDate = yesterday.toDateString();
+
+        if (inputDate === todayDate) {
+            // Return the time in "HH:mm" format
+            const hours = String(inputTime.getHours()).padStart(2, "0");
+            const minutes = String(inputTime.getMinutes()).padStart(2, "0");
+            return `${hours}:${minutes}`;
+        } else if (inputDate === yesterdayDate) {
+            return "yesterday";
+        } else {
+            // Return the date in "MM-DD-YYYY" format
+            const month = String(inputTime.getMonth() + 1).padStart(2, "0");
+            const day = String(inputTime.getDate()).padStart(2, "0");
+            const year = inputTime.getFullYear();
+            return `${month}-${day}-${year}`;
+        }
+    }
     return (
         <Link
             href={`/chat/${conversation_id}`}
@@ -27,7 +52,7 @@ const UserCard = ({
                     @{username}
                 </div>
                 <div className="absolute text-xs font-light right-2 top-3">
-                    {format(last_contacted_at)}
+                    {formatTime(last_contacted_at)}
                 </div>
             </div>
         </Link>
