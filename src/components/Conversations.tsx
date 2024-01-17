@@ -23,7 +23,7 @@ const Conversations = ({ chatUsers: initialData }: Props) => {
     return (
         <div
             id="conversations"
-            className="bg-white h-full rounded-lg p-4 shadow-lg"
+            className="bg-white flex-1 rounded-lg p-4 shadow-lg"
         >
             {chatUsers.map((cardInfo) => (
                 <UserCard key={cardInfo.conversation_id} {...cardInfo} />

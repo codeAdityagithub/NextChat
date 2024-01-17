@@ -2,7 +2,9 @@ import Image from "next/image";
 
 export default function Home() {
     return (
-        <div className="flex flex-[2] flex-col gap-y-4 h-full items-center justify-center">
+        <div
+            className={`hidden sm:flex sm:flex-[2] flex-col gap-y-4 h-full items-center justify-center`}
+        >
             <Image
                 src="/logo.png"
                 alt="Logo"

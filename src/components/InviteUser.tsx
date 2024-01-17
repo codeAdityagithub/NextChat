@@ -54,7 +54,7 @@ const InviteUser = (props: Props) => {
 
     return (
         <form
-            className="w-full flex flex-col items-center gap-3 bg-white p-2 rounded-lg relative shadow-lg"
+            className="w-full mb-2 flex flex-col items-center gap-3 bg-white p-2 rounded-lg relative shadow-lg"
             onSubmit={handleSubmit}
         >
             <div className="flex items-center gap-3 w-full">

@@ -6,6 +6,7 @@ import { UserCardInfo } from "@/types";
 import Conversations from "./Conversations";
 import sql from "@/utils/db";
 import { FetchError } from "@/lib/exceptions";
+import SidebarWrapper from "@/utils/SidebarWrapper";
 
 const getData = async (
     userId: string
@@ -48,11 +49,11 @@ const Sidebar = async () => {
     if (data.status === "error")
         throw new FetchError("Couldn't Fetch you chats");
     return (
-        <aside className="flex flex-1 flex-col gap-2 max-w-[350px]">
+        <SidebarWrapper>
             <AccountCard />
             <InviteUser />
             <Conversations chatUsers={data.chatUsers} />
-        </aside>
+        </SidebarWrapper>
     );
 };
 

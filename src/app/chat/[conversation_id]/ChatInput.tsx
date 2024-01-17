@@ -1,8 +1,5 @@
 "use client";
-import { SocketError } from "@/lib/exceptions";
-import { UserCardInfo } from "@/types";
 import { socket } from "@/utils/socket";
-import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 
 import { FormEvent, useEffect, useState } from "react";

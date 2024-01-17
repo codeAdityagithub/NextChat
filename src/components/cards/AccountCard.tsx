@@ -26,7 +26,7 @@ const AccountCard = async (props: Props) => {
     const names = JSON.parse(session?.user.name!);
     // console.log(data);
     return (
-        <div className="w-full flex items-center justify-between pr-2 gap-3 bg-transparent">
+        <div className="w-full mb-2 flex items-center justify-between pr-2 gap-3 bg-transparent">
             <div className="flex items-center gap-3">
                 <Image
                     className="object-contain rounded-full h-full"

@@ -8,17 +8,23 @@ const OnlineStatus = ({ username }: { username: string }) => {
     const [status, setStatus] = useState<"online" | "offline" | "">("");
     const { conversation_id } = useParams();
     useEffect(() => {
-        socket.emit("get_status", username, conversation_id);
-        const handler = (status: "online" | "offline") => {
-            console.log(status);
+        const int = setInterval(
+            () => socket.emit("get_status", username, conversation_id),
+            2000
+        );
+        const handler1 = (status: "online" | "offline") => {
+            // console.log(status);
             setStatus(status);
         };
-        socket.on("online_status", handler);
+        socket.on("online_status", handler1);
+        // socket.on("user_status", handler1);
         return () => {
-            socket.off("online_status", handler);
+            socket.off("online_status", handler1);
+            // socket.off("user_status", handler1);
+            clearInterval(int);
         };
-    }, [socket]);
-    return <div>{status}</div>;
+    }, [socket, status]);
+    return <span>{status}</span>;
 };
 
 export default OnlineStatus;

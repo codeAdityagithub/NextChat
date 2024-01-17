@@ -2,7 +2,9 @@ import Image from "next/image";
 import React from "react";
 
 import { BsThreeDots } from "react-icons/bs";
+
 import OnlineStatus from "./OnlineStatus";
+import GoBack from "./GoBack";
 
 type Props = {
     id?: string;
@@ -13,6 +15,7 @@ type Props = {
 const UserHeader = ({ id, name, username }: Props) => {
     return (
         <div className="w-full h-16 flex items-center gap-3 bg-white py-1 px-3 rounded-lg">
+            <GoBack />
             <Image
                 className="object-contain rounded-full h-full"
                 src={"/account.png"}
