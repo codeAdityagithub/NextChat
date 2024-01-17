@@ -1,11 +1,8 @@
 "use client";
 
-import { UserCardInfo } from "@/types";
-import { socket } from "@/utils/socket";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { FormEvent, useEffect, useState } from "react";
-import UserCard from "./cards/UserCard";
+import { FormEvent, useState } from "react";
 
 type Props = {};
 

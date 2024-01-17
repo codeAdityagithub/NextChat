@@ -1,3 +1,5 @@
+import { getTime } from "@/lib/timeFormatters";
+
 type Props = {
     // message: Pick<Message, "content" | "created_at" | "status">;
     content: string;
@@ -6,14 +8,6 @@ type Props = {
 };
 
 const ChatBubbleLeft = ({ content, created_at, name }: Props) => {
-    const getTime = (time: Date) => {
-        const date = new Date(time);
-        const hours = date.getHours();
-        const minutes = date.getMinutes();
-        return `${hours < 10 ? "0" : ""}${hours}:${
-            minutes < 10 ? "0" : ""
-        }${minutes}`;
-    };
     return (
         <div className="chat chat-start">
             <div className="chat-image avatar">

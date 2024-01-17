@@ -22,7 +22,7 @@ const getData = async (
             c.conversation_id, 
             c.last_contacted_at,
             u.name,
-            u.username from 
+            c.latest_message from 
             conversation_users cu
         JOIN 
             users u ON u.id = cu.user_id
@@ -46,6 +46,7 @@ const getData = async (
 const Sidebar = async () => {
     const session = await getServerSession(authOptions);
     const data = await getData(session?.user.id!);
+    // console.log(data.chatUsers);
     if (data.status === "error")
         throw new FetchError("Couldn't Fetch you chats");
     return (
