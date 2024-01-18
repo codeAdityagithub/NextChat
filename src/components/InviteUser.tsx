@@ -59,7 +59,7 @@ const InviteUser = (props: Props) => {
                     type="text"
                     id="invite_user_input"
                     placeholder="Send a invite to ..."
-                    className="p-2 bg-transparent text-primary-content flex-1 focus:ring-1 ring-primary-content outline-none rounded-md"
+                    className="p-2 min-w-0 bg-transparent text-primary-content flex-1 focus:ring-1 ring-primary-content outline-none rounded-md"
                 />
                 <button
                     disabled={isPending}

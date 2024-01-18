@@ -26,8 +26,7 @@ const UserHeader = ({ id, name, username }: Props) => {
             <div className="text-lg font-medium flex-1 text-primary-content">
                 <div className="font-medium text-primary-content">{name}</div>
                 <div className="text-sm font-light line-clamp-1 text-gray-500">
-                    @{username}
-                    <OnlineStatus username={username!} />
+                    @{username} <OnlineStatus username={username!} />
                 </div>
             </div>
             <div className="bg-gray-100 py-1 px-2 rounded-lg cursor-pointer">

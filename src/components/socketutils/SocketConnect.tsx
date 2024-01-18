@@ -10,14 +10,10 @@ const SocketConnect = () => {
 
     useEffect(() => {
         socket.connect();
-        const messageHandler = (message: any) => {
-            console.log(message, "recieve");
-        };
-        socket.on("recieve_message", messageHandler);
+
         socket.on("connect_error", fn);
         return () => {
             socket.off("connect_error", fn);
-            socket.off("recieve_message", messageHandler);
 
             socket.disconnect();
         };

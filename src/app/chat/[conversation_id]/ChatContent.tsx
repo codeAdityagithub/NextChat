@@ -2,8 +2,8 @@
 import ChatBubbleLeft from "@/components/ChatBubbleLeft";
 import ChatBubbleRight from "@/components/ChatBubbleRight";
 import { Message, User } from "@/dbtypes";
-import { socket } from "@/utils/socket";
-import { useEffect, useState } from "react";
+import useMessages from "@/hooks/useMessages";
+import { useEffect, useRef } from "react";
 
 type otherPerson = Pick<User, "id" | "name" | "username">;
 
@@ -12,21 +12,16 @@ type Props = {
     otherPerson?: otherPerson;
 };
 
-const ChatContent = ({ messages: initialMessages, otherPerson }: Props) => {
-    const [messages, setMessages] = useState(initialMessages);
-
+const ChatContent = ({ messages: initialData, otherPerson }: Props) => {
+    const [messages, setMessages] = useMessages({ initialData });
+    const divRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
-        console.log("chat conetn");
-        const messageHandler = (message: any) => {
-            console.log(message, "recieve");
-        };
-        socket.on("recieve_message", messageHandler);
-        return () => {
-            socket.off("recieve_message", messageHandler);
-        };
-    }, [socket, messages]);
+        divRef.current?.lastElementChild?.scrollIntoView({
+            behavior: "smooth",
+        });
+    }, []);
     return (
-        <div className="flex-1 overflow-y-auto px-2">
+        <div className="flex-1 overflow-y-auto px-2 ver-scrollbar" ref={divRef}>
             {messages.map((message) =>
                 message.sender_id === otherPerson?.id ? (
                     <ChatBubbleLeft
