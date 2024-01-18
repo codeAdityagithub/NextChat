@@ -1,3 +1,4 @@
+"use client";
 import { InviteNotification } from "@/types";
 import { socket } from "@/utils/socket";
 import React, { useEffect, useState } from "react";
@@ -8,10 +9,11 @@ type Props = {
 
 const useInvitation = (invitations: InviteNotification[]) => {
     const [invites, setInvites] = useState<InviteNotification[]>(invitations);
-
     useEffect(() => {
+        const audio = new Audio("/inviteSound.mp3");
         function handleInvite(invite: InviteNotification) {
             setInvites((prev) => [...prev, invite]);
+            audio.play();
             // console.log(invite);
         }
         // function handleReject(invitation_id: number) {

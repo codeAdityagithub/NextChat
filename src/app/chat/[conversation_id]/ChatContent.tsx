@@ -15,13 +15,16 @@ type Props = {
 const ChatContent = ({ messages: initialData, otherPerson }: Props) => {
     const [messages, setMessages] = useMessages({ initialData });
     const divRef = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-        divRef.current?.lastElementChild?.scrollIntoView({
-            behavior: "smooth",
-        });
-    }, []);
+    // useEffect(() => {
+    //     divRef.current?.lastElementChild?.scrollIntoView({
+    //         behavior: "smooth",
+    //     });
+    // }, []);
     return (
-        <div className="flex-1 overflow-y-auto px-2 ver-scrollbar" ref={divRef}>
+        <div
+            className="flex-1 flex flex-col-reverse overflow-y-auto px-2 ver-scrollbar"
+            ref={divRef}
+        >
             {messages.map((message) =>
                 message.sender_id === otherPerson?.id ? (
                     <ChatBubbleLeft

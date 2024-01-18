@@ -37,7 +37,7 @@ const getMessages = async (
         // console.log(otherPerson);
         const messages = await sql<
             Message[]
-        >`select * from message where conversation_id=${conversation_id}`;
+        >`select * from message where conversation_id=${conversation_id} order by created_at desc`;
         return {
             messages: messages as Array<Message>,
             otherPerson: otherPerson[0],

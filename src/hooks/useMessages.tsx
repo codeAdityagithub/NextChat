@@ -12,7 +12,7 @@ const useMessages = ({ initialData }: Props) => {
     useEffect(() => {
         const messageHandler = (message: Message) => {
             console.log(message, "recieve");
-            setMessages((prev) => [...prev, message]);
+            setMessages((prev) => [message, ...prev]);
         };
         socket.on("recieve_message", messageHandler);
         return () => {
