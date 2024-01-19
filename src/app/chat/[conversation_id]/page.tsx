@@ -1,6 +1,4 @@
 import ChatInput from "@/app/chat/[conversation_id]/ChatInput";
-import ChatBubbleLeft from "@/components/ChatBubbleLeft";
-import ChatBubbleRight from "@/components/ChatBubbleRight";
 import ChatHeader from "@/app/chat/[conversation_id]/ChatHeader";
 import { Message, User } from "@/dbtypes";
 import sql from "@/utils/db";
@@ -64,6 +62,7 @@ const ChatPage = async ({ params }: Props) => {
             <ChatContent
                 otherPerson={data.otherPerson}
                 messages={data.messages}
+                cur_userId={session?.user.id}
             />
             <ChatInput username={data.otherPerson?.username!} />
         </div>
