@@ -15,4 +15,5 @@ export type UserCardInfo = {
     last_contacted_at: Date;
     name: string;
     latest_message: string;
+    unread_message?: boolean;
 };
