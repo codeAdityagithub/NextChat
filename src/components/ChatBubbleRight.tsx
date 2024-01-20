@@ -14,7 +14,7 @@ const ChatBubbleRight = ({ content, created_at, name, status }: Props) => {
             <div className="chat-header text-primary-content opacity-50">
                 {name}
             </div>
-            <div className="chat-bubble bg-base text-gray-300 relative bg-primary rounded-md">
+            <div className="chat-bubble bg-base text-gray-100 relative bg-primary rounded-md">
                 {content}
             </div>
             <div className="chat-footer text-primary-content opacity-50">

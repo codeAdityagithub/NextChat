@@ -4,6 +4,7 @@ import Image from "next/image";
 import InviteNotifications from "../InviteNotifications";
 import { InviteNotification } from "@/types";
 import sql from "@/utils/db";
+import Settings from "../Settings";
 
 type Props = {};
 
@@ -26,8 +27,8 @@ const AccountCard = async (props: Props) => {
     const names = JSON.parse(session?.user.name!);
     // console.log(data);
     return (
-        <div className="w-full mb-2 flex items-center justify-between pr-2 gap-3 bg-transparent">
-            <div className="flex items-center gap-3">
+        <div className="w-full mb-2 flex items-center justify-between pr-2 gap-1 bg-transparent">
+            <div className="flex items-center gap-3 flex-1">
                 <Image
                     className="object-contain rounded-full h-full"
                     src={
@@ -48,6 +49,7 @@ const AccountCard = async (props: Props) => {
                     </div>
                 </div>
             </div>
+            <Settings />
             <InviteNotifications invitations={data} />
         </div>
     );

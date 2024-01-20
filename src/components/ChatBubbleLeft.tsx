@@ -21,7 +21,7 @@ const ChatBubbleLeft = ({ content, created_at, name }: Props) => {
             <div className="chat-header text-primary-content opacity-50">
                 {name}
             </div>
-            <div className="chat-bubble bg-slate-500 rounded-md text-gray-300 relative">
+            <div className="chat-bubble bg-slate-500 rounded-md text-gray-100 relative">
                 {content}
             </div>
             <div className="chat-footer text-primary-content opacity-50">

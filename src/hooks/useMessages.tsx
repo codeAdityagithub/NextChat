@@ -1,7 +1,8 @@
 import { Message, User } from "@/dbtypes";
 import { queryClient } from "@/utils/ReactQueryProvider";
+// import { queryClient } from "@/utils/ReactQueryProvider";
 import { socket } from "@/utils/socket";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
@@ -18,6 +19,7 @@ type getMessagesReturn = {
 
 const useMessages = ({ initialData, userId }: Props) => {
     // const [messages, setMessages] = useState(initialData);
+    const queryCl = useQueryClient(queryClient);
     const { conversation_id } = useParams();
     const { data, isLoading, error } = useQuery({
         queryKey: ["messages", conversation_id],
@@ -36,19 +38,19 @@ const useMessages = ({ initialData, userId }: Props) => {
         const messageHandler = (message: Message) => {
             // console.log(message, "recieve");
             // setMessages((prev) => [message, ...prev]);
-            queryClient.setQueryData(
-                ["messages", conversation_id],
-                (old: getMessagesReturn) => ({
-                    ...old,
-                    messages: [message, ...old.messages],
-                })
+            queryCl.setQueryData(
+                ["messages", message.conversation_id.toString()],
+                (old: getMessagesReturn) => {
+                    console.log(old);
+                    return { messages: [message, ...old.messages] };
+                }
             );
         };
         socket.on("recieve_message", messageHandler);
         return () => {
             socket.off("recieve_message", messageHandler);
         };
-    }, [socket, data]);
+    }, [socket, queryClient, data]);
     return [data, isLoading, error] as const;
 };
 
