@@ -20,7 +20,7 @@ const ChatInput = ({ username }: { username: string }) => {
     useEffect(() => {
         socket.emit("join_conversation", conversation_id);
         const handleMessageError = (error: any, message: string) => {
-            console.log(error, message);
+            // console.log(error, message);
             setMessage(message);
             setError("Couldn't send message now!");
             setTimeout(() => setError(""), 3000);

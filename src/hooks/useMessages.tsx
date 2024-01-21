@@ -36,19 +36,37 @@ const useMessages = ({ initialData, userId }: Props) => {
 
     useEffect(() => {
         const messageHandler = (message: Message) => {
-            // console.log(message, "recieve");
             // setMessages((prev) => [message, ...prev]);
             queryCl.setQueryData(
                 ["messages", message.conversation_id.toString()],
                 (old: getMessagesReturn) => {
-                    console.log(old);
+                    if (!old) return old;
                     return { messages: [message, ...old.messages] };
                 }
             );
         };
+        const readMessages = (userId: string) => {
+            queryCl.setQueryData(
+                ["messages", conversation_id],
+                (old: getMessagesReturn) => {
+                    if (!old) return old;
+                    return {
+                        messages: old.messages.map((message) =>
+                            message.status === "delivered" &&
+                            message.sender_id !== userId
+                                ? { ...message, status: "read" }
+                                : message
+                        ),
+                    };
+                }
+            );
+        };
         socket.on("recieve_message", messageHandler);
+        socket.on("read_messages", readMessages);
+
         return () => {
             socket.off("recieve_message", messageHandler);
+            socket.off("read_messages", readMessages);
         };
     }, [socket, queryClient, data]);
     return [data, isLoading, error] as const;

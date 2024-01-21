@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer components {
+    .sidebar_aside {
+        max-width: 384px;
+    }
     .ver-scrollbar {
         @apply transition-all;
     }

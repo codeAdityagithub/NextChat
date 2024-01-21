@@ -26,7 +26,7 @@ const Conversations = ({ chatUsers: initialData }: Props) => {
 
     const handleUnreadMessage = (conversation_id: number) => {
         if (areUnreadMesages) {
-            console.log("fn call");
+            // console.log("fn call");
             setChatUsers((prev) =>
                 prev.map((info) =>
                     info.conversation_id == conversation_id

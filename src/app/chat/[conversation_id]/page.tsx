@@ -31,14 +31,27 @@ const getMessages = async (
         const user = users.filter((user) => user.id === userId);
         if (user.length === 0) return { messages: [], status: "unauthorised" };
 
-        const otherPerson = users.filter((user) => user.id !== userId);
+        const otherPerson = users.filter((user) => user.id !== userId)[0];
         // console.log(otherPerson);
         const messages = await sql<
             Message[]
-        >`select * from message where conversation_id=${conversation_id} order by created_at desc`;
+        >`select * from message where conversation_id=${conversation_id} order by created_at desc limit 30`;
+        const unread_messages = messages.flatMap((message) => {
+            if (
+                message.status === "delivered" &&
+                message.sender_id === otherPerson.id
+            )
+                return [message.message_id];
+            return [];
+        });
+        if (unread_messages.length > 0) {
+            await sql`update message set status='read' where sender_id=${otherPerson.id!} and message_id in ${sql(
+                unread_messages
+            )}`;
+        }
         return {
             messages: messages as Array<Message>,
-            otherPerson: otherPerson[0],
+            otherPerson: otherPerson,
             status: "success",
         };
     } catch (error) {
@@ -57,7 +70,7 @@ const ChatPage = async ({ params }: Props) => {
     if (data.status == "unauthorised") return notFound();
 
     return (
-        <div className="h-full flex-[2] max-h-screen flex flex-col gap-1">
+        <div className="h-full min-h-full flex-[2] max-h-screen flex flex-col gap-1">
             <ChatHeader {...data.otherPerson} />
             <ChatContent
                 otherPerson={data.otherPerson}

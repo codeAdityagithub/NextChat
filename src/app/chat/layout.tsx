@@ -7,7 +7,7 @@ export default function Layout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="h-full flex gap-3 lg:gap-6 justify-center bg-slate-100 p-4 overflow-hidden">
+        <div className="h-full flex gap-3 lg:gap-6 justify-between bg-slate-100 p-4 overflow-x-hidden">
             {/* Include shared UI here e.g. a header or sidebar */}
             <SocketConnect />
             <Sidebar />
