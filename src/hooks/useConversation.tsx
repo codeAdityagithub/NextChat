@@ -26,7 +26,10 @@ const useConversation = ({ initialData }: Props) => {
         sound.volume = 0.6;
         const getConv = (conversation: UserCardInfo) => {
             console.log("new conversation");
-            setChatUsers((prev) => [conversation, ...prev]);
+            setChatUsers((prev) => [
+                { ...conversation, unread_message: true },
+                ...prev,
+            ]);
         };
         const messageHandler = (message: Message) => {
             // updating the cache if not on the page
