@@ -34,7 +34,7 @@ const useConversation = ({ initialData }: Props) => {
         const messageHandler = (message: Message) => {
             // updating the cache if not on the page
             if (conversation_id !== message.conversation_id.toString()) {
-                console.log("updating the cache");
+                // console.log("updating the cache");
                 queryCl.setQueryData(
                     ["messages", message.conversation_id.toString()],
                     (old: getMessagesReturn) => {

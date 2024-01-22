@@ -35,8 +35,13 @@ const useMessages = ({ initialData, userId }: Props) => {
     });
 
     useEffect(() => {
+        const sound = new Audio("/messageSound2.mp3");
+        sound.autoplay = false;
+        sound.volume = 0.8;
         const messageHandler = (message: Message) => {
             // setMessages((prev) => [message, ...prev]);
+            if (message.sender_id !== userId) sound.play();
+
             queryCl.setQueryData(
                 ["messages", message.conversation_id.toString()],
                 (old: getMessagesReturn) => {

@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import ChatBubbleLeft from "@/components/ChatBubbleLeft";
 import ChatBubbleRight from "@/components/ChatBubbleRight";
 import { Message, User } from "@/dbtypes";
@@ -46,11 +47,33 @@ const ChatContent = ({
                             const temp = curTag;
                             curTag = formattedTag;
                             return (
-                                <div className="w-full flex justify-center">
-                                    <span className="badge badge-outline rounded-badge outline outline-1 text-slate-500">
-                                        {temp}
-                                    </span>
-                                </div>
+                                <React.Fragment
+                                    key={new Date(
+                                        message.created_at
+                                    ).toString()}
+                                >
+                                    <div className="w-full flex justify-center">
+                                        <span className="badge badge-outline rounded-badge outline outline-1 text-slate-500">
+                                            {temp}
+                                        </span>
+                                    </div>
+                                    {message.sender_id === otherPerson?.id ? (
+                                        <ChatBubbleLeft
+                                            key={message.message_id}
+                                            name={otherPerson.name}
+                                            created_at={message.created_at}
+                                            content={message.content}
+                                        />
+                                    ) : (
+                                        <ChatBubbleRight
+                                            key={message.message_id}
+                                            name={"You"}
+                                            status={message.status}
+                                            created_at={message.created_at}
+                                            content={message.content}
+                                        />
+                                    )}
+                                </React.Fragment>
                             );
                         }
                         return message.sender_id === otherPerson?.id ? (
