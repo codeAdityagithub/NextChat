@@ -10,7 +10,7 @@
         @apply transition-all;
     }
     .ver-scrollbar::-webkit-scrollbar {
-        @apply hidden md:block w-3;
+        @apply hidden md:block w-2;
     }
     /* .ver-scrollbar:hover::-webkit-scrollbar {
         @apply hidden lg:block lg:h-3;

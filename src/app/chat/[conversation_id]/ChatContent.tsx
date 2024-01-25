@@ -25,38 +25,32 @@ const ChatContent = ({
         userId: cur_userId!,
     });
     const [isClient, setIsClient] = useState(false);
-    let curTag = "today";
     useEffect(() => {
         setIsClient(true);
     }, []);
 
     return (
-        <div className="flex-1 flex flex-col-reverse overflow-y-auto px-2 ver-scrollbar">
+        <div className="flex-1 flex flex-col-reverse overflow-y-auto pt-2 px-2 ver-scrollbar w-full lg:px-10 xl:px-20 2xl:px-28">
             {isLoading || !data || !isClient ? (
                 <h2 className="h-full flex items-center justify-center text-xl text-primary-content">
                     Loading ...
                 </h2>
             ) : (
                 <>
-                    {data.messages.map((message) => {
+                    {data.messages.map((message, ind) => {
                         const formattedTag = formatTag(message.created_at);
-                        // Show the tag only when the date changes
-                        const showTag = formattedTag !== curTag;
+                        const showTag =
+                            ind === data.messages.length - 1 ||
+                            formattedTag !==
+                                formatTag(data.messages[ind + 1].created_at);
 
                         if (showTag) {
-                            const temp = curTag;
-                            curTag = formattedTag;
                             return (
                                 <React.Fragment
                                     key={new Date(
                                         message.created_at
                                     ).toString()}
                                 >
-                                    <div className="w-full flex justify-center">
-                                        <span className="badge badge-outline rounded-badge outline outline-1 text-slate-500">
-                                            {temp}
-                                        </span>
-                                    </div>
                                     {message.sender_id === otherPerson?.id ? (
                                         <ChatBubbleLeft
                                             key={message.message_id}
@@ -73,6 +67,18 @@ const ChatContent = ({
                                             content={message.content}
                                         />
                                     )}
+                                    <div className="w-full flex justify-center">
+                                        <span className="empty:hidden badge badge-outline rounded-badge outline outline-1 text-slate-500">
+                                            {formattedTag}
+                                        </span>
+                                    </div>
+                                    {/* {ind === data.messages.length - 1 ? (
+                                        <div className="w-full flex justify-center">
+                                            <span className="badge badge-outline rounded-badge outline outline-1 text-slate-500">
+                                                {formattedTag}
+                                            </span>
+                                        </div>
+                                    ) : null} */}
                                 </React.Fragment>
                             );
                         }

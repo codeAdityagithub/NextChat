@@ -8,7 +8,9 @@ const SidebarWrapper = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <aside
-            className={`${cid ? "hidden md:flex" : "flex"} flex-col flex-1 `}
+            className={`${
+                cid ? "hidden md:flex" : "flex"
+            } h-full min-h-full flex-col flex-1 `}
         >
             {children}
         </aside>
