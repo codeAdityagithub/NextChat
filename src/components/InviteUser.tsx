@@ -1,11 +1,8 @@
 "use client";
 
-import { UserCardInfo } from "@/types";
-import { socket } from "@/utils/socket";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { FormEvent, useEffect, useState } from "react";
-import UserCard from "./cards/UserCard";
+import { FormEvent, useState } from "react";
 
 type Props = {};
 
@@ -54,7 +51,7 @@ const InviteUser = (props: Props) => {
 
     return (
         <form
-            className="w-full flex flex-col items-center gap-3 bg-white p-2 rounded-lg relative shadow-lg"
+            className="w-full mb-2 flex flex-col items-center gap-3 bg-white p-2 rounded-lg relative shadow-lg"
             onSubmit={handleSubmit}
         >
             <div className="flex items-center gap-3 w-full">
@@ -62,7 +59,7 @@ const InviteUser = (props: Props) => {
                     type="text"
                     id="invite_user_input"
                     placeholder="Send a invite to ..."
-                    className="p-2 bg-transparent text-primary-content flex-1 focus:ring-1 ring-primary-content outline-none rounded-md"
+                    className="p-2 min-w-0 bg-transparent text-primary-content flex-1 focus:ring-1 ring-primary-content outline-none rounded-md"
                 />
                 <button
                     disabled={isPending}

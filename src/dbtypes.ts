@@ -12,6 +12,7 @@ export type Conversation = {
     conversation_id: number;
     created_at: Date;
     last_contacted_at: Date;
+    latest_message: string;
     // Add more conversation-related fields as needed
 };
 
@@ -22,6 +23,7 @@ export type Message = {
     sender_id: string;
     created_at: Date;
     content: string;
+    status: "read" | "delivered";
     // Add more message-related fields as needed
 };
 

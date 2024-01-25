@@ -14,8 +14,11 @@ CREATE TABLE conversation (
     conversation_id SERIAL PRIMARY KEY,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_contacted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    latest_message VARCHAR(101);
     -- Add more conversation-related fields as needed
 );
+
+CREATE TYPE message_status AS ENUM ('read', 'delivered');
 
 -- Messages table to store individual messages
 CREATE TABLE message (
@@ -24,6 +27,7 @@ CREATE TABLE message (
     sender_id uuid REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     content TEXT,
+    status message_status DEFAULT 'delivered'
     -- Add more message-related fields as needed
 );
 
@@ -42,23 +46,28 @@ CREATE TABLE invitation (
     sender_id uuid REFERENCES users(id) ON DELETE CASCADE,
     recipient_id uuid REFERENCES users(id) ON DELETE CASCADE,
     status invitation_status DEFAULT 'pending',
-    -- or use an enum for 'pending', 'accepted', 'rejected', etc.
     sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Add more invitation-related fields as needed
+    UNIQUE (sender_id, recipient_id)
 );
 
-CREATE OR REPLACE FUNCTION update_last_contacted_at()
-RETURNS TRIGGER AS 
-$$
+CREATE
+OR REPLACE FUNCTION update_conversation() RETURNS TRIGGER AS $$ 
 BEGIN
-    UPDATE conversation
-    SET last_contacted_at = NEW.created_at
-    WHERE conversation_id = NEW.conversation_id;
-    RETURN NEW;
-END;
-$$ 
-LANGUAGE plpgsql;
+UPDATE
+    conversation
+SET
+    last_contacted_at = NEW.created_at,
+    latest_message = LEFT(NEW.content, LEAST(length(NEW.content), 100))
+WHERE
+    conversation_id = NEW.conversation_id;
 
-CREATE TRIGGER update_last_contacted_at_trigger
-AFTER INSERT ON message
-FOR EACH ROW
-EXECUTE FUNCTION update_last_contacted_at();
+RETURN NEW;
+
+END;
+
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_conversation_trigger
+AFTER
+INSERT
+    ON message FOR EACH ROW EXECUTE FUNCTION update_conversation();

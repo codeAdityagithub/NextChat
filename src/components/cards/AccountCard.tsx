@@ -3,20 +3,22 @@ import { getServerSession } from "next-auth";
 import Image from "next/image";
 import InviteNotifications from "../InviteNotifications";
 import { InviteNotification } from "@/types";
+import sql from "@/utils/db";
+import Settings from "../Settings";
 
 type Props = {};
 
 const getData = async (userId: string) => {
-    const data = await fetch(`${process.env.NEXTAUTH_URL}/api/private/invite`, {
-        body: JSON.stringify({ userId: userId }),
-        method: "POST",
-    })
-        .then(async (res) => await res.json())
-        .catch((err) => {
-            console.log(err.message);
-            return [];
-        });
-    return data;
+    if (!userId) return [];
+    try {
+        const invitations = await sql<
+            InviteNotification[]
+        >`select u.name, u.username, i.sent_at, i.invitation_id from users u join invitation i on i.sender_id=u.id where i.recipient_id=${userId} and i.status='pending'`;
+        return invitations;
+    } catch (error: any) {
+        console.log(error.message);
+        return [];
+    }
 };
 
 const AccountCard = async (props: Props) => {
@@ -25,8 +27,8 @@ const AccountCard = async (props: Props) => {
     const names = JSON.parse(session?.user.name!);
     // console.log(data);
     return (
-        <div className="w-full flex items-center justify-between pr-2 gap-3 bg-transparent">
-            <div className="flex items-center gap-3">
+        <div className="w-full mb-2 flex items-center justify-between pr-2 gap-1 bg-transparent">
+            <div className="flex items-center gap-3 flex-1">
                 <Image
                     className="object-contain rounded-full h-full"
                     src={
@@ -47,6 +49,7 @@ const AccountCard = async (props: Props) => {
                     </div>
                 </div>
             </div>
+            <Settings />
             <InviteNotifications invitations={data} />
         </div>
     );
