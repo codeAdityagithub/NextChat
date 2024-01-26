@@ -20,7 +20,14 @@ const ChatContent = ({
     otherPerson,
     cur_userId,
 }: Props) => {
-    const [data, isLoading, error] = useMessages({
+    const [
+        data,
+        isLoading,
+        error,
+        isFetchingNextPage,
+        hasNextPage,
+        fetchNextPage,
+    ] = useMessages({
         initialData: initialMessages,
         userId: cur_userId!,
     });
@@ -99,6 +106,15 @@ const ChatContent = ({
                             />
                         );
                     })}
+                    <button
+                        className="btn btn-sm my-4 cursor-pointer bg-slate-600 disabled:bg-slate-800 text-white"
+                        onClick={() => fetchNextPage()}
+                        disabled={isFetchingNextPage || !hasNextPage}
+                    >
+                        {hasNextPage
+                            ? "Load Previous Messages"
+                            : "No More Messages"}
+                    </button>
                 </>
             )}
         </div>

@@ -5,7 +5,9 @@ import { NextRequest, NextResponse } from "next/server";
 type otherPerson = Pick<User, "id">;
 
 export const POST = async (req: NextRequest) => {
-    console.log("api called for messages");
+    // console.log("api called for messages");
+    const page = Number(req.nextUrl.searchParams.get("page"));
+    console.log(page);
     try {
         const { conversation_id, userId } = await req.json();
         // console.log(userId, "casdf");
@@ -23,7 +25,10 @@ export const POST = async (req: NextRequest) => {
 
         const messages = await sql<
             Message[]
-        >`select * from message where conversation_id=${conversation_id} order by created_at desc`;
+        >`select * from message where conversation_id=${conversation_id} order by created_at desc limit 30 offset ${
+            isNaN(page) ? 0 : page * 30
+        }`;
+        console.log(messages);
         return NextResponse.json(
             {
                 messages: messages as Array<Message>,

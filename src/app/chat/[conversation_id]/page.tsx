@@ -21,7 +21,8 @@ const getMessages = async (
     userId: string
 ): Promise<getMessagesReturn> => {
     try {
-        if (!conversation_id) throw new Error("No conversation_id");
+        if (!conversation_id)
+            throw new Error("Invalid conversation_id provided");
 
         const users = await sql<
             otherPerson[]
@@ -44,10 +45,10 @@ const getMessages = async (
                 return [message.message_id];
             return [];
         });
-        if (unread_messages.length > 0) {
-            await sql`update message set status='read' where sender_id=${otherPerson.id!} and message_id in ${sql(
-                unread_messages
-            )}`;
+        if (otherPerson.id != undefined && unread_messages.length > 0) {
+            await sql`update message set status='read' where sender_id=${
+                otherPerson.id
+            } and message_id in ${sql(unread_messages)}`;
         }
         return {
             messages: messages as Array<Message>,
