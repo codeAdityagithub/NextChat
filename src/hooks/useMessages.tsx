@@ -16,12 +16,7 @@ type Props = {
     userId: string;
 };
 
-type getMessagesReturn = {
-    messages: Message[];
-};
-
 const useMessages = ({ initialData, userId }: Props) => {
-    const [page, setPage] = useState(1);
     const queryCl = useQueryClient(queryClient);
     const { conversation_id } = useParams();
     // const { data, isLoading, error } = useQuery({
@@ -128,7 +123,7 @@ const useMessages = ({ initialData, userId }: Props) => {
         //     );
         // };
         const readMessages = (userId: string) => {
-            console.log("first");
+            // console.log("first");
             queryCl.setQueryData(["messages", conversation_id], (old: any) => {
                 if (!old) return old;
                 const readMessages = old.pages[0].map((message: Message) =>

@@ -64,7 +64,7 @@ const InviteUser = (props: Props) => {
                 <button
                     disabled={isPending}
                     type="submit"
-                    className="bg-slate-900 p-2 rounded-md text-accent disabled:bg-slate-400"
+                    className="bg-slate-800 hover:bg-slate-900  p-2 rounded-md text-accent disabled:bg-slate-400"
                 >
                     send
                 </button>
