@@ -1,5 +1,6 @@
 import { formatTime } from "@/lib/timeFormatters";
 import { UserCardInfo } from "@/types";
+import ImagewError from "@/utils/ImagewError";
 import Image from "next/image";
 import Link from "next/link";
 import { Dispatch, SetStateAction } from "react";
@@ -9,6 +10,8 @@ const UserCard = ({
     conversation_id,
     last_contacted_at,
     name,
+    id,
+    has_dp,
     latest_message,
     cur_conversation_id,
     unread_message,
@@ -33,13 +36,17 @@ const UserCard = ({
                     : " bg-transparent"
             }`}
         >
-            <Image
-                className="object-contain rounded-full h-full"
-                src={"/account.png"}
-                alt="Acc"
-                width={50}
-                height={50}
-            />
+            <div className="w-[50px] h-[50px] rounded-full relative overflow-hidden">
+                <ImagewError
+                    src={
+                        has_dp
+                            ? `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${id}.jpg`
+                            : "/account.png"
+                    }
+                    alt="Acc"
+                    fallback="/account.png"
+                />
+            </div>
             <div className="flex flex-1 relative items-start justify-start pt-2 flex-col h-full">
                 <div className="font-medium text-primary-content">{name}</div>
                 <div className="text-sm font-light line-clamp-1 text-gray-500">

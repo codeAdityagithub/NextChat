@@ -14,6 +14,8 @@ export type UserCardInfo = {
     conversation_id: number;
     last_contacted_at: Date;
     name: string;
+    id?: string;
     latest_message: string;
     unread_message?: boolean;
+    has_dp?: boolean;
 };

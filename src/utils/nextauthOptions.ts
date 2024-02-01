@@ -6,6 +6,7 @@ import sql from "@/utils/db";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 import { User as dbUser } from "@/dbtypes";
+import uploadGoogleUserImage from "./uploadGoogleUserImage";
 
 const authOptions: NextAuthOptions = {
     // Configure one or more authentication providers
@@ -71,6 +72,7 @@ const authOptions: NextAuthOptions = {
                 const dbuser = await sql<
                     dbUser[]
                 >`select * from users where email=${user.email}`;
+
                 if (dbuser.length != 0) {
                     // console.log(dbuser[0]);
                     user.id = dbuser[0].id!;
@@ -99,6 +101,8 @@ const authOptions: NextAuthOptions = {
                 // console.log(suffix);
                 const user_id = uuidv4();
                 const username = user.name + "_" + suffix;
+
+                // if(res.status==="")
                 const insertUser =
                     await sql`insert into users(id, name, email, username) values(${user_id},${user.name}, ${user.email}, ${username}) returning email`;
                 // console.log(insertUser);
@@ -121,6 +125,18 @@ const authOptions: NextAuthOptions = {
             }
             // console.log(session);
             return session;
+        },
+        jwt({ token, trigger, session }) {
+            if (trigger === "update" && session?.image && token.sub) {
+                // Note, that `session` can be any arbitrary object, remember to validate it!
+                // token.picture = session.image
+                token.picture = `${
+                    process.env.NEXT_PUBLIC_API_URL
+                }/static/profiles/${
+                    token.sub
+                }.jpg?updated=${Date.now().toString()}`;
+            }
+            return token;
         },
     },
     jwt: {

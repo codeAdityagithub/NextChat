@@ -1,5 +1,8 @@
 "use client";
+import MyProfile from "@/components/MyProfile";
 import axios from "axios";
+import imageCompression from "browser-image-compression";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { MdOutlineCloudUpload } from "react-icons/md";
@@ -14,6 +17,7 @@ type MyFormData = {
 };
 
 const Form = ({ names, profile }: Props) => {
+    const session = useSession();
     const [error, setError] = useState("");
     const [msg, setMsg] = useState("");
     const labelRef = useRef<HTMLLabelElement>(null);
@@ -59,11 +63,20 @@ const Form = ({ names, profile }: Props) => {
         e.preventDefault();
         // Do something with formData, like sending it to a server
         if (!profilePicture) return;
-        const data = new FormData(e.currentTarget);
-        data.set("profilePicture", profilePicture);
-        // console.log(data.get("profilePicture"));
-        // console.log(profilePicture);
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 250,
+            useWebWorker: true,
+        };
         try {
+            const compressedImage = await imageCompression(
+                profilePicture,
+                options
+            );
+            const data = new FormData();
+            data.set("profilePicture", compressedImage);
+            // console.log(data.get("profilePicture"));
+            // console.log(profilePicture);
             const res = await axios.post(
                 `${process.env.NEXT_PUBLIC_API_URL}/upload`,
                 data,
@@ -74,6 +87,7 @@ const Form = ({ names, profile }: Props) => {
             );
             if (res.status === 200) {
                 setMsg("File Uploaded Succesfully");
+                session.update({ image: session?.data?.user.id });
                 setTimeout(() => setMsg(""), 3000);
             }
         } catch (error: any) {
@@ -88,13 +102,7 @@ const Form = ({ names, profile }: Props) => {
                 className="max-w-md mx-auto bg-white p-8 pb-0 shadow-md rounded-t-md flex flex-col gap-6"
             >
                 <div className="relative rounded-full overflow-hidden w-[100px] h-[100px] outline outline-1 outline-accent">
-                    <Image
-                        src={profile ?? ""}
-                        alt="Your Profile Picture"
-                        height={100}
-                        width={100}
-                        className="object-cover"
-                    />
+                    <MyProfile />
                 </div>
 
                 <div className="flex flex-col">

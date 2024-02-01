@@ -10,7 +10,7 @@ import ChatContent from "./ChatContent";
 type Props = {
     params: { conversation_id: string };
 };
-type otherPerson = Pick<User, "id" | "name" | "username">;
+type otherPerson = Pick<User, "id" | "name" | "username" | "has_dp">;
 type getMessagesReturn = {
     messages: Message[];
     otherPerson?: otherPerson;
@@ -26,7 +26,7 @@ const getMessages = async (
 
         const users = await sql<
             otherPerson[]
-        >`select u.id, u.name, u.username from conversation_users cu join users u on u.id=cu.user_id where cu.conversation_id=${conversation_id}`;
+        >`select u.id, u.name, u.username, u.has_dp from conversation_users cu join users u on u.id=cu.user_id where cu.conversation_id=${conversation_id}`;
         // console.log(users);
 
         const user = users.filter((user) => user.id === userId);

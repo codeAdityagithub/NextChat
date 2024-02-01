@@ -37,9 +37,13 @@ const useConversation = ({ initialData }: Props) => {
                 // console.log("updating the cache");
                 queryCl.setQueryData(
                     ["messages", message.conversation_id.toString()],
-                    (old: getMessagesReturn) => {
+                    (old: any) => {
                         if (!old) return old;
-                        return { messages: [message, ...old.messages] };
+                        const newMessages = [message, ...old.pages[0]];
+                        return {
+                            pages: [newMessages, ...old.pages.slice(1)],
+                            pageParams: old.pageParams,
+                        };
                     }
                 );
             }
