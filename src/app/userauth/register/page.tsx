@@ -39,7 +39,7 @@ const Register = () => {
         if (session.status === "authenticated") {
             router.replace("/chat");
         }
-    }, [session]);
+    }, [session, router]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

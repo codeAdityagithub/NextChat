@@ -31,7 +31,7 @@ const ChatInput = ({ username }: { username: string }) => {
             socket.emit("leave_conversation", conversation_id);
             socket.off("message_error", handleMessageError);
         };
-    }, []);
+    }, [conversation_id]);
     return (
         <form onSubmit={handleSubmit} className="relative shadow-lg">
             <div className="flex rounded-lg">

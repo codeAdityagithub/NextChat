@@ -21,7 +21,9 @@ const getData = async (
         SELECT 
             c.conversation_id, 
             c.last_contacted_at,
+            u.id,
             u.name,
+            u.has_dp,
             c.latest_message from 
             conversation_users cu
         JOIN 

@@ -71,6 +71,7 @@ const authOptions: NextAuthOptions = {
                 const dbuser = await sql<
                     dbUser[]
                 >`select * from users where email=${user.email}`;
+
                 if (dbuser.length != 0) {
                     // console.log(dbuser[0]);
                     user.id = dbuser[0].id!;
@@ -79,6 +80,9 @@ const authOptions: NextAuthOptions = {
                         username: dbuser[0].username,
                     };
                     user.name = JSON.stringify(name);
+                    if (dbuser[0].has_dp) {
+                        user.image = `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${user.id}.jpg`;
+                    }
                     return true;
                 }
                 // console.log("signin callback");
@@ -99,6 +103,8 @@ const authOptions: NextAuthOptions = {
                 // console.log(suffix);
                 const user_id = uuidv4();
                 const username = user.name + "_" + suffix;
+
+                // if(res.status==="")
                 const insertUser =
                     await sql`insert into users(id, name, email, username) values(${user_id},${user.name}, ${user.email}, ${username}) returning email`;
                 // console.log(insertUser);
@@ -121,6 +127,16 @@ const authOptions: NextAuthOptions = {
             }
             // console.log(session);
             return session;
+        },
+        jwt({ token, trigger, session }) {
+            if (trigger === "update" && session?.image && token.sub) {
+                // Note, that `session` can be any arbitrary object, remember to validate it!
+                // token.picture = session.image
+                const updated = new Date().getTime();
+                token.picture = `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${token.sub}.jpg?updated=${updated}`;
+            }
+
+            return token;
         },
     },
     jwt: {

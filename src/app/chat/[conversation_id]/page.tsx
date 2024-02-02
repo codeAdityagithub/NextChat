@@ -10,7 +10,7 @@ import ChatContent from "./ChatContent";
 type Props = {
     params: { conversation_id: string };
 };
-type otherPerson = Pick<User, "id" | "name" | "username">;
+type otherPerson = Pick<User, "id" | "name" | "username" | "has_dp">;
 type getMessagesReturn = {
     messages: Message[];
     otherPerson?: otherPerson;
@@ -21,11 +21,12 @@ const getMessages = async (
     userId: string
 ): Promise<getMessagesReturn> => {
     try {
-        if (!conversation_id) throw new Error("No conversation_id");
+        if (!conversation_id)
+            throw new Error("Invalid conversation_id provided");
 
         const users = await sql<
             otherPerson[]
-        >`select u.id, u.name, u.username from conversation_users cu join users u on u.id=cu.user_id where cu.conversation_id=${conversation_id}`;
+        >`select u.id, u.name, u.username, u.has_dp from conversation_users cu join users u on u.id=cu.user_id where cu.conversation_id=${conversation_id}`;
         // console.log(users);
 
         const user = users.filter((user) => user.id === userId);
@@ -44,10 +45,10 @@ const getMessages = async (
                 return [message.message_id];
             return [];
         });
-        if (unread_messages.length > 0) {
-            await sql`update message set status='read' where sender_id=${otherPerson.id!} and message_id in ${sql(
-                unread_messages
-            )}`;
+        if (otherPerson.id != undefined && unread_messages.length > 0) {
+            await sql`update message set status='read' where sender_id=${
+                otherPerson.id
+            } and message_id in ${sql(unread_messages)}`;
         }
         return {
             messages: messages as Array<Message>,

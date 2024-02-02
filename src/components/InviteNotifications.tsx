@@ -61,14 +61,14 @@ const InviteNotifications = ({ invitations }: Props) => {
     };
 
     return (
-        <div className="dropdown dropdown-bottom">
+        <div className="dropdown dropdown-end">
             <div
                 tabIndex={0}
                 role="button"
-                className="p-1.5 rounded-lg relative"
+                className="p-1 rounded-lg relative indicator"
             >
                 <NotificationIcon className="text-2xl text-primary-content" />
-                <div className="stat-desc text-xs absolute top-0 -right-1 text-accent">
+                <div className="indicator-item stat-desc text-xs absolute text-accent">
                     {invites.length}
                 </div>
             </div>
