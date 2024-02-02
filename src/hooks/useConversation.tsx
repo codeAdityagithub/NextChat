@@ -89,7 +89,7 @@ const useConversation = ({ initialData }: Props) => {
 
             socket.off("add_conversation", getConv);
         };
-    }, [chatUsers, socket, session, conversation_id]);
+    }, [chatUsers, session, conversation_id, queryCl]);
     return [
         chatUsers,
         setChatUsers,

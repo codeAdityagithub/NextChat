@@ -6,7 +6,6 @@ import sql from "@/utils/db";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 import { User as dbUser } from "@/dbtypes";
-import uploadGoogleUserImage from "./uploadGoogleUserImage";
 
 const authOptions: NextAuthOptions = {
     // Configure one or more authentication providers

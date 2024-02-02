@@ -146,7 +146,7 @@ const useMessages = ({ initialData, userId }: Props) => {
             socket.off("recieve_message", messageHandler);
             socket.off("read_messages", readMessages);
         };
-    }, [socket, queryCl, data]);
+    }, [queryCl, data, conversation_id, userId]);
     return [
         { messages: data.pages.flatMap((page) => page) },
         isLoading,

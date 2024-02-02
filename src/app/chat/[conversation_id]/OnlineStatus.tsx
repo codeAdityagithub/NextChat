@@ -23,7 +23,7 @@ const OnlineStatus = ({ username }: { username: string }) => {
             // socket.off("user_status", handler1);
             clearInterval(int);
         };
-    }, [socket, status]);
+    }, [status, conversation_id, username]);
     return <span>{status}</span>;
 };
 

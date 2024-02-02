@@ -29,7 +29,7 @@ const useInvitation = (invitations: InviteNotification[]) => {
             socket.off("invite_request", handleInvite);
             // socket.off("invite_reject", handleReject);
         };
-    }, [invites, socket]);
+    }, [invites]);
     return [invites, setInvites] as const;
 };
 
