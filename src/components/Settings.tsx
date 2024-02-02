@@ -23,14 +23,6 @@ const Settings = () => {
                 tabIndex={0}
                 className="dropdown-content z-[1] menu p-2 shadow bg-white/60 text-primary-content backdrop-blur-sm rounded-box w-52"
             >
-                <li
-                    className="rounded-box cursor-pointer flex flex-row items-center justify-between p-2 gap-2 focus:outline"
-                    onClick={handleLogout}
-                    tabIndex={0}
-                >
-                    Logout
-                    <BiLogOut className="text-xl text-primary-content" />
-                </li>
                 <li className="cursor-pointer">
                     <Link
                         href={"/chat/settings"}
@@ -40,6 +32,14 @@ const Settings = () => {
                         Settings
                         <IoSettingsOutline className="text-xl text-primary-content" />
                     </Link>
+                </li>
+                <li
+                    className="rounded-box cursor-pointer flex flex-row items-center justify-between p-2 gap-2 focus:outline"
+                    onClick={handleLogout}
+                    tabIndex={0}
+                >
+                    Logout
+                    <BiLogOut className="text-xl text-primary-content" />
                 </li>
             </ul>
         </div>

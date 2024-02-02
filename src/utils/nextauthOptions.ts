@@ -81,6 +81,9 @@ const authOptions: NextAuthOptions = {
                         username: dbuser[0].username,
                     };
                     user.name = JSON.stringify(name);
+                    if (dbuser[0].has_dp) {
+                        user.image = `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${user.id}.jpg`;
+                    }
                     return true;
                 }
                 // console.log("signin callback");
@@ -130,12 +133,10 @@ const authOptions: NextAuthOptions = {
             if (trigger === "update" && session?.image && token.sub) {
                 // Note, that `session` can be any arbitrary object, remember to validate it!
                 // token.picture = session.image
-                token.picture = `${
-                    process.env.NEXT_PUBLIC_API_URL
-                }/static/profiles/${
-                    token.sub
-                }.jpg?updated=${Date.now().toString()}`;
+                const updated = new Date().getTime();
+                token.picture = `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${token.sub}.jpg?updated=${updated}`;
             }
+
             return token;
         },
     },

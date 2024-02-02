@@ -6,6 +6,7 @@ import { InviteNotification } from "@/types";
 import sql from "@/utils/db";
 import Settings from "../Settings";
 import ImagewError from "@/utils/ImagewError";
+import MyProfile from "../MyProfile";
 
 type Props = {};
 
@@ -31,7 +32,7 @@ const AccountCard = async (props: Props) => {
         <div className="w-full min-h-[75px] mb-2 flex items-center justify-between pr-2 gap-1 bg-transparent">
             <div className="flex items-center gap-3 flex-1">
                 <div className="h-[60px] w-[60px] overflow-hidden relative rounded-full">
-                    <Image
+                    {/* <Image
                         src={
                             session?.user.image
                                 ? `${
@@ -44,7 +45,8 @@ const AccountCard = async (props: Props) => {
                         className="object-cover"
                         crossOrigin="anonymous"
                         sizes="100px"
-                    />
+                    /> */}
+                    <MyProfile />
                 </div>
                 <div className="flex items-start justify-center flex-col h-full">
                     <div className="text-lg font-medium text-primary-content">

@@ -13,9 +13,9 @@ type Props = {
     has_dp?: boolean;
 };
 
-const UserHeader = ({ id, name, username, has_dp }: Props) => {
+const ChatHeader = ({ id, name, username, has_dp }: Props) => {
     return (
-        <div className="w-full h-16 flex items-center gap-3 bg-white py-1 px-3 rounded-lg">
+        <div className="w-full h-16 flex items-center gap-3 bg-white py-1 px-3 rounded-lg shadow-md">
             <GoBack />
             <div className="w-[50px] h-[50px] rounded-full relative overflow-hidden">
                 <Image
@@ -44,4 +44,4 @@ const UserHeader = ({ id, name, username, has_dp }: Props) => {
     );
 };
 
-export default UserHeader;
+export default ChatHeader;

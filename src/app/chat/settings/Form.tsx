@@ -85,13 +85,24 @@ const Form = ({ names, profile }: Props) => {
                     headers: { "Content-Type": "multipart/form-data" },
                 }
             );
+            console.log(res.status);
             if (res.status === 200) {
-                setMsg("File Uploaded Succesfully");
+                setMsg("Profile Updated Succesfully");
+                labelRef.current &&
+                    (labelRef.current.innerText = "Upload an Image");
+                setProfilePicture(null);
                 session.update({ image: session?.data?.user.id });
                 setTimeout(() => setMsg(""), 3000);
             }
         } catch (error: any) {
-            setError(error?.message);
+            console.log(error);
+            setError(
+                error.response.data ??
+                    (error?.message || "Something Went Wrong")
+            );
+            labelRef.current &&
+                (labelRef.current.innerText = "Upload an Image");
+            setProfilePicture(null);
             setTimeout(() => setError(""), 5000);
         }
     };
@@ -109,7 +120,7 @@ const Form = ({ names, profile }: Props) => {
                     <label
                         htmlFor="profilePicture"
                         ref={labelRef}
-                        className="w-full text-sm text-slate-600 h-28 border hover:bg-slate-100 flex items-center justify-center select-none"
+                        className="w-full text-sm text-slate-600 h-28 border rounded-md hover:bg-slate-100 flex items-center justify-center select-none"
                     >
                         Upload an Image
                     </label>
