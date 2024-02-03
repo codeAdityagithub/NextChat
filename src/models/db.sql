@@ -6,10 +6,20 @@ CREATE TABLE users (
     username VARCHAR NOT NULL UNIQUE,
     email VARCHAR NOT NULL UNIQUE,
     has_dp BOOLEAN NOT NULL DEFAULT FALSE;
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     password VARCHAR,
     PRIMARY KEY (id)
 );
+
+CREATE OR REPLACE FUNCTION update_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
 
 -- Conversations table to store information about chat conversations
 CREATE TABLE conversation (

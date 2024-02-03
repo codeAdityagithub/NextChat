@@ -7,9 +7,10 @@ const MyProfile = () => {
     const [url, setUrl] = useState("/account.png");
     const session = useSession();
     useEffect(() => {
+        console.log(session.data);
         session.status === "authenticated" &&
             session.data.user.image &&
-            setUrl(session.data.user.image);
+            setUrl(session.data.user.image.split("?")[0]);
     }, [session]);
     return (
         <Image

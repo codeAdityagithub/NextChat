@@ -6,6 +6,7 @@ export type User = {
     email: string;
     password?: string;
     has_dp?: boolean;
+    updated_at?: Date;
 };
 
 // conversation.ts
