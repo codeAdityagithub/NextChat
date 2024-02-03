@@ -134,6 +134,18 @@ const authOptions: NextAuthOptions = {
                 // token.picture = session.image
                 const updated = new Date().getTime();
                 token.picture = `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${token.sub}.jpg?updated=${updated}`;
+            } else if (
+                trigger === "update" &&
+                session.name &&
+                session.username
+            ) {
+                const timestamp = new Date().getTime();
+                const names = JSON.stringify({
+                    name: session.name,
+                    username: session.username,
+                    updated: timestamp,
+                });
+                token.name = names;
             }
 
             return token;

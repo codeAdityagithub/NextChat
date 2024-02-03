@@ -30,5 +30,5 @@ export default withAuth({
 // };
 
 export const config = {
-    matcher: ["/chat/:path*", "/api/private"],
+    matcher: ["/chat/:path*", "/api/private/:path*"],
 };
