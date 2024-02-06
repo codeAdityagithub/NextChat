@@ -38,7 +38,7 @@ const ChatInput = ({ username }: { username: string }) => {
                 <input
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="w-full text-primary-content bg-white focus:outline-none focus:ring-1 ring-offset-1 ring-primary placeholder:text-gray-300 p-3 rounded-lg"
+                    className="w-full text-primary-content bg-white focus:outline-none focus:ring-1 ring-offset-1 ring-primary placeholder:text-gray-500 p-3 rounded-lg"
                     type="text"
                     name="message"
                     id="message_input"

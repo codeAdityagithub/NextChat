@@ -37,7 +37,7 @@ const ChatContent = ({
     }, []);
 
     return (
-        <div className="flex-1 flex flex-col-reverse overflow-y-auto pt-2 px-2 ver-scrollbar w-full lg:px-10 xl:px-20 2xl:px-28">
+        <div className="flex-1 flex flex-col-reverse overflow-y-auto pt-2 px-2 ver_scrollbar w-full lg:px-10 xl:px-20 2xl:px-28">
             {isLoading || !data || !isClient ? (
                 <h2 className="h-full flex items-center justify-center text-xl text-primary-content">
                     Loading ...

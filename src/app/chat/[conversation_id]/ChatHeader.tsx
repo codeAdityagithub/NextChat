@@ -4,6 +4,7 @@ import { BsThreeDots } from "react-icons/bs";
 
 import OnlineStatus from "./OnlineStatus";
 import GoBack from "../../../components/GoBack";
+import ChatHeaderOptions from "@/components/ChatHeaderOptions";
 
 type Props = {
     id?: string;
@@ -36,9 +37,7 @@ const ChatHeader = ({ id, name, username, has_dp }: Props) => {
                     @{username} <OnlineStatus username={username!} />
                 </div>
             </div>
-            <div className="bg-gray-100 py-1 px-2 rounded-lg cursor-pointer">
-                <BsThreeDots className="text-primary text-lg" />
-            </div>
+            <ChatHeaderOptions />
         </div>
     );
 };

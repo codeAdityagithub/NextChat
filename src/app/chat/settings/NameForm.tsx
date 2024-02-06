@@ -68,64 +68,71 @@ const NameForm = ({
         }
     };
     return (
-        <form
-            onSubmit={handleUserFormSubmit}
-            className="max-w-md mx-auto bg-white p-8 shadow-md rounded-b-md flex flex-col gap-6"
-        >
+        <div className="form_container ">
             <div className="">
-                <label
-                    htmlFor="name"
-                    className="block text-primary-content text-sm font-bold mb-2"
-                >
-                    Name
-                </label>
-                <input
-                    required
-                    value={formData.name}
-                    type="text"
-                    name="name"
-                    onChange={handleInputChange}
-                    className="w-full rounded-md bg-transparent py-2 px-3 text-primary-content outline-1 outline"
-                    placeholder="Enter your name"
-                />
+                Personal Info<div>Update your personal info</div>
             </div>
-
-            <div className="">
-                <label
-                    htmlFor="username"
-                    className="block text-primary-content text-sm font-bold mb-2"
-                >
-                    Username
-                </label>
-                <input
-                    required
-                    value={formData.username}
-                    type="text"
-                    name="username"
-                    onChange={handleInputChange}
-                    className="w-full rounded-md bg-transparent py-2 px-3 text-primary-content outline-1 outline"
-                    placeholder="Enter your username"
-                />
-            </div>
-
-            <button
-                type="submit"
-                disabled={
-                    formData.name.length === 0 ||
-                    formData.username.length === 0 ||
-                    (name === formData.name && username === formData.username)
-                }
-                className="bg-slate-800 hover:bg-slate-900 p-2 rounded-md text-accent disabled:bg-slate-500"
+            <form
+                onSubmit={handleUserFormSubmit}
+                className="bg-white max-w-md p-4 md:p-6 shadow-md rounded-md flex flex-col justify-between gap-6"
             >
-                Save
-            </button>
-            <span className="empty:hidden empty:p-0 transition-all p-1  bg-error text-error-content">
-                {error}
-            </span>
-            <span className="empty:hidden empty:p-0 transition-all p-1  bg-success text-success-content">
-                {msg}
-            </span>
-        </form>
+                <div className="">
+                    <label
+                        htmlFor="name"
+                        className="block text-primary-content text-sm font-bold mb-2"
+                    >
+                        Name
+                    </label>
+                    <input
+                        required
+                        value={formData.name}
+                        type="text"
+                        name="name"
+                        onChange={handleInputChange}
+                        className="w-full rounded-md bg-transparent py-2 px-3 text-primary-content border"
+                        placeholder="Enter your name"
+                    />
+                </div>
+
+                <div className="">
+                    <label
+                        htmlFor="username"
+                        className="block text-primary-content text-sm font-bold mb-2"
+                    >
+                        Username
+                    </label>
+                    <input
+                        required
+                        value={formData.username}
+                        type="text"
+                        name="username"
+                        onChange={handleInputChange}
+                        className="w-full rounded-md bg-transparent py-2 px-3 text-primary-content border"
+                        placeholder="Enter your username"
+                    />
+                </div>
+                <div className="flex flex-col">
+                    <button
+                        type="submit"
+                        disabled={
+                            formData.name.length === 0 ||
+                            formData.username.length === 0 ||
+                            (name === formData.name &&
+                                username === formData.username)
+                        }
+                        className="bg-slate-800 w-full hover:bg-slate-900 p-2 rounded-md text-accent disabled:bg-slate-500"
+                    >
+                        Save
+                    </button>
+                    <span className="empty:h-0 empty:p-0 transition-all p-1  bg-error text-error-content">
+                        {error}
+                    </span>
+                    <span className="empty:h-0 empty:p-0 transition-all p-1  bg-success text-success-content">
+                        {msg}
+                    </span>
+                </div>
+            </form>
+        </div>
     );
 };
 

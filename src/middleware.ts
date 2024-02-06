@@ -21,11 +21,11 @@ export default withAuth({
 });
 
 // export const middleware: NextMiddleware = async (req) => {
-//     if (req.nextUrl.pathname.startsWith("/chat")) {
-//         let conversation_id = req.nextUrl.pathname.split("/chat")[1];
-//         if (conversation_id == "") return NextResponse.next();
-//         conversation_id = conversation_id.substring(1);
-//         console.log(conversation_id);
+//     console.log(req.nextUrl.pathname);
+//     if (req.nextUrl.pathname === "/chat/settings") {
+//         const url = req.nextUrl.clone();
+//         url.pathname = "/chat/settings/profile";
+//         return NextResponse.redirect(url);
 //     }
 // };
 

@@ -46,7 +46,7 @@ const AccountCard = async (props: Props) => {
                         crossOrigin="anonymous"
                         sizes="100px"
                     /> */}
-                    <MyProfile />
+                    <MyProfile image={session?.user.image} />
                 </div>
                 <div className="flex items-start justify-center flex-col h-full">
                     <div className="text-lg font-medium text-primary-content">

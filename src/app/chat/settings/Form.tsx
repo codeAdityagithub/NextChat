@@ -8,11 +8,12 @@ import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import NameForm from "./NameForm";
 
 type Props = {
-    names: { name: string; username: string };
+    name: string;
+    username: string;
     profile?: string | null;
 };
 
-const Form = ({ names }: Props) => {
+const Form = ({ name, username }: Props) => {
     const session = useSession();
     const [error, setError] = useState("");
     const [msg, setMsg] = useState("");
@@ -29,7 +30,7 @@ const Form = ({ names }: Props) => {
             labelRef.current &&
                 (labelRef.current.innerText = "Upload an Image");
 
-            setTimeout(() => setError(""), 5000);
+            setTimeout(() => setError(""), 3000);
             return;
         }
         labelRef.current && (labelRef.current.innerText = files[0].name);
@@ -80,50 +81,56 @@ const Form = ({ names }: Props) => {
             labelRef.current &&
                 (labelRef.current.innerText = "Upload an Image");
             setProfilePicture(null);
-            setTimeout(() => setError(""), 5000);
+            setTimeout(() => setError(""), 3000);
         }
     };
     return (
         <>
-            <form
-                onSubmit={handleProfileFormSubmit}
-                className="max-w-md mx-auto bg-white p-8 pb-0 shadow-md rounded-t-md flex flex-col gap-6"
-            >
-                <div className="relative rounded-full overflow-hidden w-[100px] h-[100px] outline outline-1 outline-accent">
-                    <MyProfile />
+            <div className="form_container">
+                <div className="">
+                    Profile Picture
+                    <div>Update your profile picture</div>
                 </div>
-
-                <div className="flex flex-col">
-                    <label
-                        htmlFor="profilePicture"
-                        ref={labelRef}
-                        className="w-full text-sm text-slate-600 h-28 border rounded-md hover:bg-slate-100 flex items-center justify-center select-none"
-                    >
-                        Upload an Image
-                    </label>
-                    <input
-                        type="file"
-                        name="profilePicture"
-                        id="profilePicture"
-                        onChange={handleProfileChange}
-                        className="file-input file-input-bordered file-input-sm w-full hidden"
-                    />
-                    <span className="empty:h-0 empty:p-0 transition-all p-1  bg-error text-error-content">
-                        {error}
-                    </span>
-                    <span className="empty:h-0 empty:p-0 transition-all p-1  bg-success text-success-content">
-                        {msg}
-                    </span>
-                </div>
-                <button
-                    type="submit"
-                    disabled={!profilePicture}
-                    className="bg-slate-800 hover:bg-slate-900 p-2 rounded-md text-accent disabled:bg-slate-500"
+                <form
+                    onSubmit={handleProfileFormSubmit}
+                    className="bg-white max-w-md p-4 md:p-6 shadow-md rounded-md flex flex-col gap-6 justify-between"
                 >
-                    Save
-                </button>
-            </form>
-            <NameForm {...names} session={session} />
+                    <div className="relative rounded-full overflow-hidden w-20 h-20">
+                        <MyProfile image={session.data?.user.image} />
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label
+                            htmlFor="profilePicture"
+                            ref={labelRef}
+                            className="w-full text-sm text-slate-600 h-28 border rounded-md hover:bg-slate-100 flex items-center justify-center select-none"
+                        >
+                            Upload an Image
+                        </label>
+                        <input
+                            type="file"
+                            name="profilePicture"
+                            id="profilePicture"
+                            onChange={handleProfileChange}
+                            className="file-input file-input-bordered file-input-sm w-full hidden"
+                        />
+                        <span className="empty:h-0 empty:p-0 transition-all p-1  bg-error text-error-content">
+                            {error}
+                        </span>
+                        <span className="empty:h-0 empty:p-0 transition-all p-1  bg-success text-success-content">
+                            {msg}
+                        </span>
+                    </div>
+                    <button
+                        type="submit"
+                        disabled={!profilePicture}
+                        className="bg-slate-800 hover:bg-slate-900 p-2 rounded-md text-accent disabled:bg-slate-500"
+                    >
+                        Save
+                    </button>
+                </form>
+            </div>
+            <NameForm name={name} username={username} session={session} />
         </>
     );
 };
