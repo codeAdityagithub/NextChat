@@ -50,6 +50,9 @@ const getMessages = async (
                 otherPerson.id
             } and message_id in ${sql(unread_messages)}`;
         }
+
+        await sql`update conversation set unread_message=false where conversation_id=${conversation_id}`;
+
         return {
             messages: messages as Array<Message>,
             otherPerson: otherPerson,
@@ -78,7 +81,7 @@ const ChatPage = async ({ params }: Props) => {
                 messages={data.messages}
                 cur_userId={session?.user.id}
             />
-            <ChatInput username={data.otherPerson?.username!} />
+            <ChatInput otherPersonUsername={data.otherPerson?.username!} />
         </div>
     );
 };

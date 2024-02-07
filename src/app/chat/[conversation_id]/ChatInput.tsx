@@ -6,7 +6,11 @@ import { FormEvent, useEffect, useState } from "react";
 
 import { BiSolidSend } from "react-icons/bi";
 
-const ChatInput = ({ username }: { username: string }) => {
+const ChatInput = ({
+    otherPersonUsername,
+}: {
+    otherPersonUsername: string;
+}) => {
     const { conversation_id } = useParams();
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
@@ -14,11 +18,11 @@ const ChatInput = ({ username }: { username: string }) => {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (message.trim() === "") return;
-        socket.emit("message", message, username, conversation_id);
+        socket.emit("message", message, otherPersonUsername, conversation_id);
         setMessage("");
     };
     useEffect(() => {
-        socket.emit("join_conversation", conversation_id);
+        socket.emit("join_conversation", conversation_id, otherPersonUsername);
         const handleMessageError = (error: any, message: string) => {
             // console.log(error, message);
             setMessage(message);
@@ -31,7 +35,7 @@ const ChatInput = ({ username }: { username: string }) => {
             socket.emit("leave_conversation", conversation_id);
             socket.off("message_error", handleMessageError);
         };
-    }, [conversation_id]);
+    }, [conversation_id, otherPersonUsername]);
     return (
         <form onSubmit={handleSubmit} className="relative shadow-lg">
             <div className="flex rounded-lg">

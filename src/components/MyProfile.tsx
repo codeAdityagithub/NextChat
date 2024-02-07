@@ -1,4 +1,4 @@
-import { Session } from "next-auth";
+"use client";
 import Image from "next/image";
 
 const MyProfile = ({ image }: { image: string | null | undefined }) => {

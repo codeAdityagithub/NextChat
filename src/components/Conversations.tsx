@@ -29,7 +29,7 @@ const Conversations = ({ chatUsers: initialData }: Props) => {
             // console.log("fn call");
             setChatUsers((prev) =>
                 prev.map((info) =>
-                    info.conversation_id == conversation_id
+                    info.conversation_id === conversation_id
                         ? { ...info, unread_message: false }
                         : info
                 )

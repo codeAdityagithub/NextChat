@@ -14,7 +14,7 @@ const ChatHeaderOptions = () => {
             <div
                 tabIndex={0}
                 role="button"
-                className="p-1.5 rounded-lg relative bg-accent"
+                className="p-1.5 rounded-lg relative bg-slate-200"
             >
                 <BsThreeDots className="text-primary text-lg" />
             </div>

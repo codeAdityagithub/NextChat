@@ -122,29 +122,11 @@ const useMessages = ({ initialData, userId }: Props) => {
         //         }
         //     );
         // };
-        const readMessages = (userId: string) => {
-            // console.log("first");
-            queryCl.setQueryData(["messages", conversation_id], (old: any) => {
-                if (!old) return old;
-                const readMessages = old.pages[0].map((message: Message) =>
-                    message.status === "delivered" &&
-                    message.sender_id !== userId
-                        ? { ...message, status: "read" }
-                        : message
-                );
-                return {
-                    pages: [readMessages, ...old.pages.slice(1)],
-                    pageParams: old.pageParams,
-                };
-            });
-            // console.log(data.pages.flatMap((page) => page));
-        };
+
         socket.on("recieve_message", messageHandler);
-        socket.on("read_messages", readMessages);
 
         return () => {
             socket.off("recieve_message", messageHandler);
-            socket.off("read_messages", readMessages);
         };
     }, [queryCl, data, conversation_id, userId]);
     return [

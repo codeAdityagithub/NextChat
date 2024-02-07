@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import NameForm from "./NameForm";
+import { useRouter } from "next/navigation";
 
 type Props = {
     name: string;
@@ -14,6 +15,7 @@ type Props = {
 };
 
 const Form = ({ name, username }: Props) => {
+    const router = useRouter();
     const session = useSession();
     const [error, setError] = useState("");
     const [msg, setMsg] = useState("");
@@ -63,14 +65,18 @@ const Form = ({ name, username }: Props) => {
                     headers: { "Content-Type": "multipart/form-data" },
                 }
             );
-            console.log(res.status);
+            // console.log(res.status);
             if (res.status === 200) {
                 setMsg("Profile Updated Succesfully");
                 labelRef.current &&
                     (labelRef.current.innerText = "Upload an Image");
                 setProfilePicture(null);
                 session.update({ image: session?.data?.user.id });
-                setTimeout(() => setMsg(""), 3000);
+
+                setTimeout(() => {
+                    setMsg("");
+                    router.refresh();
+                }, 1000);
             }
         } catch (error: any) {
             console.log(error);
