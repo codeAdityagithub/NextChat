@@ -20,9 +20,9 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en">
+        <html lang="en" data-theme="business">
             <body className={roboto.className}>
-                <main className="h-screen min-h-[600px]">
+                <main className="h-screen min-h-[600px] bg-base-300 text-base-content">
                     <AuthProvider>
                         <ReactQueryProvider>{children}</ReactQueryProvider>
                     </AuthProvider>

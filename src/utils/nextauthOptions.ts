@@ -40,21 +40,29 @@ const authOptions: NextAuthOptions = {
                     >`select * from users where email=${email}`;
                     if (dbuser.length == 0) return null;
                     const user = dbuser[0];
+                    if (!user.password) return null;
                     // console.log(user);
                     const isCorrectPassword = await bcrypt.compare(
                         password,
-                        user.password!
+                        user.password
                     );
                     // console.log(isCorrectPassword);
                     if (!isCorrectPassword) return null;
+                    const timestamp = new Date(user.updated_at!).getTime();
+
                     const name = {
                         name: user.name,
                         username: user.username,
+                        updated: timestamp,
                     };
+                    const img = user.has_dp
+                        ? `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${user.id}.jpg?updated=${timestamp}`
+                        : undefined;
                     const requser: User = {
                         id: user.id!,
                         name: JSON.stringify(name),
                         email: user.email,
+                        image: img,
                     };
                     // console.log(requser);
                     return requser;
@@ -74,14 +82,18 @@ const authOptions: NextAuthOptions = {
 
                 if (dbuser.length != 0) {
                     // console.log(dbuser[0]);
+                    const timestamp = new Date(dbuser[0].updated_at!).getTime();
+
                     user.id = dbuser[0].id!;
                     const name = {
-                        name: user.name,
+                        name: dbuser[0].name,
                         username: dbuser[0].username,
+                        updated: timestamp,
                     };
                     user.name = JSON.stringify(name);
+                    // console.log(user.image);
                     if (dbuser[0].has_dp) {
-                        user.image = `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${user.id}.jpg`;
+                        user.image = `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${user.id}.jpg?updated=${timestamp}`;
                     }
                     return true;
                 }
@@ -125,7 +137,7 @@ const authOptions: NextAuthOptions = {
                 session.user.id = token.sub;
                 // session.user.username = token.username!;
             }
-            // console.log(session);
+            // console.log(session.user);
             return session;
         },
         jwt({ token, trigger, session }) {
@@ -134,6 +146,18 @@ const authOptions: NextAuthOptions = {
                 // token.picture = session.image
                 const updated = new Date().getTime();
                 token.picture = `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${token.sub}.jpg?updated=${updated}`;
+            } else if (
+                trigger === "update" &&
+                session.name &&
+                session.username
+            ) {
+                const timestamp = new Date().getTime();
+                const names = JSON.stringify({
+                    name: session.name,
+                    username: session.username,
+                    updated: timestamp,
+                });
+                token.name = names;
             }
 
             return token;

@@ -67,19 +67,19 @@ const InviteNotifications = ({ invitations }: Props) => {
                 role="button"
                 className="p-1 rounded-lg relative indicator"
             >
-                <NotificationIcon className="text-2xl text-primary-content" />
+                <NotificationIcon className="text-2xl text-base-content" />
                 <div className="indicator-item stat-desc text-xs absolute text-accent">
                     {invites.length}
                 </div>
             </div>
             <ul
                 tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-white/60 text-primary-content backdrop-blur-sm rounded-box w-52"
+                className="dropdown-content z-10 menu p-1 shadow bg-secondary text-secondary-content backdrop-blur-sm rounded-lg w-52"
             >
                 {invites.map((invite) => (
                     <li
                         key={invite.invitation_id}
-                        className="rounded-box cursor-pointer"
+                        className="rounded-md cursor-pointer"
                     >
                         <InvitationCard
                             invitation_id={invite.invitation_id}
@@ -92,8 +92,8 @@ const InviteNotifications = ({ invitations }: Props) => {
                     </li>
                 ))}
                 {invites.length === 0 ? (
-                    <li className="rounded-box cursor-pointer p-2">
-                        <a className="rounded-box">No Invitations</a>
+                    <li className="rounded-md cursor-pointer p-2">
+                        <a className="rounded-md">No Invitations</a>
                     </li>
                 ) : null}
             </ul>

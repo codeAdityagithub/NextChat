@@ -46,13 +46,13 @@ const AccountCard = async (props: Props) => {
                         crossOrigin="anonymous"
                         sizes="100px"
                     /> */}
-                    <MyProfile />
+                    <MyProfile image={session?.user.image} />
                 </div>
                 <div className="flex items-start justify-center flex-col h-full">
-                    <div className="text-lg font-medium text-primary-content">
+                    <div className="text-lg font-medium text-base-content">
                         {names.name}
                     </div>
-                    <div className="text-sm font-light text-gray-500">
+                    <div className="text-sm text-accent/80">
                         @{names.username}
                     </div>
                 </div>

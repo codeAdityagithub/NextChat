@@ -30,9 +30,9 @@ const UserCard = ({
         <Link
             onClick={handleRead}
             href={`/chat/${conversation_id}`}
-            className={`w-full h-16 flex items-center gap-3 hover:bg-gray-100 transition-colors rounded-md px-2${
+            className={`w-full h-16 flex items-center gap-3 hover:bg-secondary/50 text-neutral-content transition-colors rounded-md px-2${
                 cur_conversation_id === conversation_id
-                    ? " bg-slate-200"
+                    ? " bg-secondary/30"
                     : " bg-transparent"
             }`}
         >
@@ -48,10 +48,8 @@ const UserCard = ({
                 />
             </div>
             <div className="flex flex-1 relative items-start justify-start pt-2 flex-col h-full">
-                <div className="font-medium text-primary-content">{name}</div>
-                <div className="text-sm font-light line-clamp-1 text-gray-500">
-                    {latest_message}
-                </div>
+                <div className="font-medium">{name}</div>
+                <div className="text-sm line-clamp-1">{latest_message}</div>
                 <div className="absolute text-xs right-2 top-2">
                     {formatTime(last_contacted_at)}
                 </div>
@@ -60,9 +58,6 @@ const UserCard = ({
                         <GoDotFill className="text-xl text-green-600" />
                     </div>
                 ) : null}
-                <div className="absolute text-xs right-2 top-2">
-                    {formatTime(last_contacted_at)}
-                </div>
             </div>
         </Link>
     );

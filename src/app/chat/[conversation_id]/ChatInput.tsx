@@ -6,7 +6,11 @@ import { FormEvent, useEffect, useState } from "react";
 
 import { BiSolidSend } from "react-icons/bi";
 
-const ChatInput = ({ username }: { username: string }) => {
+const ChatInput = ({
+    otherPersonUsername,
+}: {
+    otherPersonUsername: string;
+}) => {
     const { conversation_id } = useParams();
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
@@ -14,11 +18,11 @@ const ChatInput = ({ username }: { username: string }) => {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (message.trim() === "") return;
-        socket.emit("message", message, username, conversation_id);
+        socket.emit("message", message, otherPersonUsername, conversation_id);
         setMessage("");
     };
     useEffect(() => {
-        socket.emit("join_conversation", conversation_id);
+        socket.emit("join_conversation", conversation_id, otherPersonUsername);
         const handleMessageError = (error: any, message: string) => {
             // console.log(error, message);
             setMessage(message);
@@ -31,14 +35,14 @@ const ChatInput = ({ username }: { username: string }) => {
             socket.emit("leave_conversation", conversation_id);
             socket.off("message_error", handleMessageError);
         };
-    }, [conversation_id]);
+    }, [conversation_id, otherPersonUsername]);
     return (
         <form onSubmit={handleSubmit} className="relative shadow-lg">
             <div className="flex rounded-lg">
                 <input
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="w-full text-primary-content bg-white focus:outline-none focus:ring-1 ring-offset-1 ring-primary placeholder:text-gray-300 p-3 rounded-lg"
+                    className="w-full text-neutral-content bg-neutral focus:outline-none focus:ring-1 focus:ring-secondary p-3 rounded-lg"
                     type="text"
                     name="message"
                     id="message_input"

@@ -16,7 +16,9 @@ type getMessagesReturn = {
 
 const useConversation = ({ initialData }: Props) => {
     const [chatUsers, setChatUsers] = useState<UserCardInfo[]>(initialData);
-    const [areUnreadMesages, setAreUnreadMessages] = useState(false);
+    const [areUnreadMesages, setAreUnreadMessages] = useState(
+        initialData.some((chat) => chat.unread_message)
+    );
     const session = useSession();
     const { conversation_id } = useParams();
     const queryCl = useQueryClient(queryClient);
@@ -25,7 +27,7 @@ const useConversation = ({ initialData }: Props) => {
         const sound = new Audio("/messageSound1.mp3");
         sound.volume = 0.6;
         const getConv = (conversation: UserCardInfo) => {
-            console.log("new conversation");
+            // console.log("new conversation");
             setChatUsers((prev) => [
                 { ...conversation, unread_message: true },
                 ...prev,
@@ -82,12 +84,32 @@ const useConversation = ({ initialData }: Props) => {
             }
             setChatUsers(newChats);
         };
+        const readMessages = (userId: string, conversation_id: string) => {
+            // console.log("first");
+            queryCl.setQueryData(["messages", conversation_id], (old: any) => {
+                if (!old) return old;
+                const readMessages = old.pages[0].map((message: Message) =>
+                    message.status === "delivered" &&
+                    message.sender_id !== userId
+                        ? { ...message, status: "read" }
+                        : message
+                );
+                return {
+                    pages: [readMessages, ...old.pages.slice(1)],
+                    pageParams: old.pageParams,
+                };
+            });
+            // console.log(data.pages.flatMap((page) => page));
+        };
         socket.on("recieve_message", messageHandler);
         socket.on("add_conversation", getConv);
+        socket.on("read_messages", readMessages);
+
         return () => {
             socket.off("recieve_message", messageHandler);
 
             socket.off("add_conversation", getConv);
+            socket.off("read_messages", readMessages);
         };
     }, [chatUsers, session, conversation_id, queryCl]);
     return [

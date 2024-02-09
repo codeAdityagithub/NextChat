@@ -3,32 +3,59 @@
 @tailwind utilities;
 
 @layer components {
+    .second_last_child > div:nth-last-child(2) {
+        @apply mt-4;
+    }
+    ._btn {
+        @apply btn rounded-md bg-primary text-primary-content;
+    }
+    ._btn-sm {
+        @apply btn-sm rounded-md bg-primary text-primary-content;
+    }
+    .settings_grid {
+        padding: 1rem;
+        display: grid;
+        grid-template-rows: repeat(auto-fit, 1fr);
+        gap: 8px;
+    }
+    .settings_grid > .form_container {
+        @apply flex flex-col justify-start lg:flex-row lg:gap-10 xl:gap-40 gap-4 p-4;
+    }
+    .settings_grid > .form_container > div {
+        @apply flex-1 lg:flex-grow-0 lg:min-w-fit text-base-content;
+    }
+    .settings_grid > .form_container > div > div {
+        @apply text-sm text-base-content/80 font-normal;
+    }
+    .settings_grid > .form_container > form {
+        @apply flex-1 ml-2 lg:ml-0;
+    }
     .sidebar_aside {
         max-width: 384px;
     }
-    .ver-scrollbar {
+    .ver_scrollbar {
         @apply transition-all;
     }
-    .ver-scrollbar::-webkit-scrollbar {
-        @apply hidden md:block w-2;
+    .ver_scrollbar::-webkit-scrollbar {
+        @apply hidden md:block w-2.5;
     }
-    /* .ver-scrollbar:hover::-webkit-scrollbar {
+    /* .ver_scrollbar:hover::-webkit-scrollbar {
         @apply hidden lg:block lg:h-3;
     } */
 
     /* Track */
-    .ver-scrollbar::-webkit-scrollbar-track {
-        @apply bg-slate-200;
+    .ver_scrollbar::-webkit-scrollbar-track {
+        @apply bg-neutral;
     }
 
     /* Handle */
-    .ver-scrollbar::-webkit-scrollbar-thumb {
-        @apply bg-slate-400 rounded-lg transition-colors shadow-md;
+    .ver_scrollbar::-webkit-scrollbar-thumb {
+        @apply bg-secondary rounded-lg transition-colors shadow-md;
     }
 
     /* Handle on hover */
-    .ver-scrollbar::-webkit-scrollbar-thumb:hover {
-        @apply bg-slate-500;
+    .ver_scrollbar::-webkit-scrollbar-thumb:hover {
+        @apply bg-secondary/80;
     }
     .mainGrid {
         display: grid;

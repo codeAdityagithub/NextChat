@@ -24,7 +24,9 @@ const getData = async (
             u.id,
             u.name,
             u.has_dp,
-            c.latest_message from 
+            c.latest_message,
+            c.unread_message
+            from 
             conversation_users cu
         JOIN 
             users u ON u.id = cu.user_id

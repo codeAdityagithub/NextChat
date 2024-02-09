@@ -71,17 +71,18 @@ const Register = () => {
 
     return (
         <div className="w-full h-full overflow-y-auto flex relative font-sans justify-center items-center box-border">
-            <div className="w-[300px] p-4 bg-primary-content rounded-md shadow-md shadow-gray-800">
+            <div className="w-[300px] p-4 bg-neutral text-neutral-content rounded-md shadow-lg shadow-primary">
                 <p className="text-success-content bg-success  test-xs text-center">
                     {message}
                 </p>
                 <p className="text-error-content bg-error test-xs text-center">
                     {error}
                 </p>
-                <h2 className="w-full p-2 text-gray-200 text-center text-2xl">
-                    Register
-                </h2>
-                <form className="w-full p-2" onSubmit={handleSubmit}>
+                <h2 className="w-full p-2 text-center text-2xl">Register</h2>
+                <form
+                    className="w-full p-4 flex flex-col gap-4"
+                    onSubmit={handleSubmit}
+                >
                     <input
                         required
                         type="text"
@@ -90,7 +91,7 @@ const Register = () => {
                         name="name"
                         onChange={handleChange}
                         placeholder="Your name..."
-                        className="w-full p-2 text-gray-200 placeholder:text-gray-400 my-2 bg-transparent rounded-md"
+                        className="w-full p-2 my-2 bg-transparent rounded-md border border-neutral-content"
                     />
                     <input
                         required
@@ -100,7 +101,7 @@ const Register = () => {
                         name="username"
                         onChange={handleChange}
                         placeholder="Your Username thats unique ..."
-                        className="w-full p-2 text-gray-200 placeholder:text-gray-400 my-2 bg-transparent rounded-md"
+                        className="w-full p-2 my-2 bg-transparent rounded-md border border-neutral-content"
                     />
                     <input
                         required
@@ -109,7 +110,7 @@ const Register = () => {
                         name="email"
                         onChange={handleChange}
                         placeholder="Your email..."
-                        className="w-full p-2 text-gray-200 placeholder:text-gray-400 my-2 bg-transparent rounded-md"
+                        className="w-full p-2 my-2 bg-transparent rounded-md border border-neutral-content"
                     />
                     <input
                         required
@@ -120,15 +121,12 @@ const Register = () => {
                         minLength={8}
                         maxLength={255}
                         placeholder="Your Password"
-                        className="w-full p-2 text-gray-200 placeholder:text-gray-400 my-2 bg-transparent rounded-md"
+                        className="w-full p-2 my-2 bg-transparent rounded-md border border-neutral-content"
                     />
-                    <button className="button w-full my-4">Submit</button>
+                    <button className="_btn-sm w-full">Submit</button>
                 </form>
 
-                <Link
-                    href="/api/auth/signin"
-                    className="text-gray-400 text-sm p-2 mt-4"
-                >
+                <Link href="/api/auth/signin" className="text-sm p-2 mt-4">
                     Already registered? Login
                 </Link>
             </div>
