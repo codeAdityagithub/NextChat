@@ -99,7 +99,7 @@ const Form = ({ name, username }: Props) => {
                 </div>
                 <form
                     onSubmit={handleProfileFormSubmit}
-                    className="bg-white max-w-md p-4 md:p-6 shadow-md rounded-md flex flex-col gap-6 justify-between"
+                    className="bg-neutral max-w-md p-4 md:p-6 shadow-md rounded-md flex flex-col gap-6 justify-between"
                 >
                     <div className="relative rounded-full overflow-hidden w-20 h-20">
                         <MyProfile image={session.data?.user.image} />
@@ -109,7 +109,7 @@ const Form = ({ name, username }: Props) => {
                         <label
                             htmlFor="profilePicture"
                             ref={labelRef}
-                            className="w-full text-sm text-slate-600 h-28 border rounded-md hover:bg-slate-100 flex items-center justify-center select-none"
+                            className="w-full text-sm text-neutral-content transition-colors bg-transparent hover:bg-secondary/50 h-28 border border-secondary rounded-md flex items-center justify-center select-none"
                         >
                             Upload an Image
                         </label>
@@ -118,7 +118,7 @@ const Form = ({ name, username }: Props) => {
                             name="profilePicture"
                             id="profilePicture"
                             onChange={handleProfileChange}
-                            className="file-input file-input-bordered file-input-sm w-full hidden"
+                            className="hidden"
                         />
                         <span className="empty:h-0 empty:p-0 transition-all p-1  bg-error text-error-content">
                             {error}
@@ -130,7 +130,7 @@ const Form = ({ name, username }: Props) => {
                     <button
                         type="submit"
                         disabled={!profilePicture}
-                        className="bg-slate-800 hover:bg-slate-900 p-2 rounded-md text-accent disabled:bg-slate-500"
+                        className="disabled:bg-secondary disabled:cursor-not-allowed bg-primary hover:bg-primary/80 cursor-pointer text-primary-content w-full p-2 rounded-md"
                     >
                         Save
                     </button>

@@ -11,13 +11,11 @@ type Props = {
 const ChatBubbleRight = ({ content, created_at, name, status }: Props) => {
     return (
         <div className="chat chat-end">
-            <div className="chat-header text-primary-content opacity-50">
-                {name}
-            </div>
-            <div className="chat-bubble bg-base text-gray-100 relative bg-primary rounded-md">
+            <div className="chat-header text-base-content">{name}</div>
+            <div className="chat-bubble bg-primary text-primary-content relative rounded-md">
                 {content}
             </div>
-            <div className="chat-footer text-primary-content opacity-50">
+            <div className="chat-footer text-xs text-base-content">
                 {getTime(created_at)} {status}
             </div>
         </div>

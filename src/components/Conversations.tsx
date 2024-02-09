@@ -40,7 +40,7 @@ const Conversations = ({ chatUsers: initialData }: Props) => {
     return (
         <div
             id="conversations"
-            className="bg-white flex-1 rounded-lg p-4 shadow-lg flex flex-col gap-1"
+            className="bg-neutral text-neutral-content flex-1 rounded-lg p-4 shadow-lg shadow-neutral/60 flex flex-col gap-1"
         >
             {chatUsers.map((cardInfo) => (
                 <UserCard

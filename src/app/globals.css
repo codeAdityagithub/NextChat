@@ -3,6 +3,15 @@
 @tailwind utilities;
 
 @layer components {
+    .second_last_child > div:nth-last-child(2) {
+        @apply mt-4;
+    }
+    ._btn {
+        @apply btn rounded-md bg-primary text-primary-content;
+    }
+    ._btn-sm {
+        @apply btn-sm rounded-md bg-primary text-primary-content;
+    }
     .settings_grid {
         padding: 1rem;
         display: grid;
@@ -13,10 +22,10 @@
         @apply flex flex-col justify-start lg:flex-row lg:gap-10 xl:gap-40 gap-4 p-4;
     }
     .settings_grid > .form_container > div {
-        @apply flex-1 lg:flex-grow-0 lg:min-w-fit text-primary-content;
+        @apply flex-1 lg:flex-grow-0 lg:min-w-fit text-base-content;
     }
     .settings_grid > .form_container > div > div {
-        @apply text-sm text-primary-content/60 font-normal;
+        @apply text-sm text-base-content/80 font-normal;
     }
     .settings_grid > .form_container > form {
         @apply flex-1 ml-2 lg:ml-0;
@@ -28,7 +37,7 @@
         @apply transition-all;
     }
     .ver_scrollbar::-webkit-scrollbar {
-        @apply hidden md:block w-2;
+        @apply hidden md:block w-2.5;
     }
     /* .ver_scrollbar:hover::-webkit-scrollbar {
         @apply hidden lg:block lg:h-3;
@@ -36,17 +45,17 @@
 
     /* Track */
     .ver_scrollbar::-webkit-scrollbar-track {
-        @apply bg-slate-200;
+        @apply bg-neutral;
     }
 
     /* Handle */
     .ver_scrollbar::-webkit-scrollbar-thumb {
-        @apply bg-slate-400 rounded-lg transition-colors shadow-md;
+        @apply bg-secondary rounded-lg transition-colors shadow-md;
     }
 
     /* Handle on hover */
     .ver_scrollbar::-webkit-scrollbar-thumb:hover {
-        @apply bg-slate-500;
+        @apply bg-secondary/80;
     }
     .mainGrid {
         display: grid;

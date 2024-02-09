@@ -9,7 +9,7 @@ type Props = {
 
 const error = ({ error, reset }: Props) => {
     return (
-        <div className="flex flex-col items-center justify-center h-screen bg-gray-800">
+        <div className=" md:flex-[2] lg:flex-[3] flex flex-col items-center justify-center h-full bg-base-300">
             <h1 className="text-4xl text-error mb-4">
                 Oops! Something went wrong.
             </h1>
@@ -17,13 +17,13 @@ const error = ({ error, reset }: Props) => {
             <div className="">
                 <button
                     onClick={reset}
-                    className="bg-blue-500 text-white px-6 py-3 rounded-md mr-4 hover:bg-blue-700"
+                    className="bg-primary text-primary-content px-6 py-3 rounded-md mr-4 hover:bg-primary/80"
                 >
                     Try Again
                 </button>
                 <Link
-                    href="/"
-                    className="bg-green-500 text-white px-6 py-3 rounded-md hover:bg-green-700"
+                    href="/chat"
+                    className="bg-secondary text-secondary-content px-6 py-3 rounded-md mr-4 hover:bg-secondary/80"
                 >
                     Go to Home Page
                 </Link>

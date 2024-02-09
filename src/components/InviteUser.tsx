@@ -15,6 +15,7 @@ const sendInvite = async (username: string) => {
 };
 
 const InviteUser = (props: Props) => {
+    const [value, setValue] = useState("");
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
     const { mutate, isPending } = useMutation({
@@ -25,6 +26,7 @@ const InviteUser = (props: Props) => {
         },
         onError(error: any) {
             // console.log((error))
+            setValue("");
             setError(error.response ? error.response.data : error.message);
             setTimeout(() => setError(null), 3000);
         },
@@ -32,9 +34,8 @@ const InviteUser = (props: Props) => {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const input = e.currentTarget[0] as HTMLInputElement;
-        if (input.value.trim() == "") return;
-        mutate(input.value);
+        if (value.trim() == "") return;
+        mutate(value);
     };
 
     // useEffect(() => {
@@ -51,20 +52,22 @@ const InviteUser = (props: Props) => {
 
     return (
         <form
-            className="w-full mb-2 flex flex-col items-center gap-3 bg-white p-2 rounded-lg relative shadow-lg"
+            className="w-full mb-2 flex flex-col items-center gap-3 bg-neutral text-neutral-content p-2 rounded-lg relative shadow-lg"
             onSubmit={handleSubmit}
         >
             <div className="flex items-center gap-3 w-full">
                 <input
                     type="text"
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
                     id="invite_user_input"
                     placeholder="Send a invite to ..."
-                    className="p-2 min-w-0 bg-transparent text-primary-content flex-1 focus:ring-1 ring-primary-content outline-none rounded-md"
+                    className="p-2 min-w-0 bg-transparent text-neutral-content flex-1 ring-1 ring-secondary focus:ring-offset-1 focus:outline-none rounded-md"
                 />
                 <button
                     disabled={isPending}
                     type="submit"
-                    className="bg-slate-800 hover:bg-slate-900  p-2 rounded-md text-accent disabled:bg-slate-400"
+                    className="bg-primary hover:bg-primary/80 text-primary-content p-2 rounded-md disabled:bg-secondary"
                 >
                     send
                 </button>

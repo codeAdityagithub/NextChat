@@ -74,12 +74,12 @@ const NameForm = ({
             </div>
             <form
                 onSubmit={handleUserFormSubmit}
-                className="bg-white max-w-md p-4 md:p-6 shadow-md rounded-md flex flex-col justify-between gap-6"
+                className="bg-neutral max-w-md p-4 md:p-6 shadow-md rounded-md flex flex-col justify-between gap-6"
             >
                 <div className="">
                     <label
                         htmlFor="name"
-                        className="block text-primary-content text-sm font-bold mb-2"
+                        className="block text-sm font-bold mb-2 text-neutral-content"
                     >
                         Name
                     </label>
@@ -89,7 +89,7 @@ const NameForm = ({
                         type="text"
                         name="name"
                         onChange={handleInputChange}
-                        className="w-full rounded-md bg-transparent py-2 px-3 text-primary-content border"
+                        className="w-full rounded-md bg-transparent py-2 px-3 ring-1 ring-secondary focus:ring-offset-1 focus:outline-none border-secondary text-neutral-content"
                         placeholder="Enter your name"
                     />
                 </div>
@@ -97,7 +97,7 @@ const NameForm = ({
                 <div className="">
                     <label
                         htmlFor="username"
-                        className="block text-primary-content text-sm font-bold mb-2"
+                        className="block text-sm font-bold mb-2 text-neutral-content"
                     >
                         Username
                     </label>
@@ -107,7 +107,7 @@ const NameForm = ({
                         type="text"
                         name="username"
                         onChange={handleInputChange}
-                        className="w-full rounded-md bg-transparent py-2 px-3 text-primary-content border"
+                        className="w-full rounded-md bg-transparent py-2 px-3 ring-1 ring-secondary focus:ring-offset-1 focus:outline-none text-neutral-content"
                         placeholder="Enter your username"
                     />
                 </div>
@@ -120,7 +120,7 @@ const NameForm = ({
                             (name === formData.name &&
                                 username === formData.username)
                         }
-                        className="bg-slate-800 w-full hover:bg-slate-900 p-2 rounded-md text-accent disabled:bg-slate-500"
+                        className="disabled:bg-secondary disabled:cursor-not-allowed bg-primary hover:bg-primary/80 cursor-pointer text-primary-content w-full p-2 rounded-md"
                     >
                         Save
                     </button>

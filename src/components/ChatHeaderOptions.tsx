@@ -14,22 +14,22 @@ const ChatHeaderOptions = () => {
             <div
                 tabIndex={0}
                 role="button"
-                className="p-1.5 rounded-lg relative bg-slate-200"
+                className="p-1.5 rounded-lg relative bg-primary"
             >
-                <BsThreeDots className="text-primary text-lg" />
+                <BsThreeDots className="text-accent text-lg" />
             </div>
             <ul
                 tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-white/60 text-primary-content backdrop-blur-sm rounded-box w-52"
+                className="dropdown-content z-10 menu p-1 shadow bg-secondary text-secondary-content backdrop-blur-sm rounded-lg w-52"
             >
                 <li className="cursor-pointer">
                     <Link
                         href={"/chat"}
                         tabIndex={0}
-                        className="rounded-box flex flex-row items-center justify-between p-2 gap-2"
+                        className="rounded-md hover:bg-primary/60 hover:text-primary-content transition-colors flex flex-row items-center justify-between p-2 gap-2"
                     >
                         See Profile
-                        <CgProfile className="text-xl text-primary-content" />
+                        <CgProfile className="text-xl" />
                     </Link>
                 </li>
             </ul>

@@ -12,6 +12,7 @@ const config: Config = {
     plugins: [require("daisyui")],
     daisyui: {
         styled: false,
+        themes: ["business"],
         // base:false
     },
 };

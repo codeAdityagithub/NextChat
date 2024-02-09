@@ -43,13 +43,11 @@ const ChatBubbleLeft = ({
                     ) : null}
                 </div>
             </div>
-            <div className="chat-header text-primary-content opacity-50">
-                {name}
-            </div>
-            <div className="chat-bubble bg-slate-500 rounded-md text-gray-100 relative">
+            <div className="chat-header text-base-content ">{name}</div>
+            <div className="chat-bubble bg-secondary rounded-md text-secondary-content relative">
                 {content}
             </div>
-            <div className="chat-footer text-primary-content opacity-50">
+            <div className="chat-footer text-xs text-base-content">
                 {getTime(created_at)}
             </div>
         </div>
