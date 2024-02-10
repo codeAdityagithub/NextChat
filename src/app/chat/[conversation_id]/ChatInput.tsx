@@ -49,15 +49,15 @@ const ChatInput = ({
                     placeholder="Type a message"
                 />
             </div>
-            <div className="error empty:hidden absolute -top-8 left-0 bg-error text-error-content rounded-md px-2 py-1">
-                {error}
-            </div>
             <button
-                className="bg-gray-200 text-primary absolute right-3 top-2 text- p-2 rounded-full flex items-center justify-center"
+                className="bg-primary text-accent absolute right-3 top-2 text- p-2 rounded-full flex items-center justify-center"
                 type="submit"
             >
                 <BiSolidSend />
             </button>
+            <div className="error empty:hidden absolute -top-8 left-0 bg-error text-error-content rounded-md px-2 py-1">
+                {error}
+            </div>
         </form>
     );
 };

@@ -50,8 +50,8 @@ const getMessages = async (
                 otherPerson.id
             } and message_id in ${sql(unread_messages)}`;
         }
-
-        await sql`update conversation set unread_message=false where conversation_id=${conversation_id}`;
+        if (messages[0].sender_id !== userId)
+            await sql`update conversation set unread_message=false where conversation_id=${conversation_id}`;
 
         return {
             messages: messages as Array<Message>,
