@@ -82,10 +82,7 @@ const InviteNotifications = ({ invitations }: Props) => {
                         className="rounded-md cursor-pointer"
                     >
                         <InvitationCard
-                            invitation_id={invite.invitation_id}
-                            sent_at={invite.sent_at}
-                            username={invite.username}
-                            name={invite.name}
+                            {...invite}
                             handleAccept={handleAccept}
                             handleReject={handleReject}
                         />

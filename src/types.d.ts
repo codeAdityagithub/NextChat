@@ -8,6 +8,8 @@ export type InviteNotification = {
     username: string;
     sent_at: Date;
     invitation_id: number;
+    sender_id: string;
+    has_dp: boolean;
 };
 
 export type UserCardInfo = {

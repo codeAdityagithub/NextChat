@@ -27,6 +27,8 @@ CREATE TABLE conversation (
     last_contacted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     latest_message VARCHAR(101),
     unread_message BOOLEAN NOT NULL DEFAULT FALSE,
+    latest_message_sender_id uuid,
+
     -- Add more conversation-related fields as needed
 );
 
@@ -74,6 +76,7 @@ SET
             ELSE true
 		END,
     latest_message = LEFT(NEW.content, LEAST(length(NEW.content), 100))
+    latest_message_sender_id=NEW.sender_id
     
 WHERE
     conversation_id = NEW.conversation_id;

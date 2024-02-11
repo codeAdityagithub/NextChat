@@ -34,7 +34,7 @@ const ChatHeader = ({ id, name, username, has_dp }: Props) => {
             <div className="text-lg font-medium flex-1">
                 <div className="font-medium">{name}</div>
                 <div className="text-sm font-light line-clamp-1">
-                    @{username} <OnlineStatus username={username!} />
+                    @{username} <OnlineStatus id={id} />
                 </div>
             </div>
             <ChatHeaderOptions />

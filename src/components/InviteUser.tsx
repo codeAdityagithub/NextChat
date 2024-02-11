@@ -23,6 +23,7 @@ const InviteUser = (props: Props) => {
         onSuccess(data) {
             setSuccess(data);
             setTimeout(() => setSuccess(null), 3000);
+            setValue("");
         },
         onError(error: any) {
             // console.log((error))

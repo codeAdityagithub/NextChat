@@ -54,7 +54,7 @@ const NameForm = ({
                 }
                 setTimeout(() => {
                     setMsg("");
-                    router.refresh();
+                    location.reload();
                 }, 1000);
             }
         } catch (error: any) {
