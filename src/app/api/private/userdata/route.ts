@@ -15,7 +15,7 @@ export const POST = async (req: NextRequest) => {
         const curDate = new Date().getTime();
         const diff = (curDate - updated) / 1000;
         // console.log(diff);
-        if (diff < 0) {
+        if (diff < 60 * 60 * 24) {
             return NextResponse.json(
                 "You can only update your profile once a day",
                 { status: 429 }

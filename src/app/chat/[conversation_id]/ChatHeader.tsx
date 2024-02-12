@@ -37,7 +37,12 @@ const ChatHeader = ({ id, name, username, has_dp }: Props) => {
                     @{username} <OnlineStatus id={id} />
                 </div>
             </div>
-            <ChatHeaderOptions />
+            <ChatHeaderOptions
+                id={id}
+                name={name}
+                username={username}
+                has_dp={has_dp}
+            />
         </div>
     );
 };
