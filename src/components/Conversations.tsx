@@ -7,17 +7,10 @@ import { useParams } from "next/navigation";
 
 type Props = {
     chatUsers: UserCardInfo[];
+    userId: string | undefined;
 };
 
-// const getChats = async (userId: string): Promise<UserCardInfo[]> => {
-//     const data = await fetch(`/api/private/chats`, {
-//         body: JSON.stringify({ userId }),
-//         method: "POST",
-//     }).then(async (res) => await res.json());
-//     return data;
-// };
-
-const Conversations = ({ chatUsers: initialData }: Props) => {
+const Conversations = ({ chatUsers: initialData, userId }: Props) => {
     const { conversation_id } = useParams();
     const [chatUsers, setChatUsers, areUnreadMesages, setAreUnreadMessages] =
         useConversation({
@@ -40,12 +33,16 @@ const Conversations = ({ chatUsers: initialData }: Props) => {
     return (
         <div
             id="conversations"
-            className="bg-neutral text-neutral-content flex-1 rounded-lg p-4 shadow-lg shadow-neutral/60 flex flex-col gap-1"
+            className="bg-neutral text-neutral-content flex-1 rounded-lg p-2 shadow-lg shadow-neutral/60 flex flex-col gap-1"
         >
             {chatUsers.map((cardInfo) => (
                 <UserCard
                     key={cardInfo.conversation_id}
                     {...cardInfo}
+                    unread_message={
+                        cardInfo.unread_message &&
+                        cardInfo.latest_message_sender_id !== userId
+                    }
                     cur_conversation_id={Number(conversation_id)}
                     handleUnreadMessage={handleUnreadMessage}
                 />

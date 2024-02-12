@@ -91,7 +91,7 @@ const Register = () => {
                         name="name"
                         onChange={handleChange}
                         placeholder="Your name..."
-                        className="w-full p-2 my-2 bg-transparent rounded-md border border-neutral-content"
+                        className="w-full p-2 my-2 bg-transparent rounded-md border border-secondary"
                     />
                     <input
                         required
@@ -101,7 +101,7 @@ const Register = () => {
                         name="username"
                         onChange={handleChange}
                         placeholder="Your Username thats unique ..."
-                        className="w-full p-2 my-2 bg-transparent rounded-md border border-neutral-content"
+                        className="w-full p-2 my-2 bg-transparent rounded-md border border-secondary"
                     />
                     <input
                         required

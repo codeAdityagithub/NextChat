@@ -15,11 +15,13 @@ const InvitationCard = ({
     name,
     sent_at,
     invitation_id,
+    sender_id,
+    has_dp,
     handleAccept,
     handleReject,
 }: Props) => {
     return (
-        <div className="w-full group flex items-center gap-3 transition-colors rounded-md p-2 bg-primary/60 text-primary-content relative">
+        <div className="w-full group flex items-center gap-1 transition-colors rounded-md p-1 bg-primary/60 text-primary-content relative">
             <div className="peer absolute inset-0 w-full flex gap-3 items-center justify-end opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all z-[2]">
                 <button
                     className="rounded-full w-8 h-8 text-secondary bg-slate-100"
@@ -34,14 +36,22 @@ const InvitationCard = ({
                     <ImCross className="w-4 h-4 text-slate-100" />
                 </button>
             </div>
-            <Image
-                className="object-contain rounded-full h-full peer-hover:blur-[1px]"
-                src={"/account.png"}
-                alt="Acc"
-                width={30}
-                height={30}
-            />
-            <div className="flex relative items-start justify-center flex-col h-full w-full peer-hover:blur-[1px]">
+
+            <div className="w-10 h-10 rounded-full relative overflow-hidden">
+                <Image
+                    src={
+                        has_dp && sender_id
+                            ? `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${sender_id}.jpg`
+                            : "/account.png"
+                    }
+                    alt="Invitation sender image"
+                    fill
+                    className="object-cover"
+                    crossOrigin="anonymous"
+                    sizes="100px"
+                />
+            </div>
+            <div className="flex flex-1 relative items-start justify-center flex-col h-full w-full">
                 <div className="font-medium text-sm">{name}</div>
                 <div className="text-xs font-light line-clamp-1">
                     @{username}

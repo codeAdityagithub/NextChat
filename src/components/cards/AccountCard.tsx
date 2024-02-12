@@ -15,7 +15,10 @@ const getData = async (userId: string) => {
     try {
         const invitations = await sql<
             InviteNotification[]
-        >`select u.name, u.username, i.sent_at, i.invitation_id from users u join invitation i on i.sender_id=u.id where i.recipient_id=${userId} and i.status='pending'`;
+        >`select u.name, u.has_dp, u.username, i.sent_at, i.invitation_id, i.sender_id from users u
+         join invitation i
+          on i.sender_id=u.id
+           where i.recipient_id=${userId} and i.status='pending'`;
         return invitations;
     } catch (error: any) {
         console.log(error.message);

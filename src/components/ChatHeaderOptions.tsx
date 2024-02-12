@@ -1,14 +1,17 @@
-"use client";
-import { GrUserSettings } from "react-icons/gr";
-import { BiLogOut } from "react-icons/bi";
-import { IoSettingsOutline } from "react-icons/io5";
-
-import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { BsThreeDots } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
+import MyProfile from "./MyProfile";
+import Image from "next/image";
 
-const ChatHeaderOptions = () => {
+type Props = {
+    id?: string;
+    name?: string;
+    username?: string;
+    has_dp?: boolean;
+};
+
+const ChatHeaderOptions = ({ id, name, username, has_dp }: Props) => {
     return (
         <div className="dropdown dropdown-end">
             <div
@@ -18,19 +21,32 @@ const ChatHeaderOptions = () => {
             >
                 <BsThreeDots className="text-accent text-lg" />
             </div>
+
             <ul
                 tabIndex={0}
-                className="dropdown-content z-10 menu p-1 shadow bg-secondary text-secondary-content backdrop-blur-sm rounded-lg w-52"
+                className="dropdown-content menu z-10 w-60 bg-primary/80 p-3 rounded-md"
             >
-                <li className="cursor-pointer">
-                    <Link
-                        href={"/chat"}
-                        tabIndex={0}
-                        className="rounded-md hover:bg-primary/60 hover:text-primary-content transition-colors flex flex-row items-center justify-between p-2 gap-2"
-                    >
-                        See Profile
-                        <CgProfile className="text-xl" />
-                    </Link>
+                <li className="flex flex-row gap-6">
+                    <div className="p-0.5 bg-gradient-to-tr rounded-full from-primary via-red-500 to-green-500">
+                        <div className="w-20 h-20 rounded-full relative overflow-hidden">
+                            <Image
+                                src={
+                                    has_dp
+                                        ? `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${id}.jpg`
+                                        : "/account.png"
+                                }
+                                alt={`${name} profile picture`}
+                                fill
+                                className="object-cover"
+                                crossOrigin="anonymous"
+                                sizes="100px"
+                            />
+                        </div>
+                    </div>
+                    <div className="flex flex-col items-start justify-center p-2 gap-4 text-primary-content">
+                        <div className="text-2xl font-semibold">{name}</div>
+                        <div className="text-sm">@{username}</div>
+                    </div>
                 </li>
             </ul>
         </div>

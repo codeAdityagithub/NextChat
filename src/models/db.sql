@@ -5,10 +5,9 @@ CREATE TABLE users (
     name VARCHAR NOT NULL ,
     username VARCHAR NOT NULL UNIQUE,
     email VARCHAR NOT NULL UNIQUE,
-    has_dp BOOLEAN NOT NULL DEFAULT FALSE;
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
     password VARCHAR,
+    has_dp BOOLEAN NOT NULL DEFAULT FALSE,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 );
 
@@ -28,6 +27,8 @@ CREATE TABLE conversation (
     last_contacted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     latest_message VARCHAR(101),
     unread_message BOOLEAN NOT NULL DEFAULT FALSE,
+    latest_message_sender_id uuid,
+
     -- Add more conversation-related fields as needed
 );
 
@@ -70,12 +71,13 @@ UPDATE
     conversation
 SET
     last_contacted_at = NEW.created_at,
+	unread_message = CASE 
+            WHEN NEW.status='read' THEN false
+            ELSE true
+		END,
     latest_message = LEFT(NEW.content, LEAST(length(NEW.content), 100))
-    unread_message = 
-        CASE 
-            WHEN NEW.status='read' THEN FALSE
-            WHEN NEW.status='delivered' THEN TRUE
-            ELSE FALSE
+    latest_message_sender_id=NEW.sender_id
+    
 WHERE
     conversation_id = NEW.conversation_id;
 

@@ -3,7 +3,6 @@ import { UserCardInfo } from "@/types";
 import ImagewError from "@/utils/ImagewError";
 import Image from "next/image";
 import Link from "next/link";
-import { Dispatch, SetStateAction } from "react";
 import { GoDotFill } from "react-icons/go";
 
 const UserCard = ({
@@ -20,7 +19,7 @@ const UserCard = ({
     cur_conversation_id: number;
     handleUnreadMessage: (conversation_id: number) => void;
 }) => {
-    // console.log(last_contacted_at);
+    // console.log(unread_message);
     // console.log(cur_conversation_id === conversation_id);
     const handleRead = () => {
         if (conversation_id === cur_conversation_id) return;

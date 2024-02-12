@@ -25,7 +25,8 @@ const getData = async (
             u.name,
             u.has_dp,
             c.latest_message,
-            c.unread_message
+            c.unread_message,
+            c.latest_message_sender_id
             from 
             conversation_users cu
         JOIN 
@@ -57,7 +58,10 @@ const Sidebar = async () => {
         <SidebarWrapper>
             <AccountCard />
             <InviteUser />
-            <Conversations chatUsers={data.chatUsers} />
+            <Conversations
+                userId={session?.user.id}
+                chatUsers={data.chatUsers}
+            />
         </SidebarWrapper>
     );
 };

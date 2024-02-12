@@ -4,12 +4,12 @@ import { socket } from "@/utils/socket";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const OnlineStatus = ({ username }: { username: string }) => {
+const OnlineStatus = ({ id }: { id: string | undefined }) => {
     const [status, setStatus] = useState<"online" | "offline" | "">("");
     const { conversation_id } = useParams();
     useEffect(() => {
         const int = setInterval(
-            () => socket.emit("get_status", username, conversation_id),
+            () => socket.emit("get_status", id, conversation_id),
             2000
         );
         const handler1 = (status: "online" | "offline") => {
@@ -23,7 +23,7 @@ const OnlineStatus = ({ username }: { username: string }) => {
             // socket.off("user_status", handler1);
             clearInterval(int);
         };
-    }, [status, conversation_id, username]);
+    }, [status, conversation_id, id]);
     return <span>{status}</span>;
 };
 

@@ -6,6 +6,7 @@ import { Message, User } from "@/dbtypes";
 import useMessages from "@/hooks/useMessages";
 import { formatTag } from "@/lib/timeFormatters";
 import { useEffect, useRef, useState } from "react";
+import ChatContentLoader from "./ChatContentLoader";
 
 type otherPerson = Pick<User, "id" | "name" | "username" | "has_dp">;
 
@@ -39,9 +40,7 @@ const ChatContent = ({
     return (
         <div className="flex-1 flex flex-col-reverse overflow-y-auto pt-2 px-2 ver_scrollbar w-full lg:px-10 xl:px-20 2xl:px-28 second_last_child">
             {isLoading || !data || !isClient ? (
-                <h2 className="h-full flex items-center justify-center text-xl text-primary-content">
-                    Loading ...
-                </h2>
+                <ChatContentLoader />
             ) : (
                 <>
                     {data.messages.map((message, ind) => {

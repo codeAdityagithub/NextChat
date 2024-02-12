@@ -92,9 +92,10 @@ const authOptions: NextAuthOptions = {
                     };
                     user.name = JSON.stringify(name);
                     // console.log(user.image);
-                    if (dbuser[0].has_dp) {
-                        user.image = `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${user.id}.jpg?updated=${timestamp}`;
-                    }
+
+                    user.image = dbuser[0].has_dp
+                        ? `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${user.id}.jpg?updated=${timestamp}`
+                        : undefined;
                     return true;
                 }
                 // console.log("signin callback");

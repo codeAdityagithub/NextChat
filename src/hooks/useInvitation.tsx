@@ -12,7 +12,7 @@ const useInvitation = (invitations: InviteNotification[]) => {
     useEffect(() => {
         const audio = new Audio("/inviteSound.mp3");
         function handleInvite(invite: InviteNotification) {
-            setInvites((prev) => [...prev, invite]);
+            setInvites((prev) => [invite, ...prev]);
             audio.play();
             // console.log(invite);
         }

@@ -19,7 +19,7 @@ const page = async (props: Props) => {
             </h1>
             <div className="w-full overflow-y-auto rounded-md relative flex-1 settings_grid ver_scrollbar">
                 <div className="flex flex-row gap-6">
-                    <div className="p-1 bg-gradient-to-tr rounded-full from-primary via-red-500 to-green-500">
+                    <div className="p-0.5 bg-gradient-to-tr rounded-full from-primary via-red-500 to-green-500">
                         <div className="relative w-28 h-28 rounded-full overflow-hidden">
                             <MyProfile image={session?.user.image} />
                         </div>
