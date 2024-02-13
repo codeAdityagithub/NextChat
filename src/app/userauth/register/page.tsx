@@ -6,6 +6,12 @@ import { User } from "@/dbtypes";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Register | NextChat",
+    description: "Register yourself to NextChat, and create new Connections",
+};
 
 const checkValid = (inputVal: string) => {
     return inputVal.includes("|") || inputVal.includes("_");

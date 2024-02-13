@@ -1,11 +1,15 @@
 import authOptions from "@/utils/nextauthOptions";
 import { getServerSession } from "next-auth";
-import Image from "next/image";
-import { CgProfile } from "react-icons/cg";
 import Form from "./Form";
 import GoBack from "@/components/GoBack";
 import MyProfile from "@/components/MyProfile";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "User settings | NextChat",
+    description: "Manage your profile easily and with realtime updates",
+};
 type Props = {};
 
 const page = async (props: Props) => {
