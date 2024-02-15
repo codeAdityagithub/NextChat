@@ -46,7 +46,7 @@ const ChatInput = ({ otherPersonId }: { otherPersonId: string }) => {
                 />
             </div>
             <button
-                className="bg-primary text-accent absolute right-3 top-2 text- p-2 rounded-full flex items-center justify-center"
+                className="bg-secondary text-accent absolute right-3 top-2 text- p-2 rounded-full flex items-center justify-center"
                 type="submit"
             >
                 <BiSolidSend />

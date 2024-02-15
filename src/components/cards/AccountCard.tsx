@@ -7,6 +7,7 @@ import sql from "@/utils/db";
 import Settings from "../Settings";
 import ImagewError from "@/utils/ImagewError";
 import MyProfile from "../MyProfile";
+import ThemeToggle from "../ThemeToggle";
 
 type Props = {};
 
@@ -60,6 +61,7 @@ const AccountCard = async (props: Props) => {
                     </div>
                 </div>
             </div>
+            <ThemeToggle />
             <Settings />
             <InviteNotifications invitations={data} />
         </div>
