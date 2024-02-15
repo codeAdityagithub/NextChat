@@ -5,7 +5,7 @@ export default function Home() {
         <div
             className={`hidden md:flex md:flex-[2] lg:flex-[3] flex-col gap-y-4 h-full items-center justify-center`}
         >
-            <div className="relative w-40 h-20 before:content-['*'] before:absolute before:inset-4 before:bg-white before:blur-2xl">
+            <div className="relative w-40 h-20 before:content-['*'] before:absolute before:inset-0 before:bg-white before:blur-2xl">
                 <Image src="/logo.png" alt="Logo" fill className="" />
             </div>
             <div className="text-xl font-medium">NextChat</div>

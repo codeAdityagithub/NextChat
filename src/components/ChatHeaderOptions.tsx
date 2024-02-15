@@ -17,14 +17,14 @@ const ChatHeaderOptions = ({ id, name, username, has_dp }: Props) => {
             <div
                 tabIndex={0}
                 role="button"
-                className="p-1.5 rounded-lg relative bg-primary"
+                className="p-1.5 rounded-lg relative bg-secondary"
             >
                 <BsThreeDots className="text-accent text-lg" />
             </div>
 
             <ul
                 tabIndex={0}
-                className="dropdown-content menu z-10 w-60 bg-primary/80 p-3 rounded-md"
+                className="dropdown-content menu z-10 w-60 bg-primary shadow-md shadow-secondary p-3 rounded-md"
             >
                 <li className="flex flex-row gap-6">
                     <div className="p-0.5 bg-gradient-to-tr rounded-full from-primary via-red-500 to-green-500">

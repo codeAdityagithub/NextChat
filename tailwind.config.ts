@@ -12,7 +12,24 @@ const config: Config = {
     plugins: [require("daisyui")],
     daisyui: {
         styled: false,
-        themes: ["business"],
+        themes: [
+            {
+                light: {
+                    primary: "#405060",
+                    secondary: "#a0b0c0",
+                    accent: "#222222",
+                    neutral: "#f5f5f5",
+                    "base-100": "#ffffff",
+                    "base-200": "#ffffff",
+                    "base-300": "#e0e0e0",
+                },
+                business: {
+                    ...require("daisyui/src/theming/themes")["business"],
+                    secondary: "#405060",
+                    accent: "#23c19d",
+                },
+            },
+        ],
         // base:false
     },
 };

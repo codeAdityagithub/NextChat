@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Roboto } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/utils/AuthProvider";
 import ReactQueryProvider from "@/utils/ReactQueryProvider";
@@ -11,7 +11,8 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
     title: "NextChat",
-    description: "Chat app using next js",
+    description:
+        "Connect instantly. Chat website for seamless conversations and new connections. Join the conversation now!",
 };
 
 export default function RootLayout({
@@ -22,7 +23,7 @@ export default function RootLayout({
     return (
         <html lang="en" data-theme="business">
             <body className={roboto.className}>
-                <main className="h-screen min-h-[600px] bg-base-300 text-base-content">
+                <main className="h-screen min-h-[550px] bg-base-300 text-base-content">
                     <AuthProvider>
                         <ReactQueryProvider>{children}</ReactQueryProvider>
                     </AuthProvider>

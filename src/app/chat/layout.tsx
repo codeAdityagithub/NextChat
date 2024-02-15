@@ -1,6 +1,14 @@
 import Sidebar from "@/components/Sidebar";
 import SocketConnect from "@/components/socketutils/SocketConnect";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Chats | NextChat",
+    description:
+        "Connect instantly. Chat website for seamless conversations and new connections. Join the conversation now!",
+};
+
 export default function Layout({
     children, // will be a page or nested layout
 }: {

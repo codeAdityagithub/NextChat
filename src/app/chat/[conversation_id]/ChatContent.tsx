@@ -116,7 +116,7 @@ const ChatContent = ({
                         );
                     })}
                     <button
-                        className="btn btn-sm my-4 rounded-box cursor-pointer bg-primary disabled:bg-secondary/80 text-primary-content mb-auto"
+                        className="btn btn-sm my-4 rounded-box cursor-pointer bg-primary disabled:bg-secondary/80 text-primary-content disabled:text-secondary-content mb-auto"
                         onClick={() => fetchNextPage()}
                         disabled={isFetchingNextPage || !hasNextPage}
                     >

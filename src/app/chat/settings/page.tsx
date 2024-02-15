@@ -1,11 +1,15 @@
 import authOptions from "@/utils/nextauthOptions";
 import { getServerSession } from "next-auth";
-import Image from "next/image";
-import { CgProfile } from "react-icons/cg";
 import Form from "./Form";
 import GoBack from "@/components/GoBack";
 import MyProfile from "@/components/MyProfile";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "User settings | NextChat",
+    description: "Manage your profile easily and with realtime updates",
+};
 type Props = {};
 
 const page = async (props: Props) => {
@@ -19,7 +23,7 @@ const page = async (props: Props) => {
             </h1>
             <div className="w-full overflow-y-auto rounded-md relative flex-1 settings_grid ver_scrollbar">
                 <div className="flex flex-row gap-6">
-                    <div className="p-0.5 bg-gradient-to-tr rounded-full from-primary via-red-500 to-green-500">
+                    <div className="p-0.5 bg-gradient-to-tr rounded-full from-white via-red-200 to-green-200">
                         <div className="relative w-28 h-28 rounded-full overflow-hidden">
                             <MyProfile image={session?.user.image} />
                         </div>

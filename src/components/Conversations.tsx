@@ -33,7 +33,7 @@ const Conversations = ({ chatUsers: initialData, userId }: Props) => {
     return (
         <div
             id="conversations"
-            className="bg-neutral text-neutral-content flex-1 rounded-lg p-2 shadow-lg shadow-neutral/60 flex flex-col gap-1"
+            className="bg-neutral text-neutral-content flex-1 rounded-lg p-2 shadow-lg flex flex-col gap-1"
         >
             {chatUsers.map((cardInfo) => (
                 <UserCard

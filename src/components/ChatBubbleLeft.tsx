@@ -44,7 +44,14 @@ const ChatBubbleLeft = ({
                 </div>
             </div>
             <div className="chat-header text-base-content ">{name}</div>
-            <div className="chat-bubble bg-secondary rounded-md text-secondary-content relative">
+            <div
+                className={
+                    "chat-bubble bg-secondary rounded-md text-secondary-content relative"
+                }
+            >
+                {showDp ? (
+                    <div className="absolute top-0 -left-2 rounded-md w-0 h-0 border-[12px] border-secondary border-solid border-r-transparent border-l-transparent border-b-transparent"></div>
+                ) : null}
                 {content}
             </div>
             <div className="chat-footer text-xs text-base-content">
