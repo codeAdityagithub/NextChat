@@ -20,25 +20,20 @@ export const POST = async (req: NextRequest) => {
         const hashedpwd = await bcrypt.hash(data.password!, 10);
         data.password = hashedpwd;
 
-        const user = await sql`
+        await sql`
         insert into users ${sql(data, "email", "password", "name", "username")}
         returning id
       `;
-        if (!user)
-            return NextResponse.json(
-                { error: "Something went wrong" },
-                { status: 500 }
-            );
+
         return NextResponse.json(
             {
                 message: `User Registered Succesfully`,
             },
             { status: 200 }
         );
-    } catch (err) {
-        console.log(err);
+    } catch (err: any) {
         return NextResponse.json(
-            { error: "Something went wrong" },
+            { error: err.message || "Something went wrong" },
             { status: 500 }
         );
     }
