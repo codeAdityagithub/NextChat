@@ -53,7 +53,7 @@ const Sidebar = async () => {
     const data = await getData(session?.user.id!);
     // console.log(data.chatUsers);
     if (data.status === "error")
-        throw new FetchError("Couldn't Fetch you chats");
+        throw new FetchError("Couldn't Fetch your chats");
     return (
         <SidebarWrapper>
             <AccountCard />

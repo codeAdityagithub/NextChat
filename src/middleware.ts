@@ -13,11 +13,7 @@ export default withAuth({
     },
     callbacks: {
         authorized: ({ req }) => {
-            const cookie = req.cookies.get(
-                process.env.NODE_ENV === "development"
-                    ? "next-auth.session-token"
-                    : "__Secure-next-auth.session-token"
-            )?.value;
+            const cookie = req.cookies.get("next-auth.session-token")?.value;
             // console.log(cookie, "cookie");
             return !!cookie;
         },
