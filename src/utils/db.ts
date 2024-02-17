@@ -2,7 +2,7 @@
 import postgres from "postgres";
 
 const sql = postgres({
-    // ssl: process.env.NODE_ENV === "production",
+    ssl: process.env.NODE_ENV === "production",
     idle_timeout: 100,
 });
 
