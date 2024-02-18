@@ -164,17 +164,7 @@ const authOptions: NextAuthOptions = {
             return token;
         },
     },
-    cookies: {
-        sessionToken: {
-            name: "next-auth.session-token",
-            options: {
-                httpOnly: true,
-                sameSite: "none",
-                path: "/",
-                secure: true,
-            },
-        },
-    },
+
     jwt: {
         async encode({ secret, token }) {
             // console.log(token);
