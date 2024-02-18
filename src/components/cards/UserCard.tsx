@@ -10,7 +10,7 @@ const UserCard = ({
     last_contacted_at,
     name,
     id,
-    has_dp,
+    dp,
     latest_message,
     cur_conversation_id,
     unread_message,
@@ -37,11 +37,7 @@ const UserCard = ({
         >
             <div className="w-[50px] h-[50px] rounded-full relative overflow-hidden">
                 <ImagewError
-                    src={
-                        has_dp
-                            ? `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${id}.jpg`
-                            : "/account.png"
-                    }
+                    src={dp ?? "/account.png"}
                     alt="Acc"
                     fallback="/account.png"
                 />

@@ -10,11 +10,10 @@ import { useRouter } from "next/navigation";
 
 type Props = {
     name: string;
-    username: string;
     profile?: string | null;
 };
 
-const Form = ({ name, username }: Props) => {
+const Form = ({ name }: Props) => {
     const router = useRouter();
     const session = useSession();
     const [error, setError] = useState("");
@@ -81,7 +80,7 @@ const Form = ({ name, username }: Props) => {
         } catch (error: any) {
             console.log(error);
             setError(
-                error.response.data ??
+                error.response?.data ??
                     (error?.message || "Something Went Wrong")
             );
             labelRef.current &&
@@ -136,7 +135,7 @@ const Form = ({ name, username }: Props) => {
                     </button>
                 </form>
             </div>
-            <NameForm name={name} username={username} session={session} />
+            <NameForm name={name} session={session} />
         </>
     );
 };

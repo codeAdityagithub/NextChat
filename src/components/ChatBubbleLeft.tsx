@@ -6,7 +6,7 @@ type Props = {
     content: string;
     created_at: Date;
     name: string;
-    has_dp?: boolean;
+    dp?: string;
     id?: string;
     showDp: boolean;
 };
@@ -15,7 +15,7 @@ const ChatBubbleLeft = ({
     content,
     created_at,
     name,
-    has_dp,
+    dp,
     id,
     showDp,
 }: Props) => {
@@ -29,11 +29,7 @@ const ChatBubbleLeft = ({
                 >
                     {showDp ? (
                         <Image
-                            src={
-                                has_dp
-                                    ? `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${id}.jpg`
-                                    : "/account.png"
-                            }
+                            src={dp ?? "/account.png"}
                             alt={`${name}'s Profile Picture`}
                             fill
                             className="object-cover"

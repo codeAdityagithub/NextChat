@@ -8,7 +8,7 @@ import { formatTag } from "@/lib/timeFormatters";
 import { useEffect, useRef, useState } from "react";
 import ChatContentLoader from "./ChatContentLoader";
 
-type otherPerson = Pick<User, "id" | "name" | "username" | "has_dp">;
+type otherPerson = Pick<User, "id" | "name" | "username" | "dp">;
 
 type Props = {
     messages: Message[];
@@ -67,7 +67,7 @@ const ChatContent = ({
                                             name={otherPerson.name}
                                             created_at={message.created_at}
                                             content={message.content}
-                                            has_dp={otherPerson.has_dp}
+                                            dp={otherPerson.dp}
                                             id={otherPerson.id}
                                             showDp={showDp}
                                         />
@@ -101,7 +101,7 @@ const ChatContent = ({
                                 name={otherPerson.name}
                                 created_at={message.created_at}
                                 content={message.content}
-                                has_dp={otherPerson.has_dp}
+                                dp={otherPerson.dp}
                                 id={otherPerson.id}
                                 showDp={showDp}
                             />

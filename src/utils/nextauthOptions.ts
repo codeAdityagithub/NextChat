@@ -55,14 +55,12 @@ const authOptions: NextAuthOptions = {
                         username: user.username,
                         updated: timestamp,
                     };
-                    const img = user.has_dp
-                        ? `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${user.id}.jpg?updated=${timestamp}`
-                        : undefined;
+
                     const requser: User = {
                         id: user.id!,
                         name: JSON.stringify(name),
                         email: user.email,
-                        image: img,
+                        image: user.dp,
                     };
                     // console.log(requser);
                     return requser;
@@ -93,9 +91,8 @@ const authOptions: NextAuthOptions = {
                     user.name = JSON.stringify(name);
                     // console.log(user.image);
 
-                    user.image = dbuser[0].has_dp
-                        ? `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${user.id}.jpg?updated=${timestamp}`
-                        : undefined;
+                    user.image = dbuser[0].dp;
+
                     return true;
                 }
                 // console.log("signin callback");
@@ -147,15 +144,13 @@ const authOptions: NextAuthOptions = {
                 // token.picture = session.image
                 const updated = new Date().getTime();
                 token.picture = `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${token.sub}.jpg?updated=${updated}`;
-            } else if (
-                trigger === "update" &&
-                session.name &&
-                session.username
-            ) {
+            } else if (trigger === "update" && session.name) {
+                const tokenNames = JSON.parse(token.name!);
+
                 const timestamp = new Date().getTime();
                 const names = JSON.stringify({
                     name: session.name,
-                    username: session.username,
+                    username: tokenNames.username,
                     updated: timestamp,
                 });
                 token.name = names;

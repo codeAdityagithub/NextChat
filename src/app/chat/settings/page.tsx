@@ -33,11 +33,7 @@ const page = async (props: Props) => {
                         <div className="text-sm">@{username}</div>
                     </div>
                 </div>
-                <Form
-                    name={name}
-                    username={username}
-                    profile={session?.user.image}
-                />
+                <Form name={name} profile={session?.user.image} />
             </div>
         </div>
     );

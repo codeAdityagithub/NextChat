@@ -4,24 +4,14 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 
 type MyFormData = {
     name: string;
-    username: string;
 };
 
-const NameForm = ({
-    name,
-    username,
-    session,
-}: {
-    name: string;
-    username: string;
-    session: any;
-}) => {
+const NameForm = ({ name, session }: { name: string; session: any }) => {
     const router = useRouter();
     const [error, setError] = useState("");
     const [msg, setMsg] = useState("");
     const [formData, setFormData] = useState<MyFormData>({
         name: name,
-        username: username,
     });
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -35,21 +25,16 @@ const NameForm = ({
     const handleUserFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // Do something with formData, like sending it to a server
-        if (formData.name.trim() === "" || formData.username.trim() === "")
-            return;
-        const data = { name: formData.name, username: formData.username };
+        if (formData.name.trim() === "") return;
+        const data = { name: formData.name };
         try {
             const res = await axios.post("/api/private/userdata", data);
             // console.log(res.data);
             if (res.status === 200) {
                 setMsg("Profile Updated Succesfully");
-                if (
-                    res.data.name === formData.name &&
-                    res.data.username === formData.username
-                ) {
+                if (res.data.name === formData.name) {
                     session.update({
                         name: res.data.name,
-                        username: res.data.username,
                     });
                 }
                 setTimeout(() => {
@@ -63,7 +48,7 @@ const NameForm = ({
                 error.response.data ??
                     (error.message || "Something went wrong!")
             );
-            setFormData({ name, username });
+            setFormData({ name });
             setTimeout(() => setError(""), 3000);
         }
     };
@@ -101,24 +86,12 @@ const NameForm = ({
                     >
                         Username
                     </label>
-                    <input
-                        required
-                        value={formData.username}
-                        type="text"
-                        name="username"
-                        onChange={handleInputChange}
-                        className="w-full rounded-md bg-transparent py-2 px-3 ring-1 ring-secondary focus:ring-offset-1 focus:outline-none text-neutral-content"
-                        placeholder="Enter your username"
-                    />
                 </div>
                 <div className="flex flex-col">
                     <button
                         type="submit"
                         disabled={
-                            formData.name.length === 0 ||
-                            formData.username.length === 0 ||
-                            (name === formData.name &&
-                                username === formData.username)
+                            formData.name.length === 0 || name === formData.name
                         }
                         className="disabled:bg-secondary disabled:cursor-not-allowed bg-primary hover:bg-primary/80 cursor-pointer text-primary-content w-full p-2 rounded-md"
                     >

@@ -6,7 +6,7 @@ CREATE TABLE users (
     username VARCHAR NOT NULL UNIQUE,
     email VARCHAR NOT NULL UNIQUE,
     password VARCHAR,
-    has_dp BOOLEAN NOT NULL DEFAULT FALSE,
+    dp VARCHAR,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 );

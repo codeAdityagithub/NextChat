@@ -23,7 +23,7 @@ const getData = async (
             c.last_contacted_at,
             u.id,
             u.name,
-            u.has_dp,
+            u.dp,
             c.latest_message,
             c.unread_message,
             c.latest_message_sender_id
