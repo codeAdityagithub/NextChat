@@ -6,6 +6,14 @@ import sql from "@/utils/db";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 import { User as dbUser } from "@/dbtypes";
+import { cookies } from "next/headers";
+
+const genApiAccessToken = (payload: object) => {
+    const apiAccessToken = jwt.sign(payload, process.env.API_ACCESS_SECRET!, {
+        expiresIn: "30 days",
+    });
+    return apiAccessToken;
+};
 
 const authOptions: NextAuthOptions = {
     // Configure one or more authentication providers
@@ -65,6 +73,19 @@ const authOptions: NextAuthOptions = {
                         image: img,
                     };
                     // console.log(requser);
+                    const exp = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+
+                    cookies().set(
+                        "apiAccessToken",
+                        genApiAccessToken(requser),
+                        {
+                            httpOnly: true,
+                            sameSite: "none",
+                            secure: true,
+                            expires: exp,
+                            path: "/",
+                        }
+                    );
                     return requser;
                 } catch (err) {
                     throw new Error("Something went wrong");
@@ -96,6 +117,14 @@ const authOptions: NextAuthOptions = {
                     user.image = dbuser[0].has_dp
                         ? `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${user.id}.jpg?updated=${timestamp}`
                         : undefined;
+                    const exp = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+                    cookies().set("apiAccessToken", genApiAccessToken(user), {
+                        httpOnly: true,
+                        sameSite: "none",
+                        secure: true,
+                        expires: exp,
+                        path: "/",
+                    });
                     return true;
                 }
                 // console.log("signin callback");
@@ -128,6 +157,14 @@ const authOptions: NextAuthOptions = {
                     username: username,
                 };
                 user.name = JSON.stringify(name);
+                const exp = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+                cookies().set("apiAccessToken", genApiAccessToken(user), {
+                    httpOnly: true,
+                    sameSite: "none",
+                    secure: true,
+                    expires: exp,
+                    path: "/",
+                });
             }
             return true;
         },
@@ -147,6 +184,25 @@ const authOptions: NextAuthOptions = {
                 // token.picture = session.image
                 const updated = new Date().getTime();
                 token.picture = `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${token.sub}.jpg?updated=${updated}`;
+                const newApiPayload = {
+                    name: token.name,
+                    email: token.email,
+                    image: token.picture,
+                    id: token.sub,
+                };
+                const exp = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+                cookies().set(
+                    "apiAccessToken",
+                    genApiAccessToken(newApiPayload),
+                    {
+                        httpOnly: true,
+                        sameSite: "none",
+                        secure: true,
+                        expires: exp,
+                        path: "/",
+                    }
+                );
+                // console.log(token);
             } else if (
                 trigger === "update" &&
                 session.name &&
@@ -158,23 +214,42 @@ const authOptions: NextAuthOptions = {
                     username: session.username,
                     updated: timestamp,
                 });
+
                 token.name = names;
+                const newApiPayload = {
+                    name: token.name,
+                    email: token.email,
+                    image: token.picture,
+                    id: token.sub,
+                };
+                const exp = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+                cookies().set(
+                    "apiAccessToken",
+                    genApiAccessToken(newApiPayload),
+                    {
+                        httpOnly: true,
+                        sameSite: "none",
+                        secure: true,
+                        expires: exp,
+                        path: "/",
+                    }
+                );
             }
 
             return token;
         },
     },
-    cookies: {
-        sessionToken: {
-            name: "next-auth.session-token",
-            options: {
-                httpOnly: true,
-                sameSite: "none",
-                path: "/",
-                secure: true,
-            },
-        },
-    },
+    // cookies: {
+    //     sessionToken: {
+    //         name: "next-auth.session-token",
+    //         options: {
+    //             httpOnly: true,
+    //             sameSite: "none",
+    //             path: "/",
+    //             secure: true,
+    //         },
+    //     },
+    // },
     jwt: {
         async encode({ secret, token }) {
             // console.log(token);
@@ -184,6 +259,13 @@ const authOptions: NextAuthOptions = {
         async decode({ secret, token }) {
             // console.log(token);
             return jwt.verify(token!, secret);
+        },
+    },
+    events: {
+        signOut({ session, token }) {
+            // console.log(token, session);
+            cookies().delete("apiAccessToken");
+            cookies().delete("next-auth.session-token");
         },
     },
 };
