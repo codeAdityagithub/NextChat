@@ -19,7 +19,7 @@ const SocketConnect = ({ apiAccessToken }: { apiAccessToken?: string }) => {
 
             socket.disconnect();
         };
-    }, []);
+    }, [apiAccessToken]);
     return <div className="hidden">Socket Connections</div>;
 };
 
