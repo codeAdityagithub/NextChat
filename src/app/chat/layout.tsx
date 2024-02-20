@@ -16,11 +16,11 @@ export default async function Layout({
 }: {
     children: React.ReactNode;
 }) {
-    // const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions);
     return (
         <div className="h-full flex gap-3 lg:gap-6 justify-between bg-base-300 text-base-content p-4 overflow-x-hidden">
             {/* Include shared UI here e.g. a header or sidebar */}
-            {/* <SocketConnect apiAccessToken={session?.user.apiAccessToken} /> */}
+            <SocketConnect apiAccessToken={session?.user.apiAccessToken} />
             <Sidebar />
             {children}
         </div>
