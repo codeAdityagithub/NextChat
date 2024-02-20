@@ -4,22 +4,30 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { FormEvent, useState } from "react";
 
-type Props = {};
+type Props = {
+    apiAccessToken?: string;
+};
 
-const sendInvite = async (username: string) => {
+const sendInvite = async (username: string, apiAccessToken?: string) => {
     const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/invite?username=${username}`,
-        { withCredentials: true }
+        { headers: { Authorization: `Bearer ${apiAccessToken}` } }
     );
     return res.data;
 };
 
-const InviteUser = (props: Props) => {
+const InviteUser = ({ apiAccessToken }: Props) => {
     const [value, setValue] = useState("");
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
     const { mutate, isPending } = useMutation({
-        mutationFn: sendInvite,
+        mutationFn: ({
+            username,
+            apiAccessToken,
+        }: {
+            username: string;
+            apiAccessToken?: string;
+        }) => sendInvite(username, apiAccessToken),
         onSuccess(data) {
             setSuccess(data);
             setTimeout(() => setSuccess(null), 3000);
@@ -36,20 +44,8 @@ const InviteUser = (props: Props) => {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (value.trim() == "") return;
-        mutate(value);
+        mutate({ username: value, apiAccessToken: apiAccessToken });
     };
-
-    // useEffect(() => {
-    //     const getConv = (conversation: UserCardInfo) => {
-    //         const conversations = document.getElementById("conversations");
-    //         // const card = <UserCard {...conversation} />;
-    //         // conversations?.prepend(card);
-    //     };
-    //     socket.on("add_conversation", getConv);
-    //     return () => {
-    //         socket.off("add_conversation", getConv);
-    //     };
-    // }, []);
 
     return (
         <form

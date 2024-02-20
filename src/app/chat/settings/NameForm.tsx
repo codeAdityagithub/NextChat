@@ -79,14 +79,14 @@ const NameForm = ({ name, session }: { name: string; session: any }) => {
                     />
                 </div>
 
-                <div className="">
+                {/* <div className="">
                     <label
                         htmlFor="username"
                         className="block text-sm font-bold mb-2 text-neutral-content"
                     >
                         Username
                     </label>
-                </div>
+                </div> */}
                 <div className="flex flex-col">
                     <button
                         type="submit"

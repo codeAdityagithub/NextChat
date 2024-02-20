@@ -60,8 +60,10 @@ const Form = ({ name }: Props) => {
                 `${process.env.NEXT_PUBLIC_API_URL}/upload`,
                 data,
                 {
-                    withCredentials: true,
-                    headers: { "Content-Type": "multipart/form-data" },
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        Authorization: `Bearer ${session.data?.user.apiAccessToken}`,
+                    },
                 }
             );
             // console.log(res.status);

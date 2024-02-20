@@ -7,14 +7,18 @@ import useInvitation from "@/hooks/useInvitation";
 
 type Props = {
     invitations: InviteNotification[];
+    apiAccessToken?: string;
 };
 
-const acceptInvite = async (invitation_id: number): Promise<string> => {
+const acceptInvite = async (
+    invitation_id: number,
+    apiAccessToken?: string
+): Promise<string> => {
     try {
         const res = await axios.put(
             `${process.env.NEXT_PUBLIC_API_URL}/invite`,
             { invitation_id },
-            { withCredentials: true }
+            { headers: { Authorization: `Bearer ${apiAccessToken}` } }
         );
         // console.log(res.data);
         return res.data;
@@ -23,13 +27,16 @@ const acceptInvite = async (invitation_id: number): Promise<string> => {
         return "error";
     }
 };
-const rejectInvite = async (invitation_id: number): Promise<string> => {
+const rejectInvite = async (
+    invitation_id: number,
+    apiAccessToken?: string
+): Promise<string> => {
     try {
         const res = await axios.delete(
             `${process.env.NEXT_PUBLIC_API_URL}/invite`,
             {
                 data: { invitation_id },
-                withCredentials: true,
+                headers: { Authorization: `Bearer ${apiAccessToken}` },
             }
         );
         // console.log(res.data);
@@ -40,11 +47,11 @@ const rejectInvite = async (invitation_id: number): Promise<string> => {
     }
 };
 
-const InviteNotifications = ({ invitations }: Props) => {
+const InviteNotifications = ({ invitations, apiAccessToken }: Props) => {
     const [invites, setInvites] = useInvitation(invitations);
 
     const handleAccept = async (invitation_id: number) => {
-        const res = await acceptInvite(invitation_id);
+        const res = await acceptInvite(invitation_id, apiAccessToken);
         if (res === "accepted") {
             setInvites((prev) =>
                 prev.filter((invite) => invite.invitation_id !== invitation_id)
@@ -52,7 +59,7 @@ const InviteNotifications = ({ invitations }: Props) => {
         }
     };
     const handleReject = async (invitation_id: number) => {
-        const res = await rejectInvite(invitation_id);
+        const res = await rejectInvite(invitation_id, apiAccessToken);
         if (res === "rejected") {
             setInvites((prev) =>
                 prev.filter((invite) => invite.invitation_id !== invitation_id)

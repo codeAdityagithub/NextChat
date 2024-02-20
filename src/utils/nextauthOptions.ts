@@ -50,15 +50,15 @@ const authOptions: NextAuthOptions = {
                     if (!isCorrectPassword) return null;
                     const timestamp = new Date(user.updated_at!).getTime();
 
-                    const name = {
+                    const name = JSON.stringify({
                         name: user.name,
                         username: user.username,
                         updated: timestamp,
-                    };
+                    });
 
                     const requser: User = {
                         id: user.id!,
-                        name: JSON.stringify(name),
+                        name: name,
                         email: user.email,
                         image: user.dp,
                     };
@@ -83,14 +83,12 @@ const authOptions: NextAuthOptions = {
                     const timestamp = new Date(dbuser[0].updated_at!).getTime();
 
                     user.id = dbuser[0].id!;
-                    const name = {
+                    const name = JSON.stringify({
                         name: dbuser[0].name,
                         username: dbuser[0].username,
                         updated: timestamp,
-                    };
-                    user.name = JSON.stringify(name);
-                    // console.log(user.image);
-
+                    });
+                    user.name = name;
                     user.image = dbuser[0].dp;
 
                     return true;
@@ -120,11 +118,13 @@ const authOptions: NextAuthOptions = {
                 // console.log(insertUser);
                 if (!insertUser || !insertUser[0].email) return false;
                 user.id = user_id;
-                const name = {
+                const updated = new Date(Date.now() - 1000 * 60 * 60 * 24);
+                const name = JSON.stringify({
                     name: user.name,
                     username: username,
-                };
-                user.name = JSON.stringify(name);
+                    updated: updated.getTime(),
+                });
+                user.name = name;
             }
             return true;
         },
@@ -133,12 +133,25 @@ const authOptions: NextAuthOptions = {
             if (token.sub) {
                 // console.log(token);
                 session.user.id = token.sub;
+                session.user.apiAccessToken = token.apiAccessToken;
                 // session.user.username = token.username!;
             }
             // console.log(session.user);
             return session;
         },
-        jwt({ token, trigger, session }) {
+        jwt({ token, trigger, session, account }) {
+            if (trigger == "signIn") {
+                const apiAccessToken = jwt.sign(
+                    {
+                        sub: token.sub,
+                        name: token.name,
+                        email: token.email,
+                    },
+                    process.env.API_ACCESS_SECRET!,
+                    { expiresIn: "30 days" }
+                );
+                token.apiAccessToken = apiAccessToken;
+            }
             if (trigger === "update" && session?.image && token.sub) {
                 // Note, that `session` can be any arbitrary object, remember to validate it!
                 // token.picture = session.image
@@ -154,6 +167,16 @@ const authOptions: NextAuthOptions = {
                     updated: timestamp,
                 });
                 token.name = names;
+                const apiAccessToken = jwt.sign(
+                    {
+                        sub: token.sub,
+                        name: names,
+                        email: token.email,
+                    },
+                    process.env.API_ACCESS_SECRET!,
+                    { expiresIn: "30 days" }
+                );
+                token.apiAccessToken = apiAccessToken;
             }
 
             return token;

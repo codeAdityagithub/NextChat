@@ -63,7 +63,10 @@ const AccountCard = async (props: Props) => {
             </div>
             <ThemeToggle />
             <Settings />
-            <InviteNotifications invitations={data} />
+            <InviteNotifications
+                invitations={data}
+                apiAccessToken={session?.user.apiAccessToken}
+            />
         </div>
     );
 };
