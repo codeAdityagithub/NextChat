@@ -1,6 +1,5 @@
-const api = new URL(process.env.NEXT_PUBLIC_API_URL);
 /** @type {import('next').NextConfig} */
-
+console.log(api.hostname);
 const nextConfig = {
     images: {
         remotePatterns: [
@@ -13,9 +12,7 @@ const nextConfig = {
             },
             {
                 protocol: "https",
-                hostname: api.hostname,
-                port: "",
-                pathname: "/static/profiles/**",
+                hostname: "nextchat-api.onrender.com",
             },
         ],
     },
