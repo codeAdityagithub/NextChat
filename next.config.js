@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-console.log(api.hostname);
 const nextConfig = {
     images: {
         remotePatterns: [
