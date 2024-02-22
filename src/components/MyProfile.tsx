@@ -17,10 +17,11 @@ const MyProfile = ({ image }: { image: string | null | undefined }) => {
         //     crossOrigin="anonymous"
         //     sizes="100px"
         // />
-        <img
+        <Image
             src={image ? image : "/account.png"}
             alt="Your account Profile"
-            className="object-cover absolute inset-0"
+            fill
+            className="object-cover"
             crossOrigin="anonymous"
         />
     );

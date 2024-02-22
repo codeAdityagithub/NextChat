@@ -1,4 +1,6 @@
+const api = new URL(process.env.NEXT_PUBLIC_API_URL);
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
     images: {
         remotePatterns: [
@@ -8,6 +10,12 @@ const nextConfig = {
             },
             {
                 hostname: `localhost`,
+            },
+            {
+                protocol: "https",
+                hostname: api.hostname,
+                port: "",
+                pathname: "/static/profiles/**",
             },
         ],
     },
