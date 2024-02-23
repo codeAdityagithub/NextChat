@@ -3,7 +3,7 @@ import { socket } from "@/utils/socket";
 import axios from "axios";
 import { useParams } from "next/navigation";
 
-import { FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 import { BiSolidSend } from "react-icons/bi";
 
@@ -17,11 +17,10 @@ const ChatInput = ({
     const { conversation_id } = useParams();
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
-    // const { data } = useSession();
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (message.trim() === "") return;
-        // socket.emit("message", message, otherPersonId, conversation_id);
 
         try {
             const res = await axios.post(
@@ -46,14 +45,21 @@ const ChatInput = ({
         };
     }, [conversation_id, otherPersonId]);
 
+    const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setMessage(e.target.value);
+        e.target.style.height = "1px";
+        e.target.style.height = `${Math.min(e.target.scrollHeight, 144)}px`;
+    };
+
     return (
         <form onSubmit={handleSubmit} className="relative shadow-lg">
             <div className="flex rounded-lg">
-                <input
+                <textarea
                     value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="w-full text-neutral-content bg-neutral focus:outline-none focus:ring-1 focus:ring-secondary p-3 pr-14 rounded-lg"
-                    type="text"
+                    onChange={handleChange}
+                    className="w-full resize-none text-neutral-content bg-neutral focus:outline-none focus:ring-1 focus:ring-secondary p-3 pr-14 rounded-lg"
+                    // type="text"
+                    rows={1}
                     name="message"
                     id="message_input"
                     placeholder="Type a message"
