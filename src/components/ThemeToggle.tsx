@@ -13,6 +13,7 @@ const ThemeToggle = () => {
         if (mode == "business") {
             localStorage.setItem("theme", "light");
             setMode("light");
+
             document.documentElement.setAttribute("data-theme", "light");
         } else {
             localStorage.setItem("theme", "business");

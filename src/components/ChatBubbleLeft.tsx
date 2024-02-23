@@ -42,7 +42,7 @@ const ChatBubbleLeft = ({
             <div className="chat-header text-base-content ">{name}</div>
             <div
                 className={
-                    "chat-bubble bg-secondary rounded-md text-secondary-content relative"
+                    "chat-bubble bg-secondary rounded-md text-secondary-content relative  break-words max-w-[260px] sm:max-w-sm lg:max-w-lg"
                 }
             >
                 {showDp ? (

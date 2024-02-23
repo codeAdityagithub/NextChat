@@ -44,7 +44,9 @@ const UserCard = ({
             </div>
             <div className="flex flex-1 relative items-start justify-start pt-2 flex-col h-full">
                 <div className="font-medium">{name}</div>
-                <div className="text-sm line-clamp-1">{latest_message}</div>
+                <div className="text-sm line-clamp-1 max-w-[180px]">
+                    {latest_message}
+                </div>
                 <div className="absolute text-xs right-2 top-2">
                     {formatTime(last_contacted_at)}
                 </div>

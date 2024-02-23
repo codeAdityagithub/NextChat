@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import type { Metadata } from "next";
+import ThemeSetter from "@/components/ThemeSetter";
 
 // export const metadata: Metadata = {
 //     title: "Register | NextChat",
@@ -77,7 +78,8 @@ const Register = () => {
 
     return (
         <div className="w-full h-full overflow-y-auto flex relative font-sans justify-center items-center box-border">
-            <div className="w-[300px] p-4 bg-neutral text-neutral-content rounded-md shadow-lg shadow-primary">
+            <ThemeSetter />
+            <div className="w-[300px] p-4 bg-neutral text-neutral-content rounded-md shadow-lg">
                 <p className="text-success-content bg-success  test-xs text-center">
                     {message}
                 </p>
@@ -97,7 +99,7 @@ const Register = () => {
                         name="name"
                         onChange={handleChange}
                         placeholder="Your name..."
-                        className="w-full p-2 my-2 bg-transparent rounded-md border border-secondary"
+                        className="p-2 min-w-0 bg-transparent text-neutral-content flex-1 ring-1 ring-secondary focus:ring-offset-1 focus:outline-none rounded-md"
                     />
                     <input
                         required
@@ -107,7 +109,7 @@ const Register = () => {
                         name="username"
                         onChange={handleChange}
                         placeholder="Your Username thats unique ..."
-                        className="w-full p-2 my-2 bg-transparent rounded-md border border-secondary"
+                        className="p-2 min-w-0 bg-transparent text-neutral-content flex-1 ring-1 ring-secondary focus:ring-offset-1 focus:outline-none rounded-md"
                     />
                     <input
                         required
@@ -116,7 +118,7 @@ const Register = () => {
                         name="email"
                         onChange={handleChange}
                         placeholder="Your email..."
-                        className="w-full p-2 my-2 bg-transparent rounded-md border border-neutral-content"
+                        className="p-2 min-w-0 bg-transparent text-neutral-content flex-1 ring-1 ring-secondary focus:ring-offset-1 focus:outline-none rounded-md"
                     />
                     <input
                         required
@@ -127,7 +129,7 @@ const Register = () => {
                         minLength={8}
                         maxLength={255}
                         placeholder="Your Password"
-                        className="w-full p-2 my-2 bg-transparent rounded-md border border-neutral-content"
+                        className="p-2 min-w-0 bg-transparent text-neutral-content flex-1 ring-1 ring-secondary focus:ring-offset-1 focus:outline-none rounded-md"
                     />
                     <button className="_btn-sm w-full">Submit</button>
                 </form>
