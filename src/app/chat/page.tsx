@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function Home() {
     return (
         <div
-            className={`hidden md:flex md:flex-[2] lg:flex-[3] flex-col gap-y-4 h-full items-center justify-center`}
+            className={`hidden md:flex md:flex-[2] xl:flex-[3] flex-col gap-y-4 h-full items-center justify-center`}
         >
             <ThemeSetter />
             <div className="relative w-40 h-20 before:content-['*'] before:absolute before:inset-0 before:bg-white before:blur-2xl">

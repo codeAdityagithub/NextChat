@@ -74,14 +74,17 @@ const ChatPage = async ({ params }: Props) => {
     if (data.status == "unauthorised") return notFound();
 
     return (
-        <div className="h-full min-h-full flex-1 md:flex-[2] lg:flex-[3] flex flex-col gap-1">
+        <div className="h-full min-h-full flex-1 md:flex-[2] xl:flex-[3] flex flex-col gap-1">
             <ChatHeader {...data.otherPerson} />
             <ChatContent
                 otherPerson={data.otherPerson}
                 messages={data.messages}
                 cur_userId={session?.user.id}
             />
-            <ChatInput otherPersonId={data.otherPerson?.id!} apiAccessToken={session?.user.apiAccessToken} />
+            <ChatInput
+                otherPersonId={data.otherPerson?.id!}
+                apiAccessToken={session?.user.apiAccessToken}
+            />
         </div>
     );
 };

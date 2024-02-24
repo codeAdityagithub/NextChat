@@ -16,7 +16,7 @@ const page = async (props: Props) => {
     const session = await getServerSession(authOptions);
     const { name, username } = JSON.parse(session?.user.name!);
     return (
-        <div className="h-full min-h-full flex-1 md:flex-[2] lg:flex-[3] flex flex-col gap-1 relative">
+        <div className="h-full min-h-full flex-1 md:flex-[2] xl:flex-[3] flex flex-col gap-1 relative">
             <h1 className="w-full h-20 text-3xl text-base-content font-bold">
                 <GoBack />
                 Profile Settings

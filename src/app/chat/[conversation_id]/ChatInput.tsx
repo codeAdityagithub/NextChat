@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 import { BiSolidSend } from "react-icons/bi";
+import ChatMessageInput from "./ChatMessageInput";
 
 const ChatInput = ({
     otherPersonId,
@@ -32,7 +33,9 @@ const ChatInput = ({
                     },
                 }
             );
-            if (res.status === 200) setMessage("");
+            if (res.status === 200) {
+                setMessage("");
+            }
         } catch (error: any) {
             setError("Couldn't send message now!");
             setTimeout(() => setError(""), 3000);
@@ -52,12 +55,13 @@ const ChatInput = ({
     };
 
     return (
-        <form onSubmit={handleSubmit} className="relative shadow-lg">
-            <div className="flex rounded-lg">
+        <form onSubmit={handleSubmit} className="relative flex items-end">
+            <ChatMessageInput />
+            <div className="flex rounded-lg flex-1">
                 <textarea
                     value={message}
                     onChange={handleChange}
-                    className="w-full resize-none text-neutral-content bg-neutral focus:outline-none focus:ring-1 focus:ring-secondary p-3 pr-14 rounded-lg"
+                    className="w-full shadow-md resize-none text-neutral-content bg-neutral focus:outline-none focus:ring-1 focus:ring-secondary p-3 pr-14 rounded-lg"
                     // type="text"
                     rows={1}
                     name="message"
@@ -66,7 +70,7 @@ const ChatInput = ({
                 />
             </div>
             <button
-                className="bg-secondary text-accent absolute right-3 top-2 text- p-2 rounded-full flex items-center justify-center"
+                className="bg-secondary text-accent absolute right-3 bottom-2 text- p-2 rounded-full flex items-center justify-center"
                 type="submit"
             >
                 <BiSolidSend />
