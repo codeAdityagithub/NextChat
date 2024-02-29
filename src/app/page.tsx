@@ -1,12 +1,15 @@
-import HomeRedirect from "@/components/HomeRedirect";
 import ThemeSetter from "@/components/ThemeSetter";
+import authOptions from "@/utils/nextauthOptions";
+import { getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+    const session = await getServerSession(authOptions);
+    if (session !== null) redirect("/chat");
     return (
         <div className="flex flex-col gap-y-4 h-full items-center justify-center bg-base-100">
-            <HomeRedirect />
             <ThemeSetter />
             <div className="relative w-40 h-20 before:content-['*'] before:absolute before:inset-4 before:bg-white before:blur-2xl">
                 <Image src="/logo.png" alt="Logo" fill className="" />

@@ -81,10 +81,12 @@ const ChatPage = async ({ params }: Props) => {
                 messages={data.messages}
                 cur_userId={session?.user.id}
             />
-            <ChatInput
-                otherPersonId={data.otherPerson?.id!}
-                apiAccessToken={session?.user.apiAccessToken}
-            />
+            <div className="flex bg-neutral rounded-md items-end">
+                <ChatInput
+                    otherPersonId={data.otherPerson?.id!}
+                    apiAccessToken={session?.user.apiAccessToken}
+                />
+            </div>
         </div>
     );
 };

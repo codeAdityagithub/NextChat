@@ -13,13 +13,13 @@
         @apply btn-sm rounded-md bg-primary text-primary-content;
     }
     .settings_grid {
-        padding: 1rem;
+        padding: 0.5rem;
         display: grid;
         grid-template-rows: repeat(auto-fit, 1fr);
         gap: 8px;
     }
     .settings_grid > .form_container {
-        @apply flex flex-col justify-start lg:flex-row lg:gap-10 xl:gap-40 gap-4 p-4;
+        @apply flex flex-col justify-start lg:flex-row lg:gap-10 xl:gap-40 gap-4 p-3;
     }
     .settings_grid > .form_container > div {
         @apply flex-1 lg:flex-grow-0 lg:min-w-fit text-base-content;
