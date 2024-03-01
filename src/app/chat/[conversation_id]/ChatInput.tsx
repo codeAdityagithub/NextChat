@@ -4,7 +4,7 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import imageCompression from "browser-image-compression";
 
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 
 import { BiSolidSend } from "react-icons/bi";
 import ChatMessageInput from "./ChatMessageInput";
@@ -19,7 +19,7 @@ const ChatInput = ({
     const { conversation_id } = useParams();
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
-
+    const ref = useRef<HTMLTextAreaElement>(null);
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (message.trim() === "") return;
@@ -36,6 +36,7 @@ const ChatInput = ({
             );
             if (res.status === 200) {
                 setMessage("");
+                if (ref.current) ref.current.style.height = "48px";
             }
         } catch (error: any) {
             setError("Couldn't send message now!");
@@ -88,13 +89,17 @@ const ChatInput = ({
 
     return (
         <>
-            <ChatMessageInput handleImageMessage={handleImageMessage} />
+            <ChatMessageInput
+                handleImageMessage={handleImageMessage}
+                setError={setError}
+            />
             <form
                 onSubmit={handleSubmit}
                 className="relative flex items-end flex-1"
             >
                 <div className="flex rounded-md flex-1 bg-neutral">
                     <textarea
+                        ref={ref}
                         autoFocus
                         value={message}
                         onChange={handleChange}

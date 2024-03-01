@@ -1,12 +1,19 @@
-import React, { ChangeEvent, useRef, useState } from "react";
+import React, {
+    ChangeEvent,
+    Dispatch,
+    SetStateAction,
+    useRef,
+    useState,
+} from "react";
 import { BiSend } from "react-icons/bi";
 import { MdOutlineAttachFile } from "react-icons/md";
 
 type Props = {
     handleImageMessage: (file: File) => Promise<"error" | "success">;
+    setError: Dispatch<SetStateAction<string>>;
 };
 
-const ChatMessageInput = ({ handleImageMessage }: Props) => {
+const ChatMessageInput = ({ handleImageMessage, setError }: Props) => {
     const dialogRef = useRef<HTMLDialogElement>(null);
     const [file, setFile] = useState<File | null>(null);
 
@@ -15,6 +22,8 @@ const ChatMessageInput = ({ handleImageMessage }: Props) => {
         if (!files) return;
         if (!["image/jpeg", "image/png"].includes(files[0]?.type)) {
             setFile(null);
+            setError("Only jpeg and png supported");
+            setTimeout(() => setError(""), 3000);
             return;
         }
         setFile(files[0]);
@@ -44,8 +53,8 @@ const ChatMessageInput = ({ handleImageMessage }: Props) => {
                                 Discard Unsent Message?
                             </h3>
                             <p className="py-4">
-                                If you close this dialog, the message won't be
-                                sent
+                                If you close this dialog, the message won&apos;t
+                                be sent
                             </p>
                             <div className="modal-action">
                                 <form
@@ -75,7 +84,10 @@ const ChatMessageInput = ({ handleImageMessage }: Props) => {
                 }w-60 md:w-72 transition-all bg-neutral p-2 z-20 rounded-lg absolute bottom-14 flex flex-col items-end gap-2`}
                 hidden={file === null}
             >
-                <img src={file ? URL.createObjectURL(file) : ""} />
+                <img
+                    src={file ? URL.createObjectURL(file) : ""}
+                    alt="Your image"
+                />
                 <div className="flex w-full p-1 justify-between">
                     <button
                         className="_btn-sm bg-error text-error-content"

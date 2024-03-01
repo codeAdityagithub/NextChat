@@ -21,7 +21,7 @@ const ChatBubbleLeft = ({
 }: Props) => {
     return (
         <div className="chat chat-start">
-            <div className="chat-image avatar">
+            <div className="chat-image avatar mb-auto mt-5">
                 <div
                     className={`w-10 h-10 rounded-full overflow-hidden relative ${
                         showDp ? "shadow-md" : ""

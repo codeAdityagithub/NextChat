@@ -7,6 +7,7 @@ import useMessages from "@/hooks/useMessages";
 import { formatTag } from "@/lib/timeFormatters";
 import { useEffect, useRef, useState } from "react";
 import ChatContentLoader from "./ChatContentLoader";
+import ChatImage from "./ChatImage";
 
 type otherPerson = Pick<User, "id" | "name" | "username" | "dp">;
 
@@ -61,7 +62,15 @@ const ChatContent = ({
                                         message.created_at
                                     ).toString()}
                                 >
-                                    {message.sender_id === otherPerson?.id ? (
+                                    {message.type === "image" ? (
+                                        <ChatImage
+                                            key={message.message_id}
+                                            message={message}
+                                            otherPerson={otherPerson}
+                                            showDp={showDp}
+                                        />
+                                    ) : message.sender_id ===
+                                      otherPerson?.id ? (
                                         <ChatBubbleLeft
                                             key={message.message_id}
                                             name={otherPerson.name}
@@ -95,7 +104,14 @@ const ChatContent = ({
                                 </React.Fragment>
                             );
                         }
-                        return message.sender_id === otherPerson?.id ? (
+                        return message.type === "image" ? (
+                            <ChatImage
+                                key={message.message_id}
+                                message={message}
+                                otherPerson={otherPerson}
+                                showDp
+                            />
+                        ) : message.sender_id === otherPerson?.id ? (
                             <ChatBubbleLeft
                                 key={message.message_id}
                                 name={otherPerson.name}
