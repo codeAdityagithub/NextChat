@@ -22,7 +22,11 @@ const ThemeToggle = () => {
         }
     };
     return (
-        <div className="text-2xl cursor-pointer p-2" onClick={handleClick}>
+        <div
+            className="text-2xl cursor-pointer p-2"
+            onClick={handleClick}
+            aria-label="toggle theme"
+        >
             {mode == "business" ? (
                 <MdOutlineLightMode />
             ) : (

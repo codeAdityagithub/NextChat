@@ -57,7 +57,8 @@ const useMessages = ({ initialData, userId }: Props) => {
             if (lastPage.length === 0) {
                 return undefined;
             }
-            return allPages.length + 1;
+            // console.log(allPages.length);
+            return allPages.length;
         },
         maxPages: 3,
     });

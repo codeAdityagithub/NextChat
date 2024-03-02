@@ -97,7 +97,7 @@ const InviteNotifications = ({ invitations, apiAccessToken }: Props) => {
                 ))}
                 {invites.length === 0 ? (
                     <li className="rounded-md cursor-pointer p-2">
-                        <a className="rounded-md">No Invitations</a>
+                        <div className="rounded-md">No Invitations</div>
                     </li>
                 ) : null}
             </ul>

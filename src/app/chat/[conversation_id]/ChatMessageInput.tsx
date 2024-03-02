@@ -87,6 +87,7 @@ const ChatMessageInput = ({ handleImageMessage, setError }: Props) => {
                 <img
                     src={file ? URL.createObjectURL(file) : ""}
                     alt="Your image"
+                    className="object-cover max-h-[400px]"
                 />
                 <div className="flex w-full p-1 justify-between">
                     <button

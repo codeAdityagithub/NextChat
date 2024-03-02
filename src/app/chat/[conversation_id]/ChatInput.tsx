@@ -114,6 +114,7 @@ const ChatInput = ({
                 <button
                     className="bg-secondary text-accent absolute right-3 bottom-2 text- p-2 rounded-full flex items-center justify-center"
                     type="submit"
+                    title="send the message"
                 >
                     <BiSolidSend />
                 </button>

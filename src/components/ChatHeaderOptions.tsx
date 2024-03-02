@@ -17,6 +17,7 @@ const ChatHeaderOptions = ({ id, name, username, dp }: Props) => {
             <div
                 tabIndex={0}
                 role="button"
+                aria-label="see profile"
                 className="p-1.5 rounded-lg relative bg-secondary"
             >
                 <BsThreeDots className="text-accent text-lg" />

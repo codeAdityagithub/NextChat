@@ -15,6 +15,7 @@ const Settings = () => {
             <div
                 tabIndex={0}
                 role="button"
+                aria-label="user settings"
                 className="p-1.5 rounded-lg relative"
             >
                 <GrUserSettings className="text-xl text-base-content" />
