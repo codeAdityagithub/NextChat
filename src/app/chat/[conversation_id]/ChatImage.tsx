@@ -2,9 +2,11 @@ import { Message, User } from "@/dbtypes";
 import { getTime } from "@/lib/timeFormatters";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { MdImage } from "react-icons/md";
 import ImageViewDialog from "./ImageViewDialog";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 type otherPerson = Pick<User, "id" | "name" | "username" | "dp">;
 
@@ -16,33 +18,22 @@ type Props = {
 
 const ChatImage = ({ message, otherPerson, showDp }: Props) => {
     const session = useSession();
-    const [blob, setBlob] = useState<string>("");
     const dialogRef = useRef<HTMLDialogElement>(null);
 
-    useEffect(() => {
-        if (session.data?.user.apiAccessToken) {
-            fetch(message.content, {
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ["chatImage", message.content],
+        queryFn: async () => {
+            const res = await axios.get(message.content, {
                 headers: {
                     Authorization: `Bearer ${session.data?.user.apiAccessToken}`,
                 },
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error(
-                            `HTTP error! Status: ${response.status}`
-                        );
-                    }
-                    return response.blob();
-                })
-                .then((blob) => {
-                    // Handle the blob, e.g., display the image
-                    setBlob(URL.createObjectURL(blob));
-                })
-                .catch((error) => {
-                    console.error("Error fetching image:", error);
-                });
-        }
-    }, [session, message]);
+                responseType: "blob",
+            });
+            const blob = URL.createObjectURL(res.data);
+            return blob;
+        },
+        enabled: session.data?.user?.apiAccessToken !== undefined,
+    });
 
     const handleImageView = (
         e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -53,7 +44,7 @@ const ChatImage = ({ message, otherPerson, showDp }: Props) => {
 
     return message.sender_id === otherPerson?.id ? (
         <div className="chat chat-start">
-            <ImageViewDialog dialogRef={dialogRef} blob={blob} />
+            <ImageViewDialog dialogRef={dialogRef} blob={data} />
             <div className="chat-image avatar mb-auto mt-5">
                 <div
                     className={`w-10 h-10 rounded-full overflow-hidden relative ${
@@ -84,13 +75,13 @@ const ChatImage = ({ message, otherPerson, showDp }: Props) => {
                 {showDp ? (
                     <div className="absolute top-0 -left-2 rounded-md w-0 h-0 border-[12px] border-secondary border-solid border-r-transparent border-l-transparent border-b-transparent"></div>
                 ) : null}
-                {blob === "" ? (
-                    <div className="w-64 h-32 rounded-sm animate-pulse bg-secondary text-4xl flex items-center justify-center">
+                {isLoading || isError ? (
+                    <div className="w-56 h-32 rounded-sm animate-pulse bg-secondary text-4xl flex items-center justify-center">
                         <MdImage />
                     </div>
                 ) : (
                     <img
-                        src={blob}
+                        src={data}
                         alt="chat Image"
                         className="object-cover max-h-[350px]"
                         draggable={false}
@@ -104,20 +95,20 @@ const ChatImage = ({ message, otherPerson, showDp }: Props) => {
         </div>
     ) : (
         <div className="chat chat-end">
-            <ImageViewDialog dialogRef={dialogRef} blob={blob} />
+            <ImageViewDialog dialogRef={dialogRef} blob={data} />
 
             <div className="chat-header text-base-content">You</div>
             <div
                 onClick={handleImageView}
                 className="chat-bubble p-2 bg-primary text-primary-content relative rounded-md break-words max-w-[240px] sm:max-w-xs"
             >
-                {blob == "" ? (
+                {isLoading || isError ? (
                     <div className="w-56 h-32 rounded-sm animate-pulse bg-secondary text-4xl flex items-center justify-center">
                         <MdImage />
                     </div>
                 ) : (
                     <img
-                        src={blob}
+                        src={data}
                         alt="chat Image"
                         className="object-cover max-h-[350px]"
                         draggable={false}

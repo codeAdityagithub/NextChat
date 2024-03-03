@@ -4,12 +4,32 @@ import { FaWindowClose } from "react-icons/fa";
 
 type Props = {
     dialogRef: React.RefObject<HTMLDialogElement>;
-    blob: string;
+    blob: string | undefined;
 };
 
 const ImageViewDialog = ({ dialogRef, blob }: Props) => {
     // const dialogRef = useRef<HTMLDialogElement>(null);
-
+    const handleZoom = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+        // let scale = e.currentTarget.style.transform;
+        // if (scale == "scale(1)") {
+        //     e.currentTarget.style.transform = "scale(2)";
+        // } else {
+        //     e.currentTarget.style.transform = "scale(1)";
+        // }
+        // if (e.currentTarget.classList.contains("zoomed")) {
+        //     e.currentTarget.height =
+        //         e.currentTarget.height / 2;
+        //     e.currentTarget.width =
+        //         e.currentTarget.width / 2;
+        //     e.currentTarget.classList.remove("zoomed");
+        // } else {
+        //     e.currentTarget.height =
+        //         e.currentTarget.height * 2;
+        //     e.currentTarget.width =
+        //         e.currentTarget.width * 2;
+        //     e.currentTarget.classList.add("zoomed");
+        // }
+    };
     return (
         <>
             {/* {dialogRef.current?.open && (
@@ -20,10 +40,10 @@ const ImageViewDialog = ({ dialogRef, blob }: Props) => {
             )} */}
             <dialog
                 id="my_modal_1"
-                className="modal bg-transparent transition-opacity duration-200 p-3 md:p-6 lg:p-16"
+                className="modal bg-transparent transition-opacity duration-200 p-8 md:p-16"
                 ref={dialogRef}
             >
-                <div className="modal-box w-full h-full relative flex items-center justify-center bg-neutral/30 overflow-auto ver_scrollbar text-neutral-content p-3 rounded-md ">
+                <div className=" w-full h-full relative flex items-center justify-center bg-neutral overflow-y-scroll ver_scrollbar text-neutral-content p-3 rounded-md ">
                     <div
                         onClick={() => {
                             dialogRef.current?.close();
@@ -32,21 +52,12 @@ const ImageViewDialog = ({ dialogRef, blob }: Props) => {
                     ></div>
                     <img
                         src={blob}
-                        className="max-h-[500px] shadow-md z-30"
-                        style={{ scale: 1 }}
+                        className="h-auto w-auto shadow-md z-30 transition-all"
+                        // style={{ transform: "scale(1)" }}
                         alt="Large version of selected image"
                         draggable="false"
-                        onWheel={(e) => {
-                            let scale = Number(e.currentTarget.style.scale);
-                            if (e.deltaY > 0) {
-                                scale = Math.min(scale + 0.1, 2);
-                                e.currentTarget.style.scale = scale.toString();
-                            } else {
-                                scale = Math.max(scale - 0.1, 1);
-
-                                e.currentTarget.style.scale = scale.toString();
-                            }
-                        }}
+                        onDoubleClick={handleZoom}
+                        onClick={handleZoom}
                     />
                 </div>
                 <div className="modal-action absolute top-4 right-4 z-30">
