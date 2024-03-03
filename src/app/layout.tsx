@@ -23,7 +23,7 @@ export default function RootLayout({
     return (
         <html lang="en" data-theme="business">
             <body className={roboto.className}>
-                <main className="h-screen min-h-[550px] bg-base-300 text-base-content">
+                <main className="h-[100svh] min-h-[550px] bg-base-300 text-base-content">
                     <AuthProvider>
                         <ReactQueryProvider>{children}</ReactQueryProvider>
                     </AuthProvider>

@@ -26,7 +26,7 @@ export const POST = async (req: NextRequest) => {
         const messages = await sql<
             Message[]
         >`select * from message where conversation_id=${conversation_id} order by created_at desc limit 30 offset ${
-            isNaN(page) ? 0 : page * 30
+            page * 30
         }`;
         // console.log(messages);
         return NextResponse.json(

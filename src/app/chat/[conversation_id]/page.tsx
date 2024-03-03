@@ -10,7 +10,7 @@ import ChatContent from "./ChatContent";
 type Props = {
     params: { conversation_id: string };
 };
-type otherPerson = Pick<User, "id" | "name" | "username" | "has_dp">;
+type otherPerson = Pick<User, "id" | "name" | "username" | "dp">;
 type getMessagesReturn = {
     messages: Message[];
     otherPerson?: otherPerson;
@@ -26,7 +26,7 @@ const getMessages = async (
 
         const users = await sql<
             otherPerson[]
-        >`select u.id, u.name, u.username, u.has_dp from conversation_users cu join users u on u.id=cu.user_id where cu.conversation_id=${conversation_id}`;
+        >`select u.id, u.name, u.username, u.dp from conversation_users cu join users u on u.id=cu.user_id where cu.conversation_id=${conversation_id}`;
         // console.log(users);
 
         const user = users.filter((user) => user.id === userId);
@@ -74,14 +74,19 @@ const ChatPage = async ({ params }: Props) => {
     if (data.status == "unauthorised") return notFound();
 
     return (
-        <div className="h-full min-h-full flex-1 md:flex-[2] lg:flex-[3] flex flex-col gap-1">
+        <div className="h-full min-h-full flex-1 md:flex-[2] xl:flex-[3] flex flex-col gap-1">
             <ChatHeader {...data.otherPerson} />
             <ChatContent
                 otherPerson={data.otherPerson}
                 messages={data.messages}
                 cur_userId={session?.user.id}
             />
-            <ChatInput otherPersonId={data.otherPerson?.id!} />
+            <div className="flex bg-neutral rounded-md items-end">
+                <ChatInput
+                    otherPersonId={data.otherPerson?.id!}
+                    apiAccessToken={session?.user.apiAccessToken}
+                />
+            </div>
         </div>
     );
 };

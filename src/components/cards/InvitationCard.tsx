@@ -16,7 +16,7 @@ const InvitationCard = ({
     sent_at,
     invitation_id,
     sender_id,
-    has_dp,
+    dp,
     handleAccept,
     handleReject,
 }: Props) => {
@@ -39,11 +39,7 @@ const InvitationCard = ({
 
             <div className="w-10 h-10 rounded-full relative overflow-hidden">
                 <Image
-                    src={
-                        has_dp && sender_id
-                            ? `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${sender_id}.jpg`
-                            : "/account.png"
-                    }
+                    src={dp && sender_id ? dp : "/account.png"}
                     alt="Invitation sender image"
                     fill
                     className="object-cover"

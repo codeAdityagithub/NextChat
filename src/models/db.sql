@@ -6,7 +6,7 @@ CREATE TABLE users (
     username VARCHAR NOT NULL UNIQUE,
     email VARCHAR NOT NULL UNIQUE,
     password VARCHAR,
-    has_dp BOOLEAN NOT NULL DEFAULT FALSE,
+    dp VARCHAR,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 );
@@ -18,6 +18,11 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_update_updated_at
+BEFORE UPDATE ON users
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
 
 
 -- Conversations table to store information about chat conversations
@@ -33,6 +38,7 @@ CREATE TABLE conversation (
 );
 
 CREATE TYPE message_status AS ENUM ('read', 'delivered');
+CREATE TYPE message_type AS ENUM ('text', 'image');
 
 -- Messages table to store individual messages
 CREATE TABLE message (
@@ -41,6 +47,7 @@ CREATE TABLE message (
     sender_id uuid REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     content TEXT,
+    type message_type DEFAULT 'text',
     status message_status DEFAULT 'delivered'
     -- Add more message-related fields as needed
 );

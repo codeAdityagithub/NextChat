@@ -7,8 +7,9 @@ import useMessages from "@/hooks/useMessages";
 import { formatTag } from "@/lib/timeFormatters";
 import { useEffect, useRef, useState } from "react";
 import ChatContentLoader from "./ChatContentLoader";
+import ChatImage from "./ChatImage";
 
-type otherPerson = Pick<User, "id" | "name" | "username" | "has_dp">;
+type otherPerson = Pick<User, "id" | "name" | "username" | "dp">;
 
 type Props = {
     messages: Message[];
@@ -61,13 +62,21 @@ const ChatContent = ({
                                         message.created_at
                                     ).toString()}
                                 >
-                                    {message.sender_id === otherPerson?.id ? (
+                                    {message.type === "image" ? (
+                                        <ChatImage
+                                            key={message.message_id}
+                                            message={message}
+                                            otherPerson={otherPerson}
+                                            showDp={showDp}
+                                        />
+                                    ) : message.sender_id ===
+                                      otherPerson?.id ? (
                                         <ChatBubbleLeft
                                             key={message.message_id}
                                             name={otherPerson.name}
                                             created_at={message.created_at}
                                             content={message.content}
-                                            has_dp={otherPerson.has_dp}
+                                            dp={otherPerson.dp}
                                             id={otherPerson.id}
                                             showDp={showDp}
                                         />
@@ -85,23 +94,23 @@ const ChatContent = ({
                                             {formattedTag}
                                         </span>
                                     </div>
-                                    {/* {ind === data.messages.length - 1 ? (
-                                        <div className="w-full flex justify-center">
-                                            <span className="badge badge-outline rounded-badge outline outline-1 text-slate-500">
-                                                {formattedTag}
-                                            </span>
-                                        </div>
-                                    ) : null} */}
                                 </React.Fragment>
                             );
                         }
-                        return message.sender_id === otherPerson?.id ? (
+                        return message.type === "image" ? (
+                            <ChatImage
+                                key={message.message_id}
+                                message={message}
+                                otherPerson={otherPerson}
+                                showDp
+                            />
+                        ) : message.sender_id === otherPerson?.id ? (
                             <ChatBubbleLeft
                                 key={message.message_id}
                                 name={otherPerson.name}
                                 created_at={message.created_at}
                                 content={message.content}
-                                has_dp={otherPerson.has_dp}
+                                dp={otherPerson.dp}
                                 id={otherPerson.id}
                                 showDp={showDp}
                             />

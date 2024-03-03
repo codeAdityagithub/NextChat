@@ -23,7 +23,7 @@ const getData = async (
             c.last_contacted_at,
             u.id,
             u.name,
-            u.has_dp,
+            u.dp,
             c.latest_message,
             c.unread_message,
             c.latest_message_sender_id
@@ -51,13 +51,13 @@ const getData = async (
 const Sidebar = async () => {
     const session = await getServerSession(authOptions);
     const data = await getData(session?.user.id!);
-    // console.log(data.chatUsers);
+    // console.log(session);
     if (data.status === "error")
         throw new FetchError("Couldn't Fetch your chats");
     return (
         <SidebarWrapper>
             <AccountCard />
-            <InviteUser />
+            <InviteUser apiAccessToken={session?.user.apiAccessToken} />
             <Conversations
                 userId={session?.user.id}
                 chatUsers={data.chatUsers}

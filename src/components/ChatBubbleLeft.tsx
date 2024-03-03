@@ -6,7 +6,7 @@ type Props = {
     content: string;
     created_at: Date;
     name: string;
-    has_dp?: boolean;
+    dp?: string;
     id?: string;
     showDp: boolean;
 };
@@ -15,13 +15,13 @@ const ChatBubbleLeft = ({
     content,
     created_at,
     name,
-    has_dp,
+    dp,
     id,
     showDp,
 }: Props) => {
     return (
         <div className="chat chat-start">
-            <div className="chat-image avatar">
+            <div className="chat-image avatar mb-auto mt-5">
                 <div
                     className={`w-10 h-10 rounded-full overflow-hidden relative ${
                         showDp ? "shadow-md" : ""
@@ -29,11 +29,7 @@ const ChatBubbleLeft = ({
                 >
                     {showDp ? (
                         <Image
-                            src={
-                                has_dp
-                                    ? `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${id}.jpg`
-                                    : "/account.png"
-                            }
+                            src={dp ?? "/account.png"}
                             alt={`${name}'s Profile Picture`}
                             fill
                             className="object-cover"
@@ -46,7 +42,7 @@ const ChatBubbleLeft = ({
             <div className="chat-header text-base-content ">{name}</div>
             <div
                 className={
-                    "chat-bubble bg-secondary rounded-md text-secondary-content relative"
+                    "chat-bubble bg-secondary rounded-md text-secondary-content relative  break-words max-w-[260px] sm:max-w-sm lg:max-w-lg"
                 }
             >
                 {showDp ? (

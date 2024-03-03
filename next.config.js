@@ -9,6 +9,10 @@ const nextConfig = {
             {
                 hostname: `localhost`,
             },
+            {
+                protocol: "https",
+                hostname: "nextchat-api.onrender.com",
+            },
         ],
     },
 };

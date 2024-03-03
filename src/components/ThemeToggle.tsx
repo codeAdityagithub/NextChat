@@ -13,6 +13,7 @@ const ThemeToggle = () => {
         if (mode == "business") {
             localStorage.setItem("theme", "light");
             setMode("light");
+
             document.documentElement.setAttribute("data-theme", "light");
         } else {
             localStorage.setItem("theme", "business");
@@ -21,7 +22,11 @@ const ThemeToggle = () => {
         }
     };
     return (
-        <div className="text-2xl cursor-pointer p-2" onClick={handleClick}>
+        <div
+            className="text-2xl cursor-pointer p-2"
+            onClick={handleClick}
+            aria-label="toggle theme"
+        >
             {mode == "business" ? (
                 <MdOutlineLightMode />
             ) : (

@@ -8,15 +8,16 @@ type Props = {
     id?: string;
     name?: string;
     username?: string;
-    has_dp?: boolean;
+    dp?: string;
 };
 
-const ChatHeaderOptions = ({ id, name, username, has_dp }: Props) => {
+const ChatHeaderOptions = ({ id, name, username, dp }: Props) => {
     return (
         <div className="dropdown dropdown-end">
             <div
                 tabIndex={0}
                 role="button"
+                aria-label="see profile"
                 className="p-1.5 rounded-lg relative bg-secondary"
             >
                 <BsThreeDots className="text-accent text-lg" />
@@ -30,11 +31,7 @@ const ChatHeaderOptions = ({ id, name, username, has_dp }: Props) => {
                     <div className="p-0.5 bg-gradient-to-tr rounded-full from-primary via-red-500 to-green-500">
                         <div className="w-20 h-20 rounded-full relative overflow-hidden">
                             <Image
-                                src={
-                                    has_dp
-                                        ? `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${id}.jpg`
-                                        : "/account.png"
-                                }
+                                src={dp ?? "/account.png"}
                                 alt={`${name} profile picture`}
                                 fill
                                 className="object-cover"

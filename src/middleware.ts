@@ -25,12 +25,19 @@ export default withAuth({
 });
 
 // export const middleware: NextMiddleware = async (req) => {
-//     console.log(req.nextUrl.pathname);
-//     if (req.nextUrl.pathname === "/chat/settings") {
-//         const url = req.nextUrl.clone();
-//         url.pathname = "/chat/settings/profile";
-//         return NextResponse.redirect(url);
-//     }
+//     // const url = req.nextUrl.origin;
+//     // if (
+//     //     req.nextUrl.pathname === "/" &&
+//     //     req.cookies
+//     //         .get(
+//     //             process.env.NODE_ENV === "development"
+//     //                 ? "next-auth.session-token"
+//     //                 : "__Secure-next-auth.session-token"
+//     //         )
+//     //         ?.value.trim() !== ""
+//     // ) {
+//     //     return NextResponse.redirect(url + "/chat");
+//     // }
 // };
 
 export const config = {

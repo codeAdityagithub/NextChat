@@ -9,7 +9,7 @@ type Props = {
 
 const error = ({ error, reset }: Props) => {
     return (
-        <div className=" md:flex-[2] lg:flex-[3] flex flex-col items-center justify-center h-full bg-base-300">
+        <div className=" md:flex-[2] xl:flex-[3] flex flex-col items-center justify-center h-full bg-base-300">
             <h1 className="text-4xl text-error mb-4">
                 Oops! Something went wrong.
             </h1>

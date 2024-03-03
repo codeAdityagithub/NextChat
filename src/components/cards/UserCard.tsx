@@ -4,13 +4,14 @@ import ImagewError from "@/utils/ImagewError";
 import Image from "next/image";
 import Link from "next/link";
 import { GoDotFill } from "react-icons/go";
+import { MdImage } from "react-icons/md";
 
 const UserCard = ({
     conversation_id,
     last_contacted_at,
     name,
     id,
-    has_dp,
+    dp,
     latest_message,
     cur_conversation_id,
     unread_message,
@@ -37,18 +38,25 @@ const UserCard = ({
         >
             <div className="w-[50px] h-[50px] rounded-full relative overflow-hidden">
                 <ImagewError
-                    src={
-                        has_dp
-                            ? `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${id}.jpg`
-                            : "/account.png"
-                    }
+                    src={dp ?? "/account.png"}
                     alt="Acc"
                     fallback="/account.png"
                 />
             </div>
             <div className="flex flex-1 relative items-start justify-start pt-2 flex-col h-full">
                 <div className="font-medium">{name}</div>
-                <div className="text-sm line-clamp-1">{latest_message}</div>
+                <div className="text-sm  line-clamp-1 text-neutral-content/80 max-w-[180px]">
+                    {latest_message.startsWith(
+                        `${process.env.NEXT_PUBLIC_API_URL}/upload/`
+                    ) ? (
+                        <span className="flex items-center gap-1.5">
+                            <MdImage />
+                            Image
+                        </span>
+                    ) : (
+                        latest_message
+                    )}
+                </div>
                 <div className="absolute text-xs right-2 top-2">
                     {formatTime(last_contacted_at)}
                 </div>

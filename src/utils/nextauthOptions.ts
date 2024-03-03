@@ -50,19 +50,17 @@ const authOptions: NextAuthOptions = {
                     if (!isCorrectPassword) return null;
                     const timestamp = new Date(user.updated_at!).getTime();
 
-                    const name = {
+                    const name = JSON.stringify({
                         name: user.name,
                         username: user.username,
                         updated: timestamp,
-                    };
-                    const img = user.has_dp
-                        ? `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${user.id}.jpg?updated=${timestamp}`
-                        : undefined;
+                    });
+
                     const requser: User = {
                         id: user.id!,
-                        name: JSON.stringify(name),
+                        name: name,
                         email: user.email,
-                        image: img,
+                        image: user.dp,
                     };
                     // console.log(requser);
                     return requser;
@@ -85,17 +83,14 @@ const authOptions: NextAuthOptions = {
                     const timestamp = new Date(dbuser[0].updated_at!).getTime();
 
                     user.id = dbuser[0].id!;
-                    const name = {
+                    const name = JSON.stringify({
                         name: dbuser[0].name,
                         username: dbuser[0].username,
                         updated: timestamp,
-                    };
-                    user.name = JSON.stringify(name);
-                    // console.log(user.image);
+                    });
+                    user.name = name;
+                    user.image = dbuser[0].dp;
 
-                    user.image = dbuser[0].has_dp
-                        ? `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${user.id}.jpg?updated=${timestamp}`
-                        : undefined;
                     return true;
                 }
                 // console.log("signin callback");
@@ -123,11 +118,13 @@ const authOptions: NextAuthOptions = {
                 // console.log(insertUser);
                 if (!insertUser || !insertUser[0].email) return false;
                 user.id = user_id;
-                const name = {
+                const updated = new Date(Date.now() - 1000 * 60 * 60 * 24);
+                const name = JSON.stringify({
                     name: user.name,
                     username: username,
-                };
-                user.name = JSON.stringify(name);
+                    updated: updated.getTime(),
+                });
+                user.name = name;
             }
             return true;
         },
@@ -136,29 +133,50 @@ const authOptions: NextAuthOptions = {
             if (token.sub) {
                 // console.log(token);
                 session.user.id = token.sub;
+                session.user.apiAccessToken = token.apiAccessToken;
                 // session.user.username = token.username!;
             }
             // console.log(session.user);
             return session;
         },
-        jwt({ token, trigger, session }) {
+        jwt({ token, trigger, session, account }) {
+            if (trigger == "signIn") {
+                const apiAccessToken = jwt.sign(
+                    {
+                        sub: token.sub,
+                        name: token.name,
+                        email: token.email,
+                    },
+                    process.env.API_ACCESS_SECRET!,
+                    { expiresIn: "30 days" }
+                );
+                token.apiAccessToken = apiAccessToken;
+            }
             if (trigger === "update" && session?.image && token.sub) {
                 // Note, that `session` can be any arbitrary object, remember to validate it!
                 // token.picture = session.image
                 const updated = new Date().getTime();
                 token.picture = `${process.env.NEXT_PUBLIC_API_URL}/static/profiles/${token.sub}.jpg?updated=${updated}`;
-            } else if (
-                trigger === "update" &&
-                session.name &&
-                session.username
-            ) {
+            } else if (trigger === "update" && session.name) {
+                const tokenNames = JSON.parse(token.name!);
+
                 const timestamp = new Date().getTime();
                 const names = JSON.stringify({
                     name: session.name,
-                    username: session.username,
+                    username: tokenNames.username,
                     updated: timestamp,
                 });
                 token.name = names;
+                const apiAccessToken = jwt.sign(
+                    {
+                        sub: token.sub,
+                        name: names,
+                        email: token.email,
+                    },
+                    process.env.API_ACCESS_SECRET!,
+                    { expiresIn: "30 days" }
+                );
+                token.apiAccessToken = apiAccessToken;
             }
 
             return token;

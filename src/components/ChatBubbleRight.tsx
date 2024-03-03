@@ -12,7 +12,7 @@ const ChatBubbleRight = ({ content, created_at, name, status }: Props) => {
     return (
         <div className="chat chat-end">
             <div className="chat-header text-base-content">{name}</div>
-            <div className="chat-bubble bg-primary text-primary-content relative rounded-md">
+            <div className="chat-bubble bg-primary text-primary-content relative rounded-md break-words max-w-[280px] sm:max-w-sm lg:max-w-lg">
                 {content}
             </div>
             <div className="chat-footer text-xs text-base-content">

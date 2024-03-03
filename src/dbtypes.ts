@@ -5,7 +5,7 @@ export type User = {
     username: string;
     email: string;
     password?: string;
-    has_dp?: boolean;
+    dp?: string;
     updated_at?: Date;
 };
 
@@ -27,6 +27,7 @@ export type Message = {
     created_at: Date;
     content: string;
     status: "read" | "delivered";
+    type: "text" | "image";
     // Add more message-related fields as needed
 };
 
