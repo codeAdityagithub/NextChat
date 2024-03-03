@@ -94,13 +94,6 @@ const ChatContent = ({
                                             {formattedTag}
                                         </span>
                                     </div>
-                                    {/* {ind === data.messages.length - 1 ? (
-                                        <div className="w-full flex justify-center">
-                                            <span className="badge badge-outline rounded-badge outline outline-1 text-slate-500">
-                                                {formattedTag}
-                                            </span>
-                                        </div>
-                                    ) : null} */}
                                 </React.Fragment>
                             );
                         }

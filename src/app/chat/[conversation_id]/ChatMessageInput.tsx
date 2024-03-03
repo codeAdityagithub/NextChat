@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { BiSend } from "react-icons/bi";
 import { MdOutlineAttachFile } from "react-icons/md";
+import FileInputDialog from "./FileInputDialog";
 
 type Props = {
     handleImageMessage: (file: File) => Promise<"error" | "success">;
@@ -14,7 +15,7 @@ type Props = {
 };
 
 const ChatMessageInput = ({ handleImageMessage, setError }: Props) => {
-    const dialogRef = useRef<HTMLDialogElement>(null);
+    // const dialogRef = useRef<HTMLDialogElement>(null);
     const [file, setFile] = useState<File | null>(null);
 
     const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -37,57 +38,18 @@ const ChatMessageInput = ({ handleImageMessage, setError }: Props) => {
 
     return (
         <div className="relative">
-            {file !== null ? (
-                <>
-                    <div
-                        className="z-10 fixed inset-0 backdrop-blur-[1px]"
-                        onClick={() => dialogRef.current?.showModal()}
-                    ></div>
-                    <dialog
-                        id="my_modal_1"
-                        className="modal bg-transparent transition-opacity duration-200"
-                        ref={dialogRef}
-                    >
-                        <div className="modal-box bg-neutral text-neutral-content p-3 rounded-md shadow-lg">
-                            <h3 className="font-bold text-lg">
-                                Discard Unsent Message?
-                            </h3>
-                            <p className="py-4">
-                                If you close this dialog, the message won&apos;t
-                                be sent
-                            </p>
-                            <div className="modal-action">
-                                <form
-                                    method="dialog"
-                                    className="flex items-center gap-4"
-                                >
-                                    {/* if there is a button in form, it will close the modal */}
-                                    <button
-                                        className="_btn bg-error"
-                                        onClick={() => setFile(null)}
-                                    >
-                                        Discard
-                                    </button>
-                                    <button className="_btn">
-                                        return to media
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </dialog>
-                </>
-            ) : null}
+            {file !== null ? <FileInputDialog setFile={setFile} /> : null}
 
             <div
                 className={`${
                     file === null ? "hidden " : ""
-                }w-60 md:w-72 transition-all bg-neutral p-2 z-20 rounded-lg absolute bottom-14 flex flex-col items-end gap-2`}
+                }w-max max-w-[240px] sm:max-w-xs transition-all bg-neutral p-2 z-20 rounded-lg absolute bottom-14 flex flex-col items-end gap-2`}
                 hidden={file === null}
             >
                 <img
                     src={file ? URL.createObjectURL(file) : ""}
                     alt="Your image"
-                    className="object-cover max-h-[400px]"
+                    className="object-cover max-h-[350px]"
                 />
                 <div className="flex w-full p-1 justify-between">
                     <button

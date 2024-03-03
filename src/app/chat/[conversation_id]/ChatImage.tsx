@@ -2,8 +2,9 @@ import { Message, User } from "@/dbtypes";
 import { getTime } from "@/lib/timeFormatters";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MdImage } from "react-icons/md";
+import ImageViewDialog from "./ImageViewDialog";
 
 type otherPerson = Pick<User, "id" | "name" | "username" | "dp">;
 
@@ -16,6 +17,8 @@ type Props = {
 const ChatImage = ({ message, otherPerson, showDp }: Props) => {
     const session = useSession();
     const [blob, setBlob] = useState<string>("");
+    const dialogRef = useRef<HTMLDialogElement>(null);
+
     useEffect(() => {
         if (session.data?.user.apiAccessToken) {
             fetch(message.content, {
@@ -41,8 +44,16 @@ const ChatImage = ({ message, otherPerson, showDp }: Props) => {
         }
     }, [session, message]);
 
+    const handleImageView = (
+        e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    ) => {
+        // console.log(dialogRef.current);
+        dialogRef.current?.showModal();
+    };
+
     return message.sender_id === otherPerson?.id ? (
         <div className="chat chat-start">
+            <ImageViewDialog dialogRef={dialogRef} blob={blob} />
             <div className="chat-image avatar mb-auto mt-5">
                 <div
                     className={`w-10 h-10 rounded-full overflow-hidden relative ${
@@ -65,8 +76,9 @@ const ChatImage = ({ message, otherPerson, showDp }: Props) => {
                 {otherPerson.name}
             </div>
             <div
+                onClick={handleImageView}
                 className={
-                    "chat-bubble p-2 bg-secondary rounded-md text-secondary-content relative break-words max-w-[260px] sm:max-w-xs lg:max-w-md"
+                    "chat-bubble p-2 bg-secondary rounded-md text-secondary-content relative break-words max-w-[240px] sm:max-w-xs"
                 }
             >
                 {showDp ? (
@@ -92,10 +104,15 @@ const ChatImage = ({ message, otherPerson, showDp }: Props) => {
         </div>
     ) : (
         <div className="chat chat-end">
+            <ImageViewDialog dialogRef={dialogRef} blob={blob} />
+
             <div className="chat-header text-base-content">You</div>
-            <div className="chat-bubble p-2 bg-primary text-primary-content relative rounded-md break-words max-w-[260px] sm:max-w-xs lg:max-w-md">
+            <div
+                onClick={handleImageView}
+                className="chat-bubble p-2 bg-primary text-primary-content relative rounded-md break-words max-w-[240px] sm:max-w-xs"
+            >
                 {blob == "" ? (
-                    <div className="w-64 h-32 rounded-sm animate-pulse bg-secondary text-4xl flex items-center justify-center">
+                    <div className="w-56 h-32 rounded-sm animate-pulse bg-secondary text-4xl flex items-center justify-center">
                         <MdImage />
                     </div>
                 ) : (
