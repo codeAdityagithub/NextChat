@@ -75,7 +75,7 @@ const ChatImage = ({ message, otherPerson, showDp }: Props) => {
                 {showDp ? (
                     <div className="absolute top-0 -left-2 rounded-md w-0 h-0 border-[12px] border-secondary border-solid border-r-transparent border-l-transparent border-b-transparent"></div>
                 ) : null}
-                {isLoading || isError ? (
+                {isLoading || isError || !data ? (
                     <div className="w-56 h-32 rounded-sm animate-pulse bg-secondary text-4xl flex items-center justify-center">
                         <MdImage />
                     </div>
@@ -102,7 +102,7 @@ const ChatImage = ({ message, otherPerson, showDp }: Props) => {
                 onClick={handleImageView}
                 className="chat-bubble p-2 bg-primary text-primary-content relative rounded-md break-words max-w-[240px] sm:max-w-xs"
             >
-                {isLoading || isError ? (
+                {isLoading || isError || !data ? (
                     <div className="w-56 h-32 rounded-sm animate-pulse bg-secondary text-4xl flex items-center justify-center">
                         <MdImage />
                     </div>

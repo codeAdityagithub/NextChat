@@ -37,7 +37,7 @@
         @apply transition-all;
     }
     .ver_scrollbar::-webkit-scrollbar {
-        @apply hidden md:block w-2.5;
+        @apply hidden md:block w-2.5 h-2.5;
     }
     /* .ver_scrollbar:hover::-webkit-scrollbar {
         @apply hidden lg:block lg:h-3;
@@ -50,12 +50,12 @@
 
     /* Handle */
     .ver_scrollbar::-webkit-scrollbar-thumb {
-        @apply bg-secondary rounded-lg transition-colors shadow-md;
+        @apply bg-primary rounded-lg transition-colors shadow-md;
     }
 
     /* Handle on hover */
     .ver_scrollbar::-webkit-scrollbar-thumb:hover {
-        @apply bg-secondary/80;
+        @apply bg-primary/80;
     }
     .mainGrid {
         display: grid;
