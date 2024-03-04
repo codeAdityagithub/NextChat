@@ -84,6 +84,19 @@ const useConversation = ({ initialData }: Props) => {
             }
             setChatUsers(newChats);
         };
+        const deleteMessage = (message_id: number) => {
+            queryCl.setQueryData(["messages", conversation_id], (old: any) => {
+                if (!old) return old;
+                const newMessages = old.pages.map((page: Message[]) =>
+                    page.filter((message) => message.message_id !== message_id)
+                );
+                return {
+                    pages: newMessages,
+                    pageParams: old.pageParams,
+                };
+            });
+            // console.log("message deleted");
+        };
         const readMessages = (userId: string, conversation_id: string) => {
             // console.log("first");
             queryCl.setQueryData(["messages", conversation_id], (old: any) => {
@@ -102,11 +115,13 @@ const useConversation = ({ initialData }: Props) => {
             // console.log(data.pages.flatMap((page) => page));
         };
         socket.on("recieve_message", messageHandler);
+        socket.on("delete_message", deleteMessage);
         socket.on("add_conversation", getConv);
         socket.on("read_messages", readMessages);
 
         return () => {
             socket.off("recieve_message", messageHandler);
+            socket.off("delete_message", deleteMessage);
 
             socket.off("add_conversation", getConv);
             socket.off("read_messages", readMessages);

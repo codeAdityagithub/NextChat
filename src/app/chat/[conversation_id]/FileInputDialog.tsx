@@ -14,7 +14,6 @@ const FileInputDialog = ({ setFile }: Props) => {
                 onClick={() => dialogRef.current?.showModal()}
             ></div>
             <dialog
-                id="my_modal_1"
                 className="modal bg-transparent transition-opacity duration-200 p-3"
                 ref={dialogRef}
             >

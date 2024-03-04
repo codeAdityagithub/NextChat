@@ -39,7 +39,7 @@ const ChatContent = ({
     }, []);
 
     return (
-        <div className="flex-1 flex flex-col-reverse overflow-y-auto pt-2 px-2 ver_scrollbar w-full lg:px-10 xl:px-20 2xl:px-28 second_last_child">
+        <div className="flex-1 flex flex-col-reverse overflow-y-auto pt-2 px-2 ver_scrollbar w-full lg:px-10 xl:px-20 2xl:px-28 second_last_child ">
             {isLoading || !data || !isClient ? (
                 <ChatContentLoader />
             ) : (
@@ -77,7 +77,7 @@ const ChatContent = ({
                                             created_at={message.created_at}
                                             content={message.content}
                                             dp={otherPerson.dp}
-                                            id={otherPerson.id}
+                                            message_id={message.message_id}
                                             showDp={showDp}
                                         />
                                     ) : (
@@ -86,7 +86,9 @@ const ChatContent = ({
                                             name={"You"}
                                             status={message.status}
                                             created_at={message.created_at}
+                                            message_id={message.message_id}
                                             content={message.content}
+                                            otherPersonId={otherPerson?.id}
                                         />
                                     )}
                                     <div className="w-full flex justify-center">
@@ -111,7 +113,7 @@ const ChatContent = ({
                                 created_at={message.created_at}
                                 content={message.content}
                                 dp={otherPerson.dp}
-                                id={otherPerson.id}
+                                message_id={message.message_id}
                                 showDp={showDp}
                             />
                         ) : (
@@ -120,7 +122,9 @@ const ChatContent = ({
                                 name={"You"}
                                 status={message.status}
                                 created_at={message.created_at}
+                                message_id={message.message_id}
                                 content={message.content}
+                                otherPersonId={otherPerson?.id}
                             />
                         );
                     })}

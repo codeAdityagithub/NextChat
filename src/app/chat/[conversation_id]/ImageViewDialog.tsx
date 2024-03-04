@@ -28,7 +28,6 @@ const ImageViewDialog = ({ dialogRef, blob }: Props) => {
                 ></div>
             )} */}
             <dialog
-                id="my_modal_1"
                 className="modal bg-transparent z-20 transition-opacity duration-200 p-8 md:p-16"
                 ref={dialogRef}
             >

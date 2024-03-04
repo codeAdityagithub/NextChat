@@ -76,12 +76,14 @@ const useMessages = ({ initialData, userId }: Props) => {
     // };
 
     useEffect(() => {
-        const sound = new Audio("/messageSound2.mp3");
-        sound.autoplay = false;
-        sound.volume = 0.8;
+        const soundRec = new Audio("/messageSound2.mp3");
+        const soundSend = new Audio("/messageSound1.mp3");
+        soundRec.autoplay = false;
+        soundRec.volume = 0.8;
+        soundSend.volume = 0.5;
         // const messageHandler = (message: Message) => {
         //     // setMessages((prev) => [message, ...prev]);
-        //     if (message.sender_id !== userId) sound.play();
+        //     if (message.sender_id !== userId) soundRec.play();
 
         //     queryCl.setQueryData(
         //         ["messages", message.conversation_id.toString()],
@@ -93,7 +95,8 @@ const useMessages = ({ initialData, userId }: Props) => {
         // };
         const messageHandler = (message: Message) => {
             // setMessages((prev) => [message, ...prev]);
-            if (message.sender_id !== userId) sound.play();
+            if (message.sender_id !== userId) soundRec.play();
+            else soundSend.play();
 
             queryCl.setQueryData(
                 ["messages", message.conversation_id.toString()],

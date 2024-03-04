@@ -40,3 +40,8 @@ export const POST = async (req: NextRequest) => {
         return NextResponse.json({ messages: [] }, { status: 500 });
     }
 };
+
+// export const DELETE = async (req:NextRequest)=>{
+//     const {message_id} = await req.json()
+//     await sql`delete from messages`
+// }

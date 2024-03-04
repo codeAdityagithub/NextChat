@@ -1,4 +1,5 @@
 import { getTime } from "@/lib/timeFormatters";
+import MessageDeleteDropdown from "./MessageDeleteDropdown";
 
 type Props = {
     // message: Pick<Message, "content" | "created_at" | "status">;
@@ -6,9 +7,18 @@ type Props = {
     created_at: Date;
     status: "read" | "delivered";
     name: string;
+    message_id: number;
+    otherPersonId?: string;
 };
 
-const ChatBubbleRight = ({ content, created_at, name, status }: Props) => {
+const ChatBubbleRight = ({
+    content,
+    created_at,
+    name,
+    status,
+    message_id,
+    otherPersonId,
+}: Props) => {
     return (
         <div className="chat chat-end">
             <div className="chat-header text-base-content">{name}</div>
@@ -18,6 +28,11 @@ const ChatBubbleRight = ({ content, created_at, name, status }: Props) => {
             <div className="chat-footer text-xs text-base-content">
                 {getTime(created_at)} {status}
             </div>
+            <MessageDeleteDropdown
+                message_id={message_id}
+                otherPersonId={otherPersonId}
+                message_type="text"
+            />
         </div>
     );
 };
