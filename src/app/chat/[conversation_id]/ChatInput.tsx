@@ -112,18 +112,18 @@ const ChatInput = ({
         mutateImage({ conversation_id, file, otherPersonId, apiAccessToken });
     };
 
+    const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setMessage(e.target.value);
+        e.target.style.height = "1px";
+        e.target.style.height = `${Math.min(e.target.scrollHeight, 144)}px`;
+    };
+
     useEffect(() => {
         socket.emit("join_conversation", conversation_id, otherPersonId);
         return () => {
             socket.emit("leave_conversation", conversation_id);
         };
     }, [conversation_id, otherPersonId]);
-
-    const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setMessage(e.target.value);
-        e.target.style.height = "1px";
-        e.target.style.height = `${Math.min(e.target.scrollHeight, 144)}px`;
-    };
 
     return (
         <>

@@ -1,5 +1,5 @@
 import { getTime } from "@/lib/timeFormatters";
-import MessageDeleteDropdown from "./MessageDeleteDropdown";
+import MessageDeleteDropdown from "./MessageOptionsDropdown";
 
 type Props = {
     // message: Pick<Message, "content" | "created_at" | "status">;
@@ -31,7 +31,8 @@ const ChatBubbleRight = ({
             <MessageDeleteDropdown
                 message_id={message_id}
                 otherPersonId={otherPersonId}
-                message_type="text"
+                messageType="text"
+                messageContent={content}
             />
         </div>
     );

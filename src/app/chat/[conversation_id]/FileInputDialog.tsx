@@ -31,7 +31,7 @@ const FileInputDialog = ({ setFile }: Props) => {
                         >
                             {/* if there is a button in form, it will close the modal */}
                             <button
-                                className="_btn-sm bg-error"
+                                className="_btn-sm bg-error text-error-content"
                                 onClick={() => setFile(null)}
                             >
                                 Discard

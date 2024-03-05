@@ -48,9 +48,13 @@ const getData = async (
     }
 };
 
-const Sidebar = async () => {
+const Sidebar = async ({
+    data,
+}: {
+    data: { chatUsers: UserCardInfo[]; status: "error" | "success" };
+}) => {
     const session = await getServerSession(authOptions);
-    const data = await getData(session?.user.id!);
+    // const data = await getData(session?.user.id!);
     // console.log(session);
     if (data.status === "error")
         throw new FetchError("Couldn't Fetch your chats");

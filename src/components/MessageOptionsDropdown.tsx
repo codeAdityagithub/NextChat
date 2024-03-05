@@ -4,24 +4,33 @@ import { useSession } from "next-auth/react";
 import React, { useRef, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
+import { TbMessageForward } from "react-icons/tb";
+import { useForwardStore } from "./zustand/ForwardMessageDialogStore";
 
 type Props = {
     message_id: number;
     otherPersonId?: string;
-    message_type: "text" | "image";
+    messageType: "text" | "image";
+    messageContent: string;
 };
 
-const MessageDeleteDropdown = ({
+const MessageOptionsDropdown = ({
     message_id,
     otherPersonId,
-    message_type,
+    messageType,
+    messageContent,
 }: Props) => {
     const session = useSession();
     const dialogRef = useRef<HTMLDialogElement>(null);
     const [error, setError] = useState("");
+    const toggleDialog = useForwardStore((state) => state.toggleDialog);
+    const setForwardContent = useForwardStore(
+        (state) => state.setForwardContent
+    );
+
     const handleDelete = async () => {
         try {
-            if (message_type === "text") {
+            if (messageType === "text") {
                 await axios.delete(
                     `${process.env.NEXT_PUBLIC_API_URL}/message`,
                     {
@@ -31,7 +40,7 @@ const MessageDeleteDropdown = ({
                         data: { message_id, otherPersonId },
                     }
                 );
-            } else if (message_type === "image") {
+            } else if (messageType === "image") {
                 await axios.delete(
                     `${process.env.NEXT_PUBLIC_API_URL}/message/image`,
                     {
@@ -99,10 +108,22 @@ const MessageDeleteDropdown = ({
                 <li tabIndex={0} className="hover:bg-secondary rounded-md">
                     <button
                         aria-label="delete message"
-                        className="p-2"
+                        className="p-2 flex justify-between"
+                        onClick={() => {
+                            setForwardContent(messageContent, messageType);
+                            toggleDialog();
+                        }}
+                    >
+                        Forward Message <TbMessageForward className="text-lg" />
+                    </button>
+                </li>
+                <li tabIndex={0} className="hover:bg-secondary rounded-md">
+                    <button
+                        aria-label="delete message"
+                        className="p-2 flex justify-between"
                         onClick={() => dialogRef.current?.showModal()}
                     >
-                        Delete message <MdDelete />
+                        Delete message <MdDelete className="text-lg" />
                     </button>
                 </li>
             </ul>
@@ -110,4 +131,4 @@ const MessageDeleteDropdown = ({
     );
 };
 
-export default MessageDeleteDropdown;
+export default MessageOptionsDropdown;

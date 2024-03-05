@@ -7,7 +7,7 @@ import { MdImage } from "react-icons/md";
 import ImageViewDialog from "./ImageViewDialog";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import MessageDeleteDropdown from "@/components/MessageDeleteDropdown";
+import MessageDeleteDropdown from "@/components/MessageOptionsDropdown";
 
 type otherPerson = Pick<User, "id" | "name" | "username" | "dp">;
 
@@ -122,8 +122,9 @@ const ChatImage = ({ message, otherPerson, showDp }: Props) => {
             </div>
             <MessageDeleteDropdown
                 message_id={message.message_id}
-                message_type="image"
+                messageType="image"
                 otherPersonId={otherPerson?.id}
+                messageContent={message.content}
             />
         </div>
     );

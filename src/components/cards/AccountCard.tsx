@@ -36,20 +36,6 @@ const AccountCard = async (props: Props) => {
         <div className="w-full min-h-[75px] mb-2 flex items-center justify-between pr-2 gap-1 bg-transparent">
             <div className="flex items-center gap-3 flex-1">
                 <div className="h-[60px] w-[60px] overflow-hidden relative rounded-full">
-                    {/* <Image
-                        src={
-                            session?.user.image
-                                ? `${
-                                      session?.user.image
-                                  }?timestamp=${Date.now()}`
-                                : "/account.png"
-                        }
-                        alt="Your account Profile"
-                        fill
-                        className="object-cover"
-                        crossOrigin="anonymous"
-                        sizes="100px"
-                    /> */}
                     <MyProfile image={session?.user.image} />
                 </div>
                 <div className="flex items-start justify-center flex-col h-full">
