@@ -69,7 +69,7 @@ const MessageDeleteDropdown = ({
                     </p>
                     <div className="modal-action gap-4">
                         <button
-                            className="_btn-sm bg-error"
+                            className="_btn-sm bg-error text-error-content"
                             onClick={handleDelete}
                         >
                             Delete
@@ -96,9 +96,10 @@ const MessageDeleteDropdown = ({
                 tabIndex={0}
                 className="dropdown-content z-[1] menu p-1 shadow-md shadow-black bg-neutral text-neutral-content rounded-lg w-max "
             >
-                <li tabIndex={0} className="p-2 hover:bg-secondary rounded-md">
+                <li tabIndex={0} className="hover:bg-secondary rounded-md">
                     <button
                         aria-label="delete message"
+                        className="p-2"
                         onClick={() => dialogRef.current?.showModal()}
                     >
                         Delete message <MdDelete />

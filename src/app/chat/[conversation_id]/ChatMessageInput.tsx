@@ -2,6 +2,7 @@ import React, {
     ChangeEvent,
     Dispatch,
     SetStateAction,
+    useEffect,
     useRef,
     useState,
 } from "react";
@@ -10,11 +11,18 @@ import { MdOutlineAttachFile } from "react-icons/md";
 import FileInputDialog from "./FileInputDialog";
 
 type Props = {
-    handleImageMessage: (file: File) => Promise<"error" | "success">;
+    handleImageMessage: (file: File) => void;
     setError: Dispatch<SetStateAction<string>>;
+    isPending: boolean;
+    isSuccess: boolean;
 };
 
-const ChatMessageInput = ({ handleImageMessage, setError }: Props) => {
+const ChatMessageInput = ({
+    handleImageMessage,
+    setError,
+    isPending,
+    isSuccess,
+}: Props) => {
     // const dialogRef = useRef<HTMLDialogElement>(null);
     const [file, setFile] = useState<File | null>(null);
 
@@ -32,9 +40,12 @@ const ChatMessageInput = ({ handleImageMessage, setError }: Props) => {
     const handleSend = async () => {
         if (file === null) return;
 
-        const res = await handleImageMessage(file);
-        if (res == "success" || res == "error") setFile(null);
+        handleImageMessage(file);
+        // if (isSuccess) setFile(null);
     };
+    useEffect(() => {
+        if (isSuccess) setFile(null);
+    }, [isSuccess]);
 
     return (
         <div className="relative">
@@ -43,7 +54,7 @@ const ChatMessageInput = ({ handleImageMessage, setError }: Props) => {
             <div
                 className={`${
                     file === null ? "hidden " : ""
-                }w-max max-w-[240px] sm:max-w-xs transition-all bg-neutral p-2 z-20 rounded-lg absolute bottom-14 flex flex-col items-end gap-2`}
+                }w-max max-w-[240px] sm:max-w-xs transition-all bg-neutral p-2 z-20 rounded-lg absolute bottom-16 flex flex-col items-end gap-2`}
                 hidden={file === null}
             >
                 <img
@@ -59,9 +70,9 @@ const ChatMessageInput = ({ handleImageMessage, setError }: Props) => {
                         Discard
                     </button>
                     <button
-                        disabled={file === null}
+                        disabled={file === null || isPending}
                         onClick={() => handleSend()}
-                        className="_btn-sm bg-accent text-accent-content"
+                        className="_btn-sm bg-accent text-accent-content disabled:bg-secondary disabled:text-secondary-content"
                     >
                         <BiSend />
                     </button>

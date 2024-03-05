@@ -16,6 +16,12 @@ type MutationParams = {
     conversation_id: string | string[];
     message: string;
 };
+type ImageMutationParams = {
+    otherPersonId: string;
+    apiAccessToken?: string;
+    conversation_id: string | string[];
+    file: File;
+};
 
 const sendMessage = async ({
     message,
@@ -33,6 +39,29 @@ const sendMessage = async ({
         }
     );
 };
+const sendImage = async ({
+    file,
+    conversation_id,
+    otherPersonId,
+    apiAccessToken,
+}: ImageMutationParams) => {
+    const compressedImage = await imageCompression(file, {
+        useWebWorker: true,
+        maxWidthOrHeight: 1000,
+        maxSizeMB: 0.1,
+    });
+
+    const data = new FormData();
+    data.set("image", compressedImage);
+    data.set("otherPersonId", otherPersonId);
+    data.set("conversation_id", conversation_id as string);
+
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/message/image`, data, {
+        headers: {
+            Authorization: `Bearer ${apiAccessToken}`,
+        },
+    });
+};
 
 const ChatInput = ({
     otherPersonId,
@@ -45,7 +74,7 @@ const ChatInput = ({
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const ref = useRef<HTMLTextAreaElement>(null);
-    const { mutate, isPending } = useMutation({
+    const { mutate: mutateMessage, isPending: isPendingMessage } = useMutation({
         mutationFn: sendMessage,
         onSuccess() {
             setMessage("");
@@ -57,42 +86,32 @@ const ChatInput = ({
             setTimeout(() => setError(""), 3000);
         },
     });
+    const {
+        mutate: mutateImage,
+        isPending: isPendingImage,
+        isSuccess,
+    } = useMutation({
+        mutationFn: sendImage,
+        onError(error: any) {
+            console.log(error);
+            setError("Couldn't send message now!");
+            setTimeout(() => setError(""), 3000);
+        },
+    });
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (message.trim() === "") return;
-        mutate({ message, conversation_id, otherPersonId, apiAccessToken });
-    };
-    const handleImageMessage = async (file: File) => {
-        const compressedImage = await imageCompression(file, {
-            useWebWorker: true,
-            maxWidthOrHeight: 1000,
-            maxSizeMB: 0.1,
+        mutateMessage({
+            message,
+            conversation_id,
+            otherPersonId,
+            apiAccessToken,
         });
-
-        const data = new FormData();
-        data.set("image", compressedImage);
-        data.set("otherPersonId", otherPersonId);
-        data.set("conversation_id", conversation_id as string);
-
-        try {
-            const res = await axios.post(
-                `${process.env.NEXT_PUBLIC_API_URL}/message/image`,
-                data,
-                {
-                    headers: {
-                        Authorization: `Bearer ${apiAccessToken}`,
-                    },
-                }
-            );
-            if (res.status === 200) {
-                return "success";
-            }
-        } catch (error: any) {
-            setError("Couldn't send message now!");
-            setTimeout(() => setError(""), 3000);
-        }
-        return "error";
     };
+    const handleImageMessage = (file: File) => {
+        mutateImage({ conversation_id, file, otherPersonId, apiAccessToken });
+    };
+
     useEffect(() => {
         socket.emit("join_conversation", conversation_id, otherPersonId);
         return () => {
@@ -111,6 +130,8 @@ const ChatInput = ({
             <ChatMessageInput
                 handleImageMessage={handleImageMessage}
                 setError={setError}
+                isPending={isPendingImage}
+                isSuccess={isSuccess}
             />
             <form
                 onSubmit={handleSubmit}
@@ -134,11 +155,11 @@ const ChatInput = ({
                     className="bg-secondary text-accent disabled:text-primary absolute right-3 bottom-2 text- p-2 rounded-full flex items-center justify-center"
                     type="submit"
                     title="send the message"
-                    disabled={isPending}
+                    disabled={isPendingMessage}
                 >
                     <BiSolidSend />
                 </button>
-                <div className="error empty:hidden absolute -top-8 left-0 bg-error text-error-content rounded-md px-2 py-1">
+                <div className="error empty:hidden z-20 absolute -top-8 left-2 bg-error text-error-content rounded-md px-2 py-1">
                     {error}
                 </div>
             </form>
