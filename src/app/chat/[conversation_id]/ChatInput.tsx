@@ -8,6 +8,31 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 
 import { BiSolidSend } from "react-icons/bi";
 import ChatMessageInput from "./ChatMessageInput";
+import { useMutation } from "@tanstack/react-query";
+
+type MutationParams = {
+    otherPersonId: string;
+    apiAccessToken?: string;
+    conversation_id: string | string[];
+    message: string;
+};
+
+const sendMessage = async ({
+    message,
+    conversation_id,
+    otherPersonId,
+    apiAccessToken,
+}: MutationParams) => {
+    await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/message`,
+        { message, otherPersonId, conversation_id },
+        {
+            headers: {
+                Authorization: `Bearer ${apiAccessToken}`,
+            },
+        }
+    );
+};
 
 const ChatInput = ({
     otherPersonId,
@@ -20,28 +45,22 @@ const ChatInput = ({
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const ref = useRef<HTMLTextAreaElement>(null);
+    const { mutate, isPending } = useMutation({
+        mutationFn: sendMessage,
+        onSuccess() {
+            setMessage("");
+            if (ref.current) ref.current.style.height = "48px";
+        },
+        onError(error: any) {
+            console.log(error);
+            setError("Couldn't send message now!");
+            setTimeout(() => setError(""), 3000);
+        },
+    });
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (message.trim() === "") return;
-
-        try {
-            const res = await axios.post(
-                `${process.env.NEXT_PUBLIC_API_URL}/message`,
-                { message, otherPersonId, conversation_id },
-                {
-                    headers: {
-                        Authorization: `Bearer ${apiAccessToken}`,
-                    },
-                }
-            );
-            if (res.status === 200) {
-                setMessage("");
-                if (ref.current) ref.current.style.height = "48px";
-            }
-        } catch (error: any) {
-            setError("Couldn't send message now!");
-            setTimeout(() => setError(""), 3000);
-        }
+        mutate({ message, conversation_id, otherPersonId, apiAccessToken });
     };
     const handleImageMessage = async (file: File) => {
         const compressedImage = await imageCompression(file, {
@@ -112,9 +131,10 @@ const ChatInput = ({
                     />
                 </div>
                 <button
-                    className="bg-secondary text-accent absolute right-3 bottom-2 text- p-2 rounded-full flex items-center justify-center"
+                    className="bg-secondary text-accent disabled:text-primary absolute right-3 bottom-2 text- p-2 rounded-full flex items-center justify-center"
                     type="submit"
                     title="send the message"
+                    disabled={isPending}
                 >
                     <BiSolidSend />
                 </button>
