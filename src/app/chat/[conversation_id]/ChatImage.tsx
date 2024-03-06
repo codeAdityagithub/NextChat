@@ -34,6 +34,7 @@ const ChatImage = ({ message, otherPerson, showDp }: Props) => {
             return blob;
         },
         enabled: session.data?.user?.apiAccessToken !== undefined,
+        gcTime: 1000 * 60 * 5,
     });
 
     const handleImageView = (
