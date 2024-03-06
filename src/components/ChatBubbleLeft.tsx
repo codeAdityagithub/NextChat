@@ -2,6 +2,8 @@ import { getTime } from "@/lib/timeFormatters";
 import LongPressDiv from "@/utils/LongPressDiv";
 import Image from "next/image";
 import { useRef, useState } from "react";
+import MessageOptionsDropdown from "./MessageOptionsDropdown";
+import OtherPersonMessageDropdown from "./OtherPersonMessageDropdown";
 
 type Props = {
     // message: Pick<Message, "content" | "created_at" | "status">;
@@ -58,6 +60,10 @@ const ChatBubbleLeft = ({
             <div className="chat-footer text-xs text-base-content">
                 {getTime(created_at)}
             </div>
+            <OtherPersonMessageDropdown
+                messageType="text"
+                messageContent={content}
+            />
         </div>
     );
 };

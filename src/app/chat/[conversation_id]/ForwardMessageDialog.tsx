@@ -1,9 +1,11 @@
 "use client";
 import MyProfile from "@/components/MyProfile";
-import UserCard from "@/components/cards/UserCard";
 import { useForwardStore } from "@/components/zustand/ForwardMessageDialogStore";
 import { UserCardInfo } from "@/types";
-import { redirect, useRouter } from "next/navigation";
+import { sendImage, sendMessage } from "@/utils/messageUtils";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 
 type Props = {
@@ -16,19 +18,48 @@ const ForwardMessageDialog = ({ chatUsers }: Props) => {
     const messageContent = useForwardStore((state) => state.messageContent);
     const messageType = useForwardStore((state) => state.messageType);
     const toggleDialog = useForwardStore((state) => state.toggleDialog);
-    const setIsForwarding = useForwardStore((state) => state.setIsForwarding);
+
     const setForwardContent = useForwardStore(
         (state) => state.setForwardContent
     );
     const router = useRouter();
+    const session = useSession();
 
     const [selectedConvId, setSelectedConvId] = useState<number | null>(null);
+    const [selectedUserId, setSelectedUserId] = useState<string>("");
 
-    const handleForward = () => {
-        setIsForwarding(true);
-        setSelectedConvId(null);
+    const handleForward = async () => {
+        if (!selectedConvId || session.status !== "authenticated") return;
+
+        if (messageType === "text") {
+            await sendMessage({
+                message: messageContent,
+                conversation_id: selectedConvId.toString(),
+                otherPersonId: selectedUserId,
+                apiAccessToken: session.data?.user.apiAccessToken,
+            });
+        } else if (messageType === "image") {
+            const res = await axios.get(messageContent, {
+                responseType: "blob",
+            });
+            const file = res.data;
+            await sendImage({
+                file,
+                conversation_id: selectedConvId.toString(),
+                otherPersonId: selectedUserId,
+                apiAccessToken: session.data?.user.apiAccessToken,
+            });
+        }
+
+        // Use a small delay or useEffect for the route change
         toggleDialog();
-        router.replace(`/chat/${selectedConvId}`);
+        setTimeout(() => {
+            router.push(`/chat/${selectedConvId}`);
+        }, 100);
+
+        setSelectedConvId(null);
+        setSelectedUserId("");
+        setForwardContent("", "text");
     };
 
     return (
@@ -49,9 +80,10 @@ const ForwardMessageDialog = ({ chatUsers }: Props) => {
                                         : "text-neutral-content hover:bg-primary/60 "
                                 }flex items-center gap-3 flex-1 cursor-pointer transition-colors rounded-md px-2 py-1`}
                                 key={conv.conversation_id}
-                                onClick={() =>
-                                    setSelectedConvId(conv.conversation_id)
-                                }
+                                onClick={() => {
+                                    setSelectedConvId(conv.conversation_id);
+                                    setSelectedUserId(conv.id!);
+                                }}
                             >
                                 <div className="h-[50px] w-[50px] overflow-hidden relative rounded-full">
                                     <MyProfile image={conv.dp} />

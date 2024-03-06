@@ -1,68 +1,13 @@
 "use client";
 import { socket } from "@/utils/socket";
-import axios from "axios";
 import { useParams, useSearchParams } from "next/navigation";
-import imageCompression from "browser-image-compression";
 
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 
 import { BiSolidSend } from "react-icons/bi";
 import ChatImageInput from "./ChatImageInput";
 import { useMutation } from "@tanstack/react-query";
-import { useForwardStore } from "@/components/zustand/ForwardMessageDialogStore";
-
-type MutationParams = {
-    otherPersonId: string;
-    apiAccessToken?: string;
-    conversation_id: string | string[];
-    message: string;
-};
-type ImageMutationParams = {
-    otherPersonId: string;
-    apiAccessToken?: string;
-    conversation_id: string | string[];
-    file: File;
-};
-
-const sendMessage = async ({
-    message,
-    conversation_id,
-    otherPersonId,
-    apiAccessToken,
-}: MutationParams) => {
-    await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/message`,
-        { message, otherPersonId, conversation_id },
-        {
-            headers: {
-                Authorization: `Bearer ${apiAccessToken}`,
-            },
-        }
-    );
-};
-const sendImage = async ({
-    file,
-    conversation_id,
-    otherPersonId,
-    apiAccessToken,
-}: ImageMutationParams) => {
-    const compressedImage = await imageCompression(file, {
-        useWebWorker: true,
-        maxWidthOrHeight: 1000,
-        maxSizeMB: 0.1,
-    });
-
-    const data = new FormData();
-    data.set("image", compressedImage);
-    data.set("otherPersonId", otherPersonId);
-    data.set("conversation_id", conversation_id as string);
-
-    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/message/image`, data, {
-        headers: {
-            Authorization: `Bearer ${apiAccessToken}`,
-        },
-    });
-};
+import { sendImage, sendMessage } from "@/utils/messageUtils";
 
 const ChatInput = ({
     otherPersonId,
@@ -74,13 +19,8 @@ const ChatInput = ({
     const { conversation_id } = useParams();
     const [error, setError] = useState("");
     const ref = useRef<HTMLTextAreaElement>(null);
+
     const [message, setMessage] = useState("");
-
-    const isForwarding = useForwardStore((state) => state.isForwarding);
-    const setIsForwarding = useForwardStore((state) => state.setIsForwarding);
-
-    const messageContent = useForwardStore((state) => state.messageContent);
-    const messageType = useForwardStore((state) => state.messageType);
 
     const { mutate: mutateMessage, isPending: isPendingMessage } = useMutation({
         mutationFn: sendMessage,
@@ -109,8 +49,6 @@ const ChatInput = ({
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (message.trim() === "") return;
-        setIsForwarding(false);
-
         mutateMessage({
             message,
             conversation_id,
@@ -134,9 +72,6 @@ const ChatInput = ({
             socket.emit("leave_conversation", conversation_id);
         };
     }, [conversation_id, otherPersonId]);
-    useEffect(() => {
-        isForwarding && messageType === "text" && setMessage(messageContent);
-    }, [isForwarding]);
 
     return (
         <>

@@ -24,8 +24,10 @@ const useConversation = ({ initialData }: Props) => {
     const queryCl = useQueryClient(queryClient);
 
     useEffect(() => {
-        const sound = new Audio("/messageSound1.mp3");
-        sound.volume = 0.6;
+        const soundRec = new Audio("/messageSound1.mp3");
+        const soundSend = new Audio("/messageSound1.mp3");
+        soundSend.volume = 0.5;
+        soundRec.volume = 0.6;
         const getConv = (conversation: UserCardInfo) => {
             // console.log("new conversation");
             setChatUsers((prev) => [
@@ -35,29 +37,29 @@ const useConversation = ({ initialData }: Props) => {
         };
         const messageHandler = (message: Message) => {
             // updating the cache if not on the page
-            if (conversation_id !== message.conversation_id.toString()) {
-                // console.log("updating the cache");
-                queryCl.setQueryData(
-                    ["messages", message.conversation_id.toString()],
-                    (old: any) => {
-                        if (!old) return old;
-                        const newMessages = [message, ...old.pages[0]];
-                        return {
-                            pages: [newMessages, ...old.pages.slice(1)],
-                            pageParams: old.pageParams,
-                        };
-                    }
-                );
-            }
+            // console.log("updating the cache");
+            if (message.sender_id === session.data?.user.id) soundSend.play();
+
+            queryCl.setQueryData(
+                ["messages", message.conversation_id.toString()],
+                (old: any) => {
+                    if (!old) return old;
+                    const newMessages = [message, ...old.pages[0]];
+                    return {
+                        pages: [newMessages, ...old.pages.slice(1)],
+                        pageParams: old.pageParams,
+                    };
+                }
+            );
             // for the notification
             setAreUnreadMessages(
                 conversation_id !== message.conversation_id.toString()
             );
             if (
-                session.data?.user.id != message.sender_id &&
-                conversation_id != message.conversation_id.toString()
+                session.data?.user.id !== message.sender_id &&
+                conversation_id !== message.conversation_id.toString()
             ) {
-                sound.play();
+                soundRec.play();
             }
             // updating the chat according to latest message
             const newChats = chatUsers.map((conv) =>

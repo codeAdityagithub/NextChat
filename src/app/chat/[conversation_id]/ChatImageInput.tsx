@@ -3,13 +3,12 @@ import React, {
     Dispatch,
     SetStateAction,
     useEffect,
-    useRef,
     useState,
 } from "react";
 import { BiSend } from "react-icons/bi";
 import { MdOutlineAttachFile } from "react-icons/md";
 import FileInputDialog from "./FileInputDialog";
-import { useForwardStore } from "@/components/zustand/ForwardMessageDialogStore";
+import { useParams } from "next/navigation";
 
 type Props = {
     handleImageMessage: (file: File) => void;
@@ -26,13 +25,6 @@ const ChatImageInput = ({
 }: Props) => {
     // const dialogRef = useRef<HTMLDialogElement>(null);
     const [file, setFile] = useState<File | null>(null);
-    const isForwarding = useForwardStore((state) => state.isForwarding);
-    const setIsForwarding = useForwardStore((state) => state.setIsForwarding);
-    const setForwardContent = useForwardStore(
-        (state) => state.setForwardContent
-    );
-    const messageContent = useForwardStore((state) => state.messageContent);
-    const messageType = useForwardStore((state) => state.messageType);
 
     const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
         const { files } = e.target;
@@ -47,19 +39,15 @@ const ChatImageInput = ({
     };
     const handleSend = async () => {
         if (file === null) return;
-        setIsForwarding(false);
-        setForwardContent("", "text");
+        // setIsForwardingTo("");
+        // setForwardContent("", "text");
         handleImageMessage(file);
         // if (isSuccess) setFile(null);
     };
+
     useEffect(() => {
         if (isSuccess) setFile(null);
-        if (isForwarding && messageType === "image") {
-            fetch(messageContent)
-                .then((res) => res.blob())
-                .then((blob) => setFile(blob as File));
-        }
-    }, [isSuccess, isForwarding]);
+    }, [isSuccess]);
 
     return (
         <div className="relative">
@@ -81,8 +69,6 @@ const ChatImageInput = ({
                         className="_btn-sm bg-error text-error-content"
                         onClick={() => {
                             setFile(null);
-                            setIsForwarding(false);
-                            setForwardContent("", "text");
                         }}
                     >
                         Discard
