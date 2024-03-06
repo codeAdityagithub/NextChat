@@ -10,7 +10,7 @@ const FileInputDialog = ({ setFile }: Props) => {
     return (
         <>
             <div
-                className="z-10 fixed inset-0 backdrop-blur-[1px]"
+                className="z-10 fixed inset-0 bg-black/20"
                 onClick={() => dialogRef.current?.showModal()}
             ></div>
             <dialog

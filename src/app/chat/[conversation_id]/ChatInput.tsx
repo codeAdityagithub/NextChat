@@ -1,14 +1,15 @@
 "use client";
 import { socket } from "@/utils/socket";
 import axios from "axios";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import imageCompression from "browser-image-compression";
 
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 
 import { BiSolidSend } from "react-icons/bi";
-import ChatMessageInput from "./ChatMessageInput";
+import ChatImageInput from "./ChatImageInput";
 import { useMutation } from "@tanstack/react-query";
+import { useForwardStore } from "@/components/zustand/ForwardMessageDialogStore";
 
 type MutationParams = {
     otherPersonId: string;
@@ -71,9 +72,16 @@ const ChatInput = ({
     apiAccessToken?: string;
 }) => {
     const { conversation_id } = useParams();
-    const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const ref = useRef<HTMLTextAreaElement>(null);
+    const [message, setMessage] = useState("");
+
+    const isForwarding = useForwardStore((state) => state.isForwarding);
+    const setIsForwarding = useForwardStore((state) => state.setIsForwarding);
+
+    const messageContent = useForwardStore((state) => state.messageContent);
+    const messageType = useForwardStore((state) => state.messageType);
+
     const { mutate: mutateMessage, isPending: isPendingMessage } = useMutation({
         mutationFn: sendMessage,
         onSuccess() {
@@ -101,6 +109,8 @@ const ChatInput = ({
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (message.trim() === "") return;
+        setIsForwarding(false);
+
         mutateMessage({
             message,
             conversation_id,
@@ -124,10 +134,13 @@ const ChatInput = ({
             socket.emit("leave_conversation", conversation_id);
         };
     }, [conversation_id, otherPersonId]);
+    useEffect(() => {
+        isForwarding && messageType === "text" && setMessage(messageContent);
+    }, [isForwarding]);
 
     return (
         <>
-            <ChatMessageInput
+            <ChatImageInput
                 handleImageMessage={handleImageMessage}
                 setError={setError}
                 isPending={isPendingImage}

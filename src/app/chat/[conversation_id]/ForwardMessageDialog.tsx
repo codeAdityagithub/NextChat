@@ -3,6 +3,7 @@ import MyProfile from "@/components/MyProfile";
 import UserCard from "@/components/cards/UserCard";
 import { useForwardStore } from "@/components/zustand/ForwardMessageDialogStore";
 import { UserCardInfo } from "@/types";
+import { redirect, useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 
 type Props = {
@@ -15,11 +16,20 @@ const ForwardMessageDialog = ({ chatUsers }: Props) => {
     const messageContent = useForwardStore((state) => state.messageContent);
     const messageType = useForwardStore((state) => state.messageType);
     const toggleDialog = useForwardStore((state) => state.toggleDialog);
+    const setIsForwarding = useForwardStore((state) => state.setIsForwarding);
     const setForwardContent = useForwardStore(
         (state) => state.setForwardContent
     );
+    const router = useRouter();
 
     const [selectedConvId, setSelectedConvId] = useState<number | null>(null);
+
+    const handleForward = () => {
+        setIsForwarding(true);
+        setSelectedConvId(null);
+        toggleDialog();
+        router.replace(`/chat/${selectedConvId}`);
+    };
 
     return (
         <>
@@ -67,7 +77,10 @@ const ForwardMessageDialog = ({ chatUsers }: Props) => {
                             cancel
                         </button>
                         {selectedConvId !== null && (
-                            <button className="_btn-sm bg-accent text-accent-content">
+                            <button
+                                className="_btn-sm bg-accent text-accent-content"
+                                onClick={handleForward}
+                            >
                                 send
                             </button>
                         )}

@@ -1,7 +1,5 @@
 import Image from "next/image";
 
-import { BsThreeDots } from "react-icons/bs";
-
 import OnlineStatus from "./OnlineStatus";
 import GoBack from "../../../components/GoBack";
 import ChatHeaderOptions from "@/components/ChatHeaderOptions";

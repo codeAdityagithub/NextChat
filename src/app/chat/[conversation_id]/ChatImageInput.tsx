@@ -9,6 +9,7 @@ import React, {
 import { BiSend } from "react-icons/bi";
 import { MdOutlineAttachFile } from "react-icons/md";
 import FileInputDialog from "./FileInputDialog";
+import { useForwardStore } from "@/components/zustand/ForwardMessageDialogStore";
 
 type Props = {
     handleImageMessage: (file: File) => void;
@@ -17,7 +18,7 @@ type Props = {
     isSuccess: boolean;
 };
 
-const ChatMessageInput = ({
+const ChatImageInput = ({
     handleImageMessage,
     setError,
     isPending,
@@ -25,6 +26,13 @@ const ChatMessageInput = ({
 }: Props) => {
     // const dialogRef = useRef<HTMLDialogElement>(null);
     const [file, setFile] = useState<File | null>(null);
+    const isForwarding = useForwardStore((state) => state.isForwarding);
+    const setIsForwarding = useForwardStore((state) => state.setIsForwarding);
+    const setForwardContent = useForwardStore(
+        (state) => state.setForwardContent
+    );
+    const messageContent = useForwardStore((state) => state.messageContent);
+    const messageType = useForwardStore((state) => state.messageType);
 
     const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
         const { files } = e.target;
@@ -39,13 +47,19 @@ const ChatMessageInput = ({
     };
     const handleSend = async () => {
         if (file === null) return;
-
+        setIsForwarding(false);
+        setForwardContent("", "text");
         handleImageMessage(file);
         // if (isSuccess) setFile(null);
     };
     useEffect(() => {
         if (isSuccess) setFile(null);
-    }, [isSuccess]);
+        if (isForwarding && messageType === "image") {
+            fetch(messageContent)
+                .then((res) => res.blob())
+                .then((blob) => setFile(blob as File));
+        }
+    }, [isSuccess, isForwarding]);
 
     return (
         <div className="relative">
@@ -65,7 +79,11 @@ const ChatMessageInput = ({
                 <div className="flex w-full p-1 justify-between">
                     <button
                         className="_btn-sm bg-error text-error-content"
-                        onClick={() => setFile(null)}
+                        onClick={() => {
+                            setFile(null);
+                            setIsForwarding(false);
+                            setForwardContent("", "text");
+                        }}
                     >
                         Discard
                     </button>
@@ -96,4 +114,4 @@ const ChatMessageInput = ({
     );
 };
 
-export default ChatMessageInput;
+export default ChatImageInput;

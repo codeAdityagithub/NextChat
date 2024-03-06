@@ -120,12 +120,14 @@ const ChatImage = ({ message, otherPerson, showDp }: Props) => {
             <div className="chat-footer text-xs text-base-content">
                 {getTime(message.created_at)} {message.status}
             </div>
-            <MessageDeleteDropdown
-                message_id={message.message_id}
-                messageType="image"
-                otherPersonId={otherPerson?.id}
-                messageContent={message.content}
-            />
+            {isLoading || isError || !data ? null : (
+                <MessageDeleteDropdown
+                    message_id={message.message_id}
+                    messageType="image"
+                    otherPersonId={otherPerson?.id}
+                    messageContent={data}
+                />
+            )}
         </div>
     );
 };

@@ -1,12 +1,18 @@
-import ChatInput from "@/app/chat/[conversation_id]/ChatInput";
-import ChatHeader from "@/app/chat/[conversation_id]/ChatHeader";
 import { Message, User } from "@/dbtypes";
 import sql from "@/utils/db";
 import authOptions from "@/utils/nextauthOptions";
 import { getServerSession } from "next-auth";
-import { notFound } from "next/navigation";
-import ChatContent from "./ChatContent";
+import dynamic from "next/dynamic";
 
+const ChatContent = dynamic(() => import("./ChatContent"));
+const ChatHeader = dynamic(() => import("./ChatHeader"));
+const ChatInput = dynamic(() => import("./ChatInput"));
+
+// import ChatContent from "./ChatContent";
+// import ChatHeader from "./ChatHeader";
+// import ChatInput from "./ChatInput";
+
+import { notFound } from "next/navigation";
 type Props = {
     params: { conversation_id: string };
 };

@@ -8,7 +8,6 @@ import { formatTag } from "@/lib/timeFormatters";
 import { useEffect, useRef, useState } from "react";
 import ChatContentLoader from "./ChatContentLoader";
 import ChatImage from "./ChatImage";
-import ForwardMessageDialog from "./ForwardMessageDialog";
 
 type otherPerson = Pick<User, "id" | "name" | "username" | "dp">;
 
