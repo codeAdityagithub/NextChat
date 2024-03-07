@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { User } from "@/dbtypes";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import type { Metadata } from "next";
 import ThemeSetter from "@/components/ThemeSetter";
@@ -15,60 +15,36 @@ import { FcGoogle } from "react-icons/fc";
 //     description: "Register yourself to NextChat, and create new Connections",
 // };
 
-const checkValid = (inputVal: string) => {
-    return inputVal.includes("|") || inputVal.includes("_");
-};
-
-const createUser = async (data: User) => {
-    try {
-        const res = await axios.post(`/api/auth/register`, data);
-        return res.data;
-    } catch (err: any) {
-        console.log("err", err);
-        return err.response?.data?.error
-            ? err.response?.data
-            : { error: "Something went wrong" };
-    }
-};
-
 const Register = () => {
     const router = useRouter();
     const session = useSession();
-    const [user, setUser] = useState<User>({
-        name: "",
+    const [user, setUser] = useState({
         email: "",
         password: "",
-        username: "",
     });
-    const [message, setMessage] = useState("");
     const [error, setError] = useState("");
+    const isError = !!useSearchParams().get("error");
+    const callback = useSearchParams().get("callbackUrl");
 
     useEffect(() => {
         if (session.status === "authenticated") {
             router.replace("/chat");
+        }
+        if (isError) {
+            setError("Check your credentials");
+            setTimeout(() => setError(""), 3000);
         }
     }, [session, router]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // console.log(user.name, user.username);
-        if (checkValid(user.name) || checkValid(user.username)) {
-            setError("name or username cannot contain '|' or '_'");
-            setTimeout(() => setError(""), 3000);
-            return;
-        }
-        const res = await createUser(user);
-        console.log(res);
-        if (res.error) {
-            setError(res.error);
-            setTimeout(() => setError(""), 3000);
-        } else if (res.message) {
-            setMessage(res.message);
-            setTimeout(() => {
-                setMessage("");
-                router.replace("/api/auth/signin");
-            }, 2000);
-        }
+        signIn("credentials", {
+            email: user.email,
+            password: user.password,
+            redirect: true,
+            callbackUrl: callback ?? "/chat",
+        });
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,12 +57,9 @@ const Register = () => {
         <div className="w-full h-full p-4 overflow-y-auto flex flex-col relative font-sans justify-center items-center box-border">
             <ThemeSetter />
             <h2 className="w-full p-2 text-center text-xl text-base-content">
-                Register | NextChat
+                Login | NextChat
             </h2>
             <div className="min-w-[280px] sm:w-[350px] p-4 sm:p-6 bg-neutral text-neutral-content rounded-lg shadow-lg">
-                <p className="w-full text-success-content bg-success  test-xs text-center empty:p-0 p-1 rounded-md my-2">
-                    {message}
-                </p>
                 <p className="w-full text-error-content bg-error test-xs text-center empty:p-0 p-1 rounded-md my-2">
                     {error}
                 </p>
@@ -115,26 +88,6 @@ const Register = () => {
                 >
                     <input
                         required
-                        type="text"
-                        value={user?.name}
-                        maxLength={255}
-                        name="name"
-                        onChange={handleChange}
-                        placeholder="Your name..."
-                        className="p-2 min-w-0 bg-transparent text-neutral-content flex-1 ring-1 ring-secondary focus:ring-offset-1 focus:outline-none rounded-md"
-                    />
-                    <input
-                        required
-                        type="text"
-                        value={user?.username}
-                        maxLength={255}
-                        name="username"
-                        onChange={handleChange}
-                        placeholder="Your Username thats unique ..."
-                        className="p-2 min-w-0 bg-transparent text-neutral-content flex-1 ring-1 ring-secondary focus:ring-offset-1 focus:outline-none rounded-md"
-                    />
-                    <input
-                        required
                         type="email"
                         value={user?.email}
                         name="email"
@@ -160,13 +113,12 @@ const Register = () => {
                         Submit
                     </button>
                 </form>
-
                 <div className="border-t border-secondary mt-4 pt-2">
                     <Link
-                        href="/userauth/login"
+                        href="/userauth/register"
                         className="text-sm flex items-center justify-center"
                     >
-                        Already registered?
+                        Don&apos;t have a account?
                     </Link>
                 </div>
             </div>

@@ -194,6 +194,9 @@ const authOptions: NextAuthOptions = {
             return jwt.verify(token!, secret);
         },
     },
+    pages: {
+        signIn: "/userauth/login",
+    },
 };
 
 export default authOptions;

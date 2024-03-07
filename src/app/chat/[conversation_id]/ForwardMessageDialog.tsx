@@ -35,7 +35,6 @@ const ForwardMessageDialog = ({ chatUsers }: Props) => {
         isError,
     } = useMutation({
         mutationFn: sendMessage,
-        onSuccess() {},
         onError(error: any) {
             console.log(error);
         },

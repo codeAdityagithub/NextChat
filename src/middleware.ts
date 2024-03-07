@@ -22,6 +22,9 @@ export default withAuth({
             return !!cookie;
         },
     },
+    pages: {
+        signIn: "/userauth/login",
+    },
 });
 
 // export const middleware: NextMiddleware = async (req) => {
