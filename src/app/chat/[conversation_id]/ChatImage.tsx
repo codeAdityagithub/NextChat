@@ -65,10 +65,12 @@ const ChatImage = ({ message, otherPerson, showDp }: Props) => {
                         />
                     ) : null}
                 </div>
-                <OtherPersonMessageDropdown
-                    messageContent={message.content}
-                    messageType="image"
-                />
+                {isLoading || isError || !data ? null : (
+                    <OtherPersonMessageDropdown
+                        messageContent={data}
+                        messageType="image"
+                    />
+                )}
             </div>
             <div className="chat-header text-base-content ">
                 {otherPerson.name}

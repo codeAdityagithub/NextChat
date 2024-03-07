@@ -3,6 +3,7 @@ import MyProfile from "@/components/MyProfile";
 import { useForwardStore } from "@/components/zustand/ForwardMessageDialogStore";
 import { UserCardInfo } from "@/types";
 import { sendImage, sendMessage } from "@/utils/messageUtils";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -28,11 +29,33 @@ const ForwardMessageDialog = ({ chatUsers }: Props) => {
     const [selectedConvId, setSelectedConvId] = useState<number | null>(null);
     const [selectedUserId, setSelectedUserId] = useState<string>("");
 
+    const {
+        mutate: mutateMessage,
+        isPending: isPendingMessage,
+        isError,
+    } = useMutation({
+        mutationFn: sendMessage,
+        onSuccess() {},
+        onError(error: any) {
+            console.log(error);
+        },
+    });
+    const {
+        mutate: mutateImage,
+        isPending: isPendingImage,
+        isSuccess,
+    } = useMutation({
+        mutationFn: sendImage,
+        onError(error: any) {
+            console.log(error);
+        },
+    });
+
     const handleForward = async () => {
-        if (!selectedConvId || session.status !== "authenticated") return;
+        if (!selectedConvId || !session.data) return;
 
         if (messageType === "text") {
-            await sendMessage({
+            mutateMessage({
                 message: messageContent,
                 conversation_id: selectedConvId.toString(),
                 otherPersonId: selectedUserId,
@@ -43,7 +66,7 @@ const ForwardMessageDialog = ({ chatUsers }: Props) => {
                 responseType: "blob",
             });
             const file = res.data;
-            await sendImage({
+            mutateImage({
                 file,
                 conversation_id: selectedConvId.toString(),
                 otherPersonId: selectedUserId,
@@ -110,7 +133,12 @@ const ForwardMessageDialog = ({ chatUsers }: Props) => {
                         </button>
                         {selectedConvId !== null && (
                             <button
-                                className="_btn-sm bg-accent text-accent-content"
+                                disabled={
+                                    isError ||
+                                    isPendingImage ||
+                                    isPendingMessage
+                                }
+                                className="_btn-sm bg-accent text-accent-content disabled:bg-secondary"
                                 onClick={handleForward}
                             >
                                 send
