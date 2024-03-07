@@ -31,10 +31,10 @@ const ChatBubbleLeft = ({
     //     dialogRef.current?.show();
     // };
     return (
-        <div className="chat chat-start relative">
-            <div className="chat-image avatar mb-auto mt-5">
+        <div className="chat chat-start gap-x-2">
+            <div className="chat-image h-full justify-between flex flex-col items-center gap-2">
                 <div
-                    className={`w-10 h-10 rounded-full overflow-hidden relative ${
+                    className={`w-8 h-8 mt-1 rounded-full overflow-hidden relative ${
                         showDp ? "shadow-md" : ""
                     }`}
                 >
@@ -49,21 +49,20 @@ const ChatBubbleLeft = ({
                         />
                     ) : null}
                 </div>
+                <OtherPersonMessageDropdown
+                    messageType="text"
+                    messageContent={content}
+                />
             </div>
-            <div className="chat-header text-base-content ">{name}</div>
+            {showDp ? (
+                <div className="text-base-content text-xs">{name}</div>
+            ) : null}
             <div className="chat-bubble bg-secondary rounded-md text-secondary-content relative  break-words max-w-[260px] sm:max-w-sm lg:max-w-lg">
-                {showDp ? (
-                    <div className="absolute top-0 -left-2 rounded-md w-0 h-0 border-[12px] border-secondary border-solid border-r-transparent border-l-transparent border-b-transparent"></div>
-                ) : null}
                 {content}
             </div>
             <div className="chat-footer text-xs text-base-content">
                 {getTime(created_at)}
             </div>
-            <OtherPersonMessageDropdown
-                messageType="text"
-                messageContent={content}
-            />
         </div>
     );
 };

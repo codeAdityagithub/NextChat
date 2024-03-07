@@ -8,6 +8,7 @@ import ImageViewDialog from "./ImageViewDialog";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import MessageDeleteDropdown from "@/components/MessageOptionsDropdown";
+import OtherPersonMessageDropdown from "@/components/OtherPersonMessageDropdown";
 
 type otherPerson = Pick<User, "id" | "name" | "username" | "dp">;
 
@@ -47,9 +48,9 @@ const ChatImage = ({ message, otherPerson, showDp }: Props) => {
     return message.sender_id === otherPerson?.id ? (
         <div className="chat chat-start">
             <ImageViewDialog dialogRef={dialogRef} blob={data} />
-            <div className="chat-image avatar mb-auto mt-5">
+            <div className="chat-image justify-between h-full flex flex-col items-center gap-2">
                 <div
-                    className={`w-10 h-10 rounded-full overflow-hidden relative ${
+                    className={`w-8 h-8 mt-1 rounded-full overflow-hidden relative ${
                         showDp ? "shadow-md" : ""
                     }`}
                 >
@@ -64,6 +65,10 @@ const ChatImage = ({ message, otherPerson, showDp }: Props) => {
                         />
                     ) : null}
                 </div>
+                <OtherPersonMessageDropdown
+                    messageContent={message.content}
+                    messageType="image"
+                />
             </div>
             <div className="chat-header text-base-content ">
                 {otherPerson.name}

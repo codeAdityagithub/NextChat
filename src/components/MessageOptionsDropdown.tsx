@@ -105,7 +105,7 @@ const MessageOptionsDropdown = ({
                 tabIndex={0}
                 className="dropdown-content z-[1] menu p-1 shadow-md shadow-black bg-neutral text-neutral-content rounded-lg w-max "
             >
-                <li tabIndex={0} className="hover:bg-secondary rounded-md">
+                <li tabIndex={0} className="hover:bg-secondary/60 rounded-md">
                     <button
                         aria-label="delete message"
                         className="p-2 flex justify-between"

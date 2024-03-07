@@ -16,7 +16,7 @@ const OtherPersonMessageDropdown = ({ messageType, messageContent }: Props) => {
     );
 
     return (
-        <div className="dropdown dropdown-end dropdown-top">
+        <div className="dropdown dropdown-right dropdown-top">
             <div
                 tabIndex={0}
                 role="button"
@@ -29,7 +29,7 @@ const OtherPersonMessageDropdown = ({ messageType, messageContent }: Props) => {
                 tabIndex={0}
                 className="dropdown-content z-[1] menu p-1 shadow-md shadow-black bg-neutral text-neutral-content rounded-lg w-max "
             >
-                <li tabIndex={0} className="hover:bg-secondary rounded-md">
+                <li tabIndex={0} className="hover:bg-secondary/60 rounded-md">
                     <button
                         aria-label="delete message"
                         className="p-2 flex justify-between"
