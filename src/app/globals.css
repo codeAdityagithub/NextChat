@@ -3,6 +3,16 @@
 @tailwind utilities;
 
 @layer components {
+    @keyframes ping {
+        75%,
+        100% {
+            transform: scale(3);
+            opacity: 0;
+        }
+    }
+    .animate-myping {
+        animation: ping 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
     .second_last_child > div:nth-last-child(2) {
         @apply mt-4;
     }

@@ -78,7 +78,7 @@ const Register = () => {
                         Sign in with Google
                     </span>
                 </div>
-                <div className="flex items-center gap-1 py-4 text-secondary">
+                <div className="flex items-center gap-1 py-4 text-accent">
                     <span className="flex-1 h-[1px] bg-secondary"></span>or
                     <span className="flex-1 h-[1px] bg-secondary"></span>
                 </div>
