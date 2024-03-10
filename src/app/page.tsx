@@ -16,13 +16,13 @@ export default async function Home() {
         //         Join the Conversation Now
         //     </button>
         // </div>
-        <div className="flex flex-col gap-y-4 h-full items-center justify-center text-primary-content bg-gradient-to-br from-blue-600 to-purple-800">
+        <div className="flex flex-col gap-y-4 h-full items-center overflow-hidden justify-center text-primary-content bg-gradient-to-br from-blue-600 to-purple-800">
             <ThemeSetter />
             <div className="relative w-60 h-32 before:content-['*'] before:absolute before:inset-4 before:bg-purple-200 before:animate-myping before:blur-2xl">
                 <Image src="/logo.png" alt="Logo" fill className="" />
             </div>
             {/* <div className="text-xl font-medium">NextChat</div> */}
-            <div className="text-center px-8 md:px-14">
+            <div className="text-center px-8 md:px-14 space-y-10">
                 <h1 className="text-3xl font-bold mb-4">Connect instantly.</h1>
                 <p className="mb-6">
                     Chat website for seamless conversations and new connections.

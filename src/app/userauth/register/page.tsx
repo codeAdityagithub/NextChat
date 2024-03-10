@@ -9,6 +9,7 @@ import { signIn, useSession } from "next-auth/react";
 import type { Metadata } from "next";
 import ThemeSetter from "@/components/ThemeSetter";
 import { FcGoogle } from "react-icons/fc";
+import { ImSpinner9 } from "react-icons/im";
 
 // export const metadata: Metadata = {
 //     title: "Register | NextChat",
@@ -42,6 +43,7 @@ const Register = () => {
     });
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (session.status === "authenticated") {
@@ -57,16 +59,18 @@ const Register = () => {
             setTimeout(() => setError(""), 3000);
             return;
         }
+        setLoading(true);
         const res = await createUser(user);
-        console.log(res);
         if (res.error) {
             setError(res.error);
+            setLoading(false);
             setTimeout(() => setError(""), 3000);
         } else if (res.message) {
+            setLoading(false);
             setMessage(res.message);
             setTimeout(() => {
                 setMessage("");
-                router.replace("/api/auth/signin");
+                router.replace("/userauth/login");
             }, 2000);
         }
     };
@@ -90,6 +94,14 @@ const Register = () => {
                 <p className="w-full text-error-content bg-error test-xs text-center empty:p-0 p-1 rounded-md my-2">
                     {error}
                 </p>
+                {loading && (
+                    <div className="w-full flex items-center justify-center gap-4 my-2">
+                        <span className="animate-spin text-accent text-xl">
+                            <ImSpinner9 />
+                        </span>
+                        Processing
+                    </div>
+                )}
                 <div
                     role="button"
                     onClick={() =>
@@ -155,7 +167,8 @@ const Register = () => {
                     />
                     <button
                         type="submit"
-                        className="_btn-sm w-full bg-accent text-accent-content"
+                        disabled={loading}
+                        className="_btn-sm w-full bg-accent text-accent-content disabled:bg-secondary"
                     >
                         Submit
                     </button>

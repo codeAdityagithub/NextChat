@@ -2,7 +2,7 @@
 import withAuth from "next-auth/middleware";
 // import authOptions from "./utils/nextauthOptions";
 import jwt from "jsonwebtoken";
-import { NextMiddleware, NextRequest, NextResponse } from "next/server";
+// import { NextMiddleware, NextRequest, NextResponse } from "next/server";
 
 // @ts-expect-error
 export default withAuth({
