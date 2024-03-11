@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { User } from "@/dbtypes";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import type { Metadata } from "next";
 import ThemeSetter from "@/components/ThemeSetter";
@@ -35,6 +35,8 @@ const createUser = async (data: User) => {
 const Register = () => {
     const router = useRouter();
     const session = useSession();
+    const tokenError = useSearchParams().get("error");
+
     const [user, setUser] = useState<User>({
         name: "",
         email: "",
@@ -44,12 +46,17 @@ const Register = () => {
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    // const [otpSent, setOtpSent] = useState(false);
 
     useEffect(() => {
         if (session.status === "authenticated") {
             router.replace("/chat");
         }
-    }, [session, router]);
+        if (tokenError) {
+            setError(tokenError);
+            setTimeout(() => setError(""), 3000);
+        }
+    }, [session, router, tokenError]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -65,12 +72,16 @@ const Register = () => {
             setError(res.error);
             setLoading(false);
             setTimeout(() => setError(""), 3000);
-        } else if (res.message) {
+        } else if (res.message && res.token) {
             setLoading(false);
             setMessage(res.message);
+            e.currentTarget?.reset();
+            // setOtpSent(true);
             setTimeout(() => {
                 setMessage("");
-                router.replace("/userauth/login");
+                router.replace(
+                    `/userauth/register/verifyotp?token=${res.token}`
+                );
             }, 2000);
         }
     };
@@ -82,8 +93,7 @@ const Register = () => {
     // isError && console.log(error);
 
     return (
-        <div className="w-full h-full p-4 overflow-y-auto flex flex-col relative font-sans justify-center items-center box-border">
-            <ThemeSetter />
+        <>
             <h2 className="w-full p-2 text-center text-xl text-base-content">
                 Register | NextChat
             </h2>
@@ -183,7 +193,7 @@ const Register = () => {
                     </Link>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

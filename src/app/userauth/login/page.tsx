@@ -54,8 +54,7 @@ const Register = () => {
     // isError && console.log(error);
 
     return (
-        <div className="w-full h-full p-4 overflow-y-auto flex flex-col relative font-sans justify-center items-center box-border">
-            <ThemeSetter />
+        <>
             <h2 className="w-full p-2 text-center text-xl text-base-content">
                 Login | NextChat
             </h2>
@@ -122,7 +121,7 @@ const Register = () => {
                     </Link>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

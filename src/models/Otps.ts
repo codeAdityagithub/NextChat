@@ -3,11 +3,7 @@ import mongoose, { Document } from "mongoose";
 interface otpType extends Document {
     otp: number;
     expireAfter: number;
-    userData: {
-        name: string;
-        username: string;
-        password: string;
-    };
+
     email: string;
 }
 const otpSchema = new mongoose.Schema({
@@ -17,7 +13,7 @@ const otpSchema = new mongoose.Schema({
         unique: true,
     },
     otp: { type: Number, required: true },
-    userData: { type: Object, required: true },
+
     expireAfter: { type: Date, required: true },
 });
 
