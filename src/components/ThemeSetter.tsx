@@ -7,7 +7,7 @@ const ThemeSetter = () => {
         document.documentElement.setAttribute("data-theme", cur);
     }, []);
 
-    return <div className="hidden"></div>;
+    return <></>;
 };
 
 export default ThemeSetter;

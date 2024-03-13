@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 
 const ChatContent = dynamic(() => import("./ChatContent"));
 const ChatHeader = dynamic(() => import("./ChatHeader"));
-const ChatInput = dynamic(() => import("./ChatInput"));
+const ChatInput = dynamic(() => import("./ChatInput"), { ssr: false });
 
 // import ChatContent from "./ChatContent";
 // import ChatHeader from "./ChatHeader";
