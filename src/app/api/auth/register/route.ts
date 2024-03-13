@@ -6,6 +6,7 @@ import Otp from "@/models/Otps";
 import Email from "@/models/Emails";
 import { generateSecureOTP } from "@/lib/generateSecureOtp";
 import jwt from "jsonwebtoken";
+import { sendMail } from "@/utils/nodemailer";
 
 type UserData = {
     name: string;
@@ -60,6 +61,7 @@ export const POST = async (req: NextRequest) => {
         data.password = hashedpwd;
         // console.log(data);
         const otp = generateSecureOTP();
+        await sendMail(data.email, otp);
         // console.log(otp);
         const dbotp = new Otp({
             otp: otp,
@@ -91,7 +93,7 @@ export const POST = async (req: NextRequest) => {
         }
         console.log(error.message);
         return NextResponse.json(
-            { error: error.message || "Something went wrong" },
+            { error: "Something went wrong" },
             { status: 500 }
         );
     }
