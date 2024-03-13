@@ -6,7 +6,10 @@ import sql from "@/utils/db";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 import { User as dbUser } from "@/dbtypes";
+import FailedLogins from "@/models/FailedLogins";
+import connect from "./mongo";
 
+connect();
 const authOptions: NextAuthOptions = {
     // Configure one or more authentication providers
     providers: [
@@ -34,6 +37,12 @@ const authOptions: NextAuthOptions = {
                 const email = credentials?.email;
                 const password = credentials?.password;
                 if (!email || !password) return null;
+                const prev = await FailedLogins.findOne({ email: email });
+                if (prev && prev.attempts >= 3) {
+                    throw new Error(
+                        "Too many failed login attemps! Try again later"
+                    );
+                }
                 try {
                     const dbuser = await sql<
                         dbUser[]
@@ -47,7 +56,22 @@ const authOptions: NextAuthOptions = {
                         user.password
                     );
                     // console.log(isCorrectPassword);
-                    if (!isCorrectPassword) return null;
+                    if (!isCorrectPassword) {
+                        // FailedLogins
+                        console.log(prev);
+                        if (!prev) {
+                            await FailedLogins.create({
+                                email: email,
+                                expireAfter: new Date(),
+                            });
+                        } else {
+                            await FailedLogins.findOneAndUpdate(
+                                { email: email },
+                                { $inc: { attempts: 1 } }
+                            );
+                        }
+                        return null;
+                    }
                     const timestamp = new Date(user.updated_at!).getTime();
 
                     const name = JSON.stringify({
@@ -65,6 +89,7 @@ const authOptions: NextAuthOptions = {
                     // console.log(requser);
                     return requser;
                 } catch (err) {
+                    console.log(err);
                     throw new Error("Something went wrong");
                 }
             },
@@ -196,6 +221,7 @@ const authOptions: NextAuthOptions = {
     },
     pages: {
         signIn: "/userauth/login",
+        error: "/userauth/login",
     },
 };
 

@@ -24,6 +24,7 @@ export default withAuth({
     },
     pages: {
         signIn: "/userauth/login",
+        error: "/userauth/login",
     },
 });
 

@@ -23,7 +23,8 @@ const Register = () => {
         password: "",
     });
     const [error, setError] = useState("");
-    const isError = !!useSearchParams().get("error");
+    const [loading, setLoading] = useState(false);
+    const isError = useSearchParams().get("error");
     const callback = useSearchParams().get("callbackUrl");
 
     useEffect(() => {
@@ -31,7 +32,11 @@ const Register = () => {
             router.replace("/chat");
         }
         if (isError) {
-            setError("Check your credentials");
+            setError(
+                isError == "CredentialsSignin"
+                    ? "Check your credentials"
+                    : isError
+            );
             setTimeout(() => setError(""), 3000);
         }
     }, [session, router]);
@@ -39,12 +44,15 @@ const Register = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // console.log(user.name, user.username);
-        signIn("credentials", {
+        setLoading(true);
+        const res = await signIn("credentials", {
             email: user.email,
             password: user.password,
             redirect: true,
             callbackUrl: callback ?? "/chat",
         });
+        setLoading(false);
+        console.log(res?.status);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,7 +115,8 @@ const Register = () => {
                     />
                     <button
                         type="submit"
-                        className="_btn-sm w-full bg-accent text-accent-content"
+                        disabled={loading}
+                        className="_btn-sm w-full bg-accent text-accent-content disabled:bg-secondary disabled:text-secondary-content"
                     >
                         Submit
                     </button>

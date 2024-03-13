@@ -27,9 +27,18 @@ export const POST = async (req: NextRequest) => {
     };
 
     try {
+        const hasOtp = await Otp.findOne({ email: data.email });
+        if (hasOtp)
+            return NextResponse.json(
+                {
+                    error: "Registration already initiated! Please go back to otp verification page with the valid token or wait 5 mins",
+                },
+                { status: 409 }
+            );
+
         const totalEmails = await Email.countDocuments();
 
-        if (totalEmails >= 4) {
+        if (totalEmails >= 100) {
             return NextResponse.json(
                 {
                     error: "Server cannot send more emails at the moment. Please try again later.",
@@ -61,8 +70,9 @@ export const POST = async (req: NextRequest) => {
 
         // TODO: Implement real email sending along with this
 
-        // const email = new Email({ email: data.email, expireAfter: new Date() });
-        // await email.save();
+        const email = new Email({ email: data.email, expireAfter: new Date() });
+        await email.save();
+
         const token = jwt.sign(data, process.env.OTP_JWT_SECRET!, {
             expiresIn: "5m",
         });
