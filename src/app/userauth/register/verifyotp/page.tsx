@@ -1,6 +1,6 @@
-import jwt, { JwtPayload } from "jsonwebtoken";
-import { redirect } from "next/navigation";
+import jwt from "jsonwebtoken";
 import dynamic from "next/dynamic";
+import { redirect } from "next/navigation";
 import Proceed from "./Proceed";
 const Countdown = dynamic(() => import("./Countdown"), { ssr: false });
 

@@ -9,7 +9,6 @@ import { User as dbUser } from "@/dbtypes";
 import FailedLogins from "@/models/FailedLogins";
 import connect from "./mongo";
 
-connect();
 const authOptions: NextAuthOptions = {
     // Configure one or more authentication providers
     providers: [
@@ -34,6 +33,7 @@ const authOptions: NextAuthOptions = {
                 },
             },
             async authorize(credentials, req) {
+                await connect();
                 const email = credentials?.email;
                 const password = credentials?.password;
                 if (!email || !password) return null;

@@ -19,7 +19,7 @@ const NameForm = ({ name, session }: { name: string; session: any }) => {
         // console.log(name);
         setFormData({
             ...formData,
-            [name]: value,
+            [name]: value.trim(),
         });
     };
     const handleUserFormSubmit = async (e: FormEvent<HTMLFormElement>) => {

@@ -1,13 +1,9 @@
 "use client";
-import axios from "axios";
 import { useEffect, useState } from "react";
 
-import { User } from "@/dbtypes";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { signIn, useSession } from "next-auth/react";
-import type { Metadata } from "next";
-import ThemeSetter from "@/components/ThemeSetter";
 import { FcGoogle } from "react-icons/fc";
 
 // export const metadata: Metadata = {
@@ -15,7 +11,7 @@ import { FcGoogle } from "react-icons/fc";
 //     description: "Register yourself to NextChat, and create new Connections",
 // };
 
-const Register = () => {
+const Login = () => {
     const router = useRouter();
     const session = useSession();
     const [user, setUser] = useState({
@@ -134,4 +130,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default Login;

@@ -3,11 +3,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 import { User } from "@/dbtypes";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { signIn, useSession } from "next-auth/react";
-import type { Metadata } from "next";
-import ThemeSetter from "@/components/ThemeSetter";
 import { FcGoogle } from "react-icons/fc";
 import { ImSpinner9 } from "react-icons/im";
 
@@ -87,7 +85,10 @@ const Register = () => {
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        setUser((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value.trim(),
+        }));
     };
 
     // isError && console.log(error);

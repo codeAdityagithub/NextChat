@@ -1,13 +1,13 @@
 "use client";
 import { socket } from "@/utils/socket";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 
+import { sendImage, sendMessage } from "@/utils/messageUtils";
+import { useMutation } from "@tanstack/react-query";
 import { BiSolidSend } from "react-icons/bi";
 import ChatImageInput from "./ChatImageInput";
-import { useMutation } from "@tanstack/react-query";
-import { sendImage, sendMessage } from "@/utils/messageUtils";
 
 const ChatInput = ({
     otherPersonId,

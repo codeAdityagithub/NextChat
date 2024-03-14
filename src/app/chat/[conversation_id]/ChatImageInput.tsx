@@ -1,4 +1,4 @@
-import React, {
+import {
     ChangeEvent,
     Dispatch,
     SetStateAction,
@@ -8,7 +8,6 @@ import React, {
 import { BiSend } from "react-icons/bi";
 import { MdOutlineAttachFile } from "react-icons/md";
 import FileInputDialog from "./FileInputDialog";
-import { useParams } from "next/navigation";
 
 type Props = {
     handleImageMessage: (file: File) => void;
