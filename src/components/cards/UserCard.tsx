@@ -37,6 +37,7 @@ const UserCard = ({
             }`}
         >
             <div className="w-[50px] h-[50px] rounded-full relative overflow-hidden">
+                {/* TODO: shift to Image only */}
                 <ImagewError
                     src={dp ?? "/account.png"}
                     alt="Acc"

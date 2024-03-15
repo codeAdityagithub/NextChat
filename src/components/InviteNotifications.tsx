@@ -81,7 +81,7 @@ const InviteNotifications = ({ invitations, apiAccessToken }: Props) => {
             </div>
             <ul
                 tabIndex={0}
-                className="dropdown-content z-10 menu p-1 shadow bg-secondary text-secondary-content backdrop-blur-sm rounded-lg w-52"
+                className="dropdown-content z-10 menu p-1 shadow bg-secondary text-secondary-content backdrop-blur-sm rounded-lg w-56 sm:w-72"
             >
                 {invites.map((invite) => (
                     <li

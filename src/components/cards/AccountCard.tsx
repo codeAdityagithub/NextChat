@@ -19,7 +19,7 @@ const getData = async (userId: string) => {
         >`select u.name, u.dp, u.username, i.sent_at, i.invitation_id, i.sender_id from users u
          join invitation i
           on i.sender_id=u.id
-           where i.recipient_id=${userId} and i.status='pending'`;
+           where i.recipient_id=${userId}`;
         return invitations;
     } catch (error: any) {
         console.log(error.message);
