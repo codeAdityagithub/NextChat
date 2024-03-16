@@ -1,24 +1,20 @@
 "use client";
-import { InviteNotification } from "@/types";
+import { InviteNotification, SentInvites } from "@/types";
 import Image from "next/image";
 import { FaCheckCircle } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { formatTime } from "@/lib/timeFormatters";
 
-type Props = InviteNotification & {
-    handleAccept: (invitation_id: number) => Promise<void>;
-    handleReject: (invitation_id: number) => Promise<void>;
-};
+type Props = SentInvites;
 
-const InvitationCard = ({
+const SentInviteCard = ({
     username,
     name,
     sent_at,
     invitation_id,
     sender_id,
     dp,
-    handleAccept,
-    handleReject,
+    status,
 }: Props) => {
     return (
         <div className="w-full flex items-center transition-colors gap-4 rounded-md p-1 hover:bg-primary/60 hover:text-primary-content relative">
@@ -45,22 +41,8 @@ const InvitationCard = ({
                     {formatTime(sent_at)}
                 </div>
             </div>
-            <div className="flex items-center space-x-2 absolute inset-y-0 right-0 pr-4">
-                <button
-                    className="rounded-full w-8 h-8 text-secondary bg-slate-100 hover:text-green-500"
-                    onClick={() => handleAccept(invitation_id)}
-                >
-                    <FaCheckCircle className="w-full h-full" />
-                </button>
-                <button
-                    className="rounded-full w-8 h-8 text-secondary bg-slate-100 hover:text-red-500"
-                    onClick={() => handleReject(invitation_id)}
-                >
-                    <ImCross className="w-full h-full" />
-                </button>
-            </div>
         </div>
     );
 };
 
-export default InvitationCard;
+export default SentInviteCard;

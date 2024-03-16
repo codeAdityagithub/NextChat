@@ -91,7 +91,7 @@ const ForwardMessageDialog = ({ chatUsers }: Props) => {
                 ref={dialogRef}
                 open={isOpen}
             >
-                <div className="modal-box bg-neutral text-neutral-content p-3 rounded-md shadow-lg flex flex-col gap-4 w-52">
+                <div className="modal-box bg-neutral text-neutral-content p-3 rounded-md shadow-lg flex flex-col gap-4 w-52 sm:w-64">
                     <h3 className="font-bold text-lg">Forward To ...</h3>
                     <ul className="flex flex-col gap-1">
                         {chatUsers.map((conv) => (
@@ -111,7 +111,7 @@ const ForwardMessageDialog = ({ chatUsers }: Props) => {
                                     <MyProfile image={conv.dp} />
                                 </div>
                                 <div className="flex items-start justify-center flex-col h-full">
-                                    <div className="text-lg font-medium">
+                                    <div className="text-lg font-medium max-w-[120px] overflow-ellipsis overflow-hidden">
                                         {conv.name}
                                     </div>
                                 </div>

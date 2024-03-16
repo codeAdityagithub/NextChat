@@ -72,7 +72,7 @@ const ChatImage = ({ message, otherPerson, showDp }: Props) => {
                     />
                 )}
             </div>
-            <div className="chat-header text-base-content ">
+            <div className="chat-header text-base-content max-w-[120px] overflow-ellipsis overflow-hidden">
                 {otherPerson.name}
             </div>
             <div

@@ -2,16 +2,20 @@ import authOptions from "@/utils/nextauthOptions";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 import InviteNotifications from "../InviteNotifications";
-import { InviteNotification } from "@/types";
+import { InviteNotification, SentInvites } from "@/types";
 import sql from "@/utils/db";
 import Settings from "../Settings";
 import ImagewError from "@/utils/ImagewError";
 import MyProfile from "../MyProfile";
 import ThemeToggle from "../ThemeToggle";
+import dynamic from "next/dynamic";
+const SentInvitations = dynamic(() => import("../SentInvitations"), {
+    ssr: false,
+});
 
 type Props = {};
 
-const getData = async (userId: string) => {
+const getInvitations = async (userId: string) => {
     if (!userId) return [];
     try {
         const invitations = await sql<
@@ -19,7 +23,23 @@ const getData = async (userId: string) => {
         >`select u.name, u.dp, u.username, i.sent_at, i.invitation_id, i.sender_id from users u
          join invitation i
           on i.sender_id=u.id
-           where i.recipient_id=${userId}`;
+           where i.recipient_id=${userId} and status='pending'`;
+        return invitations;
+    } catch (error: any) {
+        console.log(error.message);
+        return [];
+    }
+};
+
+const getSentInvites = async (userId: string) => {
+    if (!userId) return [];
+    try {
+        const invitations = await sql<
+            SentInvites[]
+        >`select u.name, u.dp, u.username, i.sent_at, i.invitation_id, i.sender_id, i.status from users u
+         join invitation i
+          on i.recipient_id=u.id
+           where i.sender_id=${userId}`;
         return invitations;
     } catch (error: any) {
         console.log(error.message);
@@ -29,7 +49,10 @@ const getData = async (userId: string) => {
 
 const AccountCard = async (props: Props) => {
     const session = await getServerSession(authOptions);
-    const data: InviteNotification[] = await getData(session?.user.id!);
+    const invitations: InviteNotification[] = await getInvitations(
+        session?.user.id!
+    );
+    const sentInvites: SentInvites[] = await getSentInvites(session?.user.id!);
     const names = JSON.parse(session?.user.name!);
     // console.log(data);
     return (
@@ -38,8 +61,8 @@ const AccountCard = async (props: Props) => {
                 <div className="h-[60px] w-[60px] overflow-hidden relative rounded-full">
                     <MyProfile image={session?.user.image} />
                 </div>
-                <div className="flex items-start justify-center flex-col h-full">
-                    <div className="text-lg font-medium text-base-content">
+                <div className="flex items-start justify-center flex-col h-full flex-1 w-20">
+                    <div className="text-lg font-medium text-base-content w-full overflow-hidden overflow-ellipsis">
                         {names.name}
                     </div>
                     <div className="text-sm text-accent/80">
@@ -50,9 +73,10 @@ const AccountCard = async (props: Props) => {
             <ThemeToggle />
             <Settings />
             <InviteNotifications
-                invitations={data}
+                invitations={invitations}
                 apiAccessToken={session?.user.apiAccessToken}
             />
+            <SentInvitations invitations={sentInvites} />
         </div>
     );
 };

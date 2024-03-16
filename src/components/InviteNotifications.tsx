@@ -86,7 +86,7 @@ const InviteNotifications = ({ invitations, apiAccessToken }: Props) => {
                 {invites.map((invite) => (
                     <li
                         key={invite.invitation_id}
-                        className="rounded-md cursor-pointer"
+                        className="rounded-md w-full cursor-pointer"
                     >
                         <InvitationCard
                             {...invite}

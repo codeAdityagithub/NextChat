@@ -55,7 +55,9 @@ const ChatBubbleLeft = ({
                 />
             </div>
             {showDp ? (
-                <div className="text-base-content text-xs">{name}</div>
+                <div className="text-base-content text-xs max-w-[120px] overflow-ellipsis overflow-hidden">
+                    {name}
+                </div>
             ) : null}
             <div className="chat-bubble bg-secondary rounded-md text-secondary-content relative  break-words max-w-[260px] sm:max-w-sm lg:max-w-lg">
                 {content}

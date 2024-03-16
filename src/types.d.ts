@@ -11,6 +11,15 @@ export type InviteNotification = {
     sender_id: string;
     dp: string;
 };
+export type SentInvites = {
+    name: string;
+    username: string;
+    sent_at: Date;
+    invitation_id: number;
+    sender_id: string;
+    dp: string;
+    status: "pending" | "accepted" | "rejected";
+};
 
 export type UserCardInfo = {
     conversation_id: number;

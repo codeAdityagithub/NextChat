@@ -61,7 +61,6 @@ const InviteUser = ({ apiAccessToken }: Props) => {
         });
     };
     const handleSelect = (username: string) => {
-        setValue("");
         mutate({
             username: username,
             apiAccessToken: apiAccessToken,
