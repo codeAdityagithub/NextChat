@@ -2,9 +2,18 @@ import sql from "@/utils/db";
 import authOptions from "@/utils/nextauthOptions";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+
+const nameScheme = z.string().min(3).max(50);
 
 export const POST = async (req: NextRequest) => {
     const { name } = await req.json();
+    const test = nameScheme.safeParse(name);
+    if (!test.success) {
+        return NextResponse.json("name can be only of 3-50 chars", {
+            status: 400,
+        });
+    }
     const session = await getServerSession(authOptions);
     if (!session?.user.id || !session.user.name)
         return NextResponse.json("Unauthorized", { status: 403 });

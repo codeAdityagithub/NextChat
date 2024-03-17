@@ -28,6 +28,7 @@ const SearchUsers = ({ users, select }: Props) => {
                     return (
                         <div
                             tabIndex={0}
+                            key={user.username}
                             className="flex gap-4 hover:bg-accent/30 transition-colors p-2 rounded-md"
                         >
                             <div className="w-10 h-10 rounded-full relative overflow-hidden">

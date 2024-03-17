@@ -130,7 +130,7 @@ const Form = ({ name }: Props) => {
                     <button
                         type="submit"
                         disabled={!profilePicture}
-                        className="disabled:bg-secondary disabled:cursor-not-allowed bg-primary hover:bg-primary/80 cursor-pointer text-primary-content w-full p-2 rounded-md"
+                        className="disabled:bg-secondary disabled:text-secondary-content disabled:cursor-not-allowed bg-primary hover:bg-primary/80 cursor-pointer text-primary-content w-full p-2 rounded-md"
                     >
                         Save
                     </button>

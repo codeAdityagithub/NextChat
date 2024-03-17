@@ -7,25 +7,25 @@ import Email from "@/models/Emails";
 import { generateSecureOTP } from "@/lib/generateSecureOtp";
 import jwt from "jsonwebtoken";
 import { sendMail } from "@/utils/nodemailer";
+import z from "zod";
 
-type UserData = {
-    name: string;
-    username: string;
-    email: string;
-    password: string;
-};
+const bodySchema = z.object({
+    name: z.string().min(3).max(50),
+    username: z.string().min(3).max(20),
+    email: z.string().email(),
+    password: z.string().min(8).max(20),
+});
+type UserData = z.infer<typeof bodySchema>;
 connect();
 export const POST = async (req: NextRequest) => {
     const body: UserData = await req.json();
-    // console.log(data);
     if (!body.name || !body.email || !body.password || !body.username)
         return NextResponse.json({ error: "Invalid input" }, { status: 400 });
-    const data: UserData = {
-        name: body.name,
-        username: body.username,
-        password: body.password,
-        email: body.email,
-    };
+    const test = bodySchema.safeParse(body);
+    if (!test.success)
+        return NextResponse.json({ error: "Invalid input" }, { status: 400 });
+
+    const data = test.data;
 
     try {
         const hasOtp = await Otp.findOne({ email: data.email });
