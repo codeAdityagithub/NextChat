@@ -1,5 +1,4 @@
-import { Ewert } from "next/font/google";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { FaWindowClose } from "react-icons/fa";
 
 type Props = {

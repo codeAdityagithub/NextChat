@@ -25,7 +25,7 @@ const ChatHeaderOptions = ({ id, name, username, dp }: Props) => {
 
             <ul
                 tabIndex={0}
-                className="dropdown-content menu z-10 w-60 bg-primary shadow-md shadow-secondary p-3 rounded-md"
+                className="dropdown-content menu z-10 w-60 bg-primary shadow-md shadow-primary p-3 rounded-md"
             >
                 <li className="flex flex-row gap-6">
                     <div className="p-0.5 bg-gradient-to-tr rounded-full from-primary via-red-500 to-green-500">

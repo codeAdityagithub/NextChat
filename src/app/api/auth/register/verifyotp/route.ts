@@ -15,7 +15,7 @@ connect();
 export const POST = async (req: NextRequest) => {
     const body = await req.json();
     // console.log(body);
-    if (!body.otp || !body.token)
+    if (!body.otp || !body.token || body.otp.length !== 6)
         return NextResponse.json("Invalid request body", { status: 400 });
     const { otp, token }: { otp: string; token: string } = body;
     try {

@@ -19,7 +19,7 @@ const NameForm = ({ name, session }: { name: string; session: any }) => {
         // console.log(name);
         setFormData({
             ...formData,
-            [name]: value,
+            [name]: value.trim(),
         });
     };
     const handleUserFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -73,8 +73,10 @@ const NameForm = ({ name, session }: { name: string; session: any }) => {
                         value={formData.name}
                         type="text"
                         name="name"
+                        maxLength={50}
+                        minLength={3}
                         onChange={handleInputChange}
-                        className="w-full rounded-md bg-transparent py-2 px-3 ring-1 ring-secondary focus:ring-offset-1 focus:outline-none border-secondary text-neutral-content"
+                        className="my_input w-full"
                         placeholder="Enter your name"
                     />
                 </div>
@@ -91,9 +93,11 @@ const NameForm = ({ name, session }: { name: string; session: any }) => {
                     <button
                         type="submit"
                         disabled={
-                            formData.name.length === 0 || name === formData.name
+                            formData.name.length < 3 ||
+                            formData.name.length > 50 ||
+                            name === formData.name
                         }
-                        className="disabled:bg-secondary disabled:cursor-not-allowed bg-primary hover:bg-primary/80 cursor-pointer text-primary-content w-full p-2 rounded-md"
+                        className="disabled:bg-secondary disabled:text-secondary-content disabled:cursor-not-allowed bg-primary hover:bg-primary/80 cursor-pointer text-primary-content w-full p-2 rounded-md"
                     >
                         Save
                     </button>

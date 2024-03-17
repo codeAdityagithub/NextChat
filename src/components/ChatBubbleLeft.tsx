@@ -34,8 +34,8 @@ const ChatBubbleLeft = ({
         <div className="chat chat-start gap-x-2">
             <div className="chat-image h-full justify-between flex flex-col items-center gap-2">
                 <div
-                    className={`w-8 h-8 mt-1 rounded-full overflow-hidden relative ${
-                        showDp ? "shadow-md" : ""
+                    className={`w-8 mt-1 rounded-full overflow-hidden relative ${
+                        showDp ? "shadow-md h-8" : "h-0"
                     }`}
                 >
                     {showDp ? (
@@ -55,7 +55,9 @@ const ChatBubbleLeft = ({
                 />
             </div>
             {showDp ? (
-                <div className="text-base-content text-xs">{name}</div>
+                <div className="text-base-content text-xs max-w-[120px] overflow-ellipsis overflow-hidden">
+                    {name}
+                </div>
             ) : null}
             <div className="chat-bubble bg-secondary rounded-md text-secondary-content relative  break-words max-w-[260px] sm:max-w-sm lg:max-w-lg">
                 {content}

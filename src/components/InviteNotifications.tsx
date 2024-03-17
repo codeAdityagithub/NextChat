@@ -72,7 +72,8 @@ const InviteNotifications = ({ invitations, apiAccessToken }: Props) => {
             <div
                 tabIndex={0}
                 role="button"
-                className="p-1 rounded-lg relative indicator"
+                className="mt-2 rounded-lg relative indicator"
+                title="invitations"
             >
                 <NotificationIcon className="text-2xl text-base-content" />
                 <div className="indicator-item stat-desc text-xs absolute text-accent">
@@ -81,12 +82,12 @@ const InviteNotifications = ({ invitations, apiAccessToken }: Props) => {
             </div>
             <ul
                 tabIndex={0}
-                className="dropdown-content z-10 menu p-1 shadow bg-secondary text-secondary-content backdrop-blur-sm rounded-lg w-52"
+                className="dropdown-content z-10 menu p-1 shadow bg-secondary text-secondary-content backdrop-blur-sm rounded-lg w-56 sm:w-64"
             >
                 {invites.map((invite) => (
                     <li
                         key={invite.invitation_id}
-                        className="rounded-md cursor-pointer"
+                        className="rounded-md w-full cursor-pointer"
                     >
                         <InvitationCard
                             {...invite}

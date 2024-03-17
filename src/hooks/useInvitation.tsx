@@ -16,12 +16,7 @@ const useInvitation = (invitations: InviteNotification[]) => {
             audio.play();
             // console.log(invite);
         }
-        // function handleReject(invitation_id: number) {
-        //     console.log("socket reject");
-        //     setInvites((prev) =>
-        //         prev.filter((invite) => invite.invitation_id !== invitation_id)
-        //     );
-        // }
+
         socket.on("invite_request", handleInvite);
         // socket.on("invite_reject", handleReject);
 

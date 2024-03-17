@@ -16,7 +16,7 @@ const config: Config = {
             {
                 light: {
                     primary: "#405060",
-                    secondary: "#b0c0d0",
+                    secondary: "#c0d0e0",
                     accent: "#222222",
                     neutral: "#f5f5f5",
                     "base-100": "#ffffff",

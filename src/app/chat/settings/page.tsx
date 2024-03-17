@@ -29,7 +29,9 @@ const page = async (props: Props) => {
                         </div>
                     </div>
                     <div className="flex flex-col items-start justify-center p-2 gap-4 text-base-content">
-                        <div className="text-2xl font-semibold">{name}</div>
+                        <div className="text-2xl font-semibold w-full max-w-[200px] overflow-ellipsis overflow-hidden">
+                            {name}
+                        </div>
                         <div className="text-sm">@{username}</div>
                     </div>
                 </div>

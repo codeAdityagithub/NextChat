@@ -3,10 +3,9 @@ import MyProfile from "@/components/MyProfile";
 import axios from "axios";
 import imageCompression from "browser-image-compression";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import NameForm from "./NameForm";
-import { useRouter } from "next/navigation";
 
 type Props = {
     name: string;
@@ -131,7 +130,7 @@ const Form = ({ name }: Props) => {
                     <button
                         type="submit"
                         disabled={!profilePicture}
-                        className="disabled:bg-secondary disabled:cursor-not-allowed bg-primary hover:bg-primary/80 cursor-pointer text-primary-content w-full p-2 rounded-md"
+                        className="disabled:bg-secondary disabled:text-secondary-content disabled:cursor-not-allowed bg-primary hover:bg-primary/80 cursor-pointer text-primary-content w-full p-2 rounded-md"
                     >
                         Save
                     </button>

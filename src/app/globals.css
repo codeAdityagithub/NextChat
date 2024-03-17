@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer components {
+    .my_input {
+        @apply p-2 min-w-0 bg-transparent text-neutral-content flex-1 ring-1 ring-secondary focus:ring-offset-1 focus:outline-none rounded-md;
+    }
     @keyframes ping {
         75%,
         100% {

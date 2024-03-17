@@ -21,7 +21,7 @@ const Countdown = ({ time: init }: Props) => {
 
     useEffect(() => {
         if (time <= 0) router.refresh();
-    }, [time]);
+    }, [time, router]);
     return (
         <span className="countdown font-mono text-2xl">
             <span style={{ "--value": Math.floor(time / 60) }}></span>:

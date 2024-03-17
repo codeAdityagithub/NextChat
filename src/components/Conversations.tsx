@@ -4,6 +4,9 @@ import { UserCardInfo } from "@/types";
 import UserCard from "./cards/UserCard";
 import useConversation from "@/hooks/useConversation";
 import { useParams } from "next/navigation";
+// import { useEffect } from "react";
+// import { lastContactStore } from "./zustand/LastContactedStore";
+// import { formatTime } from "@/lib/timeFormatters";
 
 type Props = {
     chatUsers: UserCardInfo[];
@@ -16,7 +19,17 @@ const Conversations = ({ chatUsers: initialData, userId }: Props) => {
         useConversation({
             initialData: initialData,
         });
-
+    // const setLastContacted = lastContactStore(
+    //     (state) => state.setLastContacted
+    // );
+    // TODO:implement the real last seen at
+    // useEffect(() => {
+    //     const lastContacted = chatUsers.find(
+    //         (chat) =>
+    //             chat.conversation_id.toString() === (conversation_id as string)
+    //     )?.last_contacted_at;
+    //     setLastContacted(lastContacted ? formatTime(lastContacted) : "");
+    // }, [conversation_id]);
     const handleUnreadMessage = (conversation_id: number) => {
         if (areUnreadMesages) {
             // console.log("fn call");

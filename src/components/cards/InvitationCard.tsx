@@ -11,50 +11,48 @@ type Props = InviteNotification & {
 };
 
 const InvitationCard = ({
-    username,
     name,
     sent_at,
     invitation_id,
-    sender_id,
     dp,
     handleAccept,
     handleReject,
 }: Props) => {
     return (
-        <div className="w-full group flex items-center gap-1 transition-colors rounded-md p-1 bg-primary/60 text-primary-content relative">
-            <div className="peer absolute inset-0 w-full flex gap-3 items-center justify-end opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all z-[2]">
+        <div className="w-full flex items-center transition-colors gap-4 rounded-md p-1 hover:bg-primary/60 hover:text-primary-content relative">
+            <div className="flex items-center justify-center gap-1">
+                <div className="w-10 h-10 rounded-full relative overflow-hidden">
+                    <Image
+                        src={dp ? dp : "/account.png"}
+                        alt="Invitation sender image"
+                        fill
+                        className="object-cover"
+                        crossOrigin="anonymous"
+                        sizes="100px"
+                    />
+                </div>
+            </div>
+            <div className="flex flex-1 w-12 flex-col">
+                <div className="font-medium text-sm overflow-ellipsis overflow-hidden">
+                    {name}
+                </div>
+                <div className="text-sm line-clamp-1">
+                    <span className="text-xs">{formatTime(sent_at)}</span>
+                </div>
+            </div>
+            <div className="flex items-center gap-1">
                 <button
-                    className="rounded-full w-8 h-8 text-secondary bg-slate-100"
+                    className="rounded-full w-8 h-8 p-0 text-green-500 bg-primary"
                     onClick={() => handleAccept(invitation_id)}
                 >
-                    <FaCheckCircle className="w-full h-full hover:text-green-500" />
+                    <FaCheckCircle className="w-full h-full" />
                 </button>
                 <button
-                    className="rounded-full flex items-center justify-center w-8 h-8 p-1 bg-secondary border hover:bg-red-500"
+                    className="rounded-full relative w-8 h-8 bg-red-500"
                     onClick={() => handleReject(invitation_id)}
                 >
-                    <ImCross className="w-4 h-4 text-slate-100" />
+                    <ImCross className="m-auto text-lg text-primary" />
                 </button>
-            </div>
-
-            <div className="w-10 h-10 rounded-full relative overflow-hidden">
-                <Image
-                    src={dp && sender_id ? dp : "/account.png"}
-                    alt="Invitation sender image"
-                    fill
-                    className="object-cover"
-                    crossOrigin="anonymous"
-                    sizes="100px"
-                />
-            </div>
-            <div className="flex flex-1 relative items-start justify-center flex-col h-full w-full">
-                <div className="font-medium text-sm">{name}</div>
-                <div className="text-xs font-light line-clamp-1">
-                    @{username}
-                </div>
-                <div className="absolute text-xs font-light right-0 top-0">
-                    {formatTime(sent_at)}
-                </div>
             </div>
         </div>
     );

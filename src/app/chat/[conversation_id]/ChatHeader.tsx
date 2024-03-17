@@ -25,8 +25,10 @@ const ChatHeader = ({ id, name, username, dp }: Props) => {
                     sizes="100px"
                 />
             </div>
-            <div className="text-lg font-medium flex-1">
-                <div className="font-medium">{name}</div>
+            <div className="text-lg font-medium flex-1 w-32">
+                <div className="font-medium w-full overflow-ellipsis overflow-hidden">
+                    {name}
+                </div>
                 <div className="text-sm font-light line-clamp-1">
                     @{username} <OnlineStatus id={id} />
                 </div>

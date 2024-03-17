@@ -1,14 +1,14 @@
-import { Message, User } from "@/dbtypes";
-import { getTime } from "@/lib/timeFormatters";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { MdImage } from "react-icons/md";
-import ImageViewDialog from "./ImageViewDialog";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import MessageDeleteDropdown from "@/components/MessageOptionsDropdown";
 import OtherPersonMessageDropdown from "@/components/OtherPersonMessageDropdown";
+import { Message, User } from "@/dbtypes";
+import { getTime } from "@/lib/timeFormatters";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import React, { useRef } from "react";
+import { MdImage } from "react-icons/md";
+import ImageViewDialog from "./ImageViewDialog";
 
 type otherPerson = Pick<User, "id" | "name" | "username" | "dp">;
 
@@ -72,7 +72,7 @@ const ChatImage = ({ message, otherPerson, showDp }: Props) => {
                     />
                 )}
             </div>
-            <div className="chat-header text-base-content ">
+            <div className="chat-header text-base-content max-w-[120px] overflow-ellipsis overflow-hidden">
                 {otherPerson.name}
             </div>
             <div
@@ -92,7 +92,7 @@ const ChatImage = ({ message, otherPerson, showDp }: Props) => {
                     <img
                         src={data}
                         alt="chat Image"
-                        className="object-cover max-h-[350px]"
+                        className="object-cover max-h-[350px] cursor-pointer"
                         draggable={false}
                         crossOrigin="anonymous"
                     />

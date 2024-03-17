@@ -9,7 +9,14 @@ export type InviteNotification = {
     sent_at: Date;
     invitation_id: number;
     sender_id: string;
-    dp: string;
+    dp: string | null;
+};
+export type SentInvites = {
+    name: string;
+    username: string;
+    sent_at: Date;
+    dp: string | null;
+    status: "pending" | "accepted" | "rejected";
 };
 
 export type UserCardInfo = {
