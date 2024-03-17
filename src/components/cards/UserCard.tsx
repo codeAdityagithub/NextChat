@@ -44,11 +44,20 @@ const UserCard = ({
                     fallback="/account.png"
                 />
             </div>
-            <div className="flex flex-1 pr-8 w-[100px] relative items-start justify-start pt-2 flex-col h-full">
-                <div className="font-medium w-full overflow-ellipsis overflow-hidden">
+            <div className="flex flex-1 w-[100px] relative items-start justify-start pt-2 flex-col h-full">
+                <div className="font-medium w-full overflow-ellipsis overflow-hidden pr-14">
                     {name}
                 </div>
-                <div className="text-sm text-neutral-content/80 w-full overflow-ellipsis overflow-hidden">
+                <div
+                    className="text-sm text-neutral-content/80 w-full line-clamp-1"
+                    title={
+                        latest_message.startsWith(
+                            `${process.env.NEXT_PUBLIC_API_URL}/upload/`
+                        )
+                            ? "image"
+                            : latest_message
+                    }
+                >
                     {latest_message.startsWith(
                         `${process.env.NEXT_PUBLIC_API_URL}/upload/`
                     ) ? (

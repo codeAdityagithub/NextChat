@@ -34,12 +34,13 @@ const getInvitations = async (userId: string) => {
 const getSentInvites = async (userId: string) => {
     if (!userId) return [];
     try {
+        await sql`delete from invitation where sent_at<NOW() - INTERVAL '7 days' and status='rejected'`;
         const invitations = await sql<
             SentInvites[]
         >`select u.name, u.dp, u.username, i.sent_at, i.invitation_id, i.sender_id, i.status from users u
          join invitation i
           on i.recipient_id=u.id
-           where i.sender_id=${userId}`;
+           where i.sender_id=${userId} and i.status!='accepted' order by sent_at desc`;
         return invitations;
     } catch (error: any) {
         console.log(error.message);
@@ -56,7 +57,7 @@ const AccountCard = async (props: Props) => {
     const names = JSON.parse(session?.user.name!);
     // console.log(data);
     return (
-        <div className="w-full min-h-[75px] mb-2 flex items-center justify-between pr-2 gap-1 bg-transparent">
+        <div className="w-full min-h-[75px] mb-2 flex items-center justify-between pr-2 gap-2 bg-transparent">
             <div className="flex items-center gap-3 flex-1">
                 <div className="h-[60px] w-[60px] overflow-hidden relative rounded-full">
                     <MyProfile image={session?.user.image} />

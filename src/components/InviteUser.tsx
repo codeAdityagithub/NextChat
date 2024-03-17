@@ -5,6 +5,8 @@ import axios from "axios";
 import { FormEvent, useState } from "react";
 import SearchUsers from "./SearchUsers";
 import { RxCross2 } from "react-icons/rx";
+import { sentInviteStore } from "./zustand/SentInviteStore";
+import { SentInvites } from "@/types";
 
 type Props = {
     apiAccessToken?: string;
@@ -37,7 +39,8 @@ const InviteUser = ({ apiAccessToken }: Props) => {
             apiAccessToken?: string;
         }) => sendInvite(username, apiAccessToken),
         onSuccess(data) {
-            setSuccess(data);
+            setSuccess("Invite sent sucessfully");
+            console.log(data);
             setTimeout(() => setSuccess(null), 3000);
             setValue("");
         },

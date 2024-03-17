@@ -40,8 +40,8 @@ const SearchUsers = ({ users, select }: Props) => {
                                     sizes="100px"
                                 />
                             </div>
-                            <div className="flex flex-1 relative items-start justify-center flex-col h-full w-full">
-                                <div className="font-medium text-sm">
+                            <div className="flex flex-1 relative items-start justify-center flex-col h-full w-16">
+                                <div className="font-medium w-full text-sm overflow-ellipsis overflow-hidden">
                                     {user.name}
                                 </div>
                                 <div className="text-sm font-light line-clamp-1">

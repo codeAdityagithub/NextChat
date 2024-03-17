@@ -92,7 +92,7 @@ const ChatImage = ({ message, otherPerson, showDp }: Props) => {
                     <img
                         src={data}
                         alt="chat Image"
-                        className="object-cover max-h-[350px]"
+                        className="object-cover max-h-[350px] cursor-pointer"
                         draggable={false}
                         crossOrigin="anonymous"
                     />
