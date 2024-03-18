@@ -5,7 +5,6 @@ import InviteNotifications from "../InviteNotifications";
 import { InviteNotification, SentInvites } from "@/types";
 import sql from "@/utils/db";
 import Settings from "../Settings";
-import ImagewError from "@/utils/ImagewError";
 import MyProfile from "../MyProfile";
 import ThemeToggle from "../ThemeToggle";
 import dynamic from "next/dynamic";
@@ -63,10 +62,10 @@ const AccountCard = async (props: Props) => {
                     <MyProfile image={session?.user.image} />
                 </div>
                 <div className="flex items-start justify-center flex-col h-full flex-1 w-20">
-                    <div className="text-lg font-medium text-base-content w-full overflow-hidden overflow-ellipsis">
+                    <div className="text-lg font-medium text-base-content w-full overflow-hidden overflow-ellipsis line-clamp-1">
                         {names.name}
                     </div>
-                    <div className="text-sm text-accent/80">
+                    <div className="text-sm text-accent/80 line-clamp-1 w-full overflow-hidden overflow-ellipsis ">
                         @{names.username}
                     </div>
                 </div>

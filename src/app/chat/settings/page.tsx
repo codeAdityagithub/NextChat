@@ -28,8 +28,8 @@ const page = async (props: Props) => {
                             <MyProfile image={session?.user.image} />
                         </div>
                     </div>
-                    <div className="flex flex-col items-start justify-center p-2 gap-4 text-base-content">
-                        <div className="text-2xl font-semibold w-full max-w-[200px] overflow-ellipsis overflow-hidden">
+                    <div className="flex flex-1 w-16 flex-col items-start justify-center p-2 gap-4 text-base-content">
+                        <div className="text-2xl font-semibold w-full overflow-ellipsis overflow-hidden">
                             {name}
                         </div>
                         <div className="text-sm">@{username}</div>

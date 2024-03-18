@@ -27,8 +27,8 @@ const ChatHeaderOptions = ({ id, name, username, dp }: Props) => {
                 tabIndex={0}
                 className="dropdown-content menu z-10 w-60 bg-primary shadow-md shadow-primary p-3 rounded-md"
             >
-                <li className="flex flex-row gap-6">
-                    <div className="p-0.5 bg-gradient-to-tr rounded-full from-primary via-red-500 to-green-500">
+                <li className="flex flex-row gap-6 flex-wrap w-full">
+                    <div className="p-0.5 bg-gradient-to-tr w-min h-min rounded-full from-primary via-red-500 to-green-500">
                         <div className="w-20 h-20 rounded-full relative overflow-hidden">
                             <Image
                                 src={dp ?? "/account.png"}
@@ -40,8 +40,10 @@ const ChatHeaderOptions = ({ id, name, username, dp }: Props) => {
                             />
                         </div>
                     </div>
-                    <div className="flex flex-col items-start justify-center p-2 gap-4 text-primary-content">
-                        <div className="text-2xl font-semibold">{name}</div>
+                    <div className="flex w-full flex-col items-start justify-center p-2 gap-4 text-primary-content">
+                        <div className="text-2xl font-semibold w-full overflow-ellipsis overflow-hidden ">
+                            {name}
+                        </div>
                         <div className="text-sm">@{username}</div>
                     </div>
                 </li>

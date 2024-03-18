@@ -22,10 +22,10 @@ const SentInviteCard = ({ username, name, sent_at, dp, status }: Props) => {
                 </div>
             </div>
             <div className="flex flex-1 w-16 flex-col ml-1 relative">
-                <div className="font-medium text-sm pr-[50px] overflow-ellipsis overflow-hidden">
+                <div className="font-medium text-sm pr-[50px] overflow-ellipsis overflow-hidden line-clamp-1">
                     {name}
                 </div>
-                <div className="text-xs font-light line-clamp-1">
+                <div className="text-xs font-light line-clamp-1 pr-[50px] overflow-ellipsis overflow-hidden">
                     @{username}
                 </div>
                 <div className="text-xs font-light absolute top-0 right-0 pl-4 backdrop-blur-xl">
