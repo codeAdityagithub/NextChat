@@ -70,8 +70,6 @@ export const POST = async (req: NextRequest) => {
         });
         await dbotp.save();
 
-        // TODO: Implement real email sending along with this
-
         const email = new Email({ email: data.email, expireAfter: new Date() });
         await email.save();
 

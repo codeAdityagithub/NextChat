@@ -33,7 +33,7 @@ const InvitationCard = ({
                 </div>
             </div>
             <div className="flex flex-1 w-12 flex-col">
-                <div className="font-medium text-sm overflow-ellipsis overflow-hidden">
+                <div className="font-medium text-sm overflow-ellipsis overflow-hidden line-clamp-1">
                     {name}
                 </div>
                 <div className="text-sm line-clamp-1">

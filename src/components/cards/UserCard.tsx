@@ -1,10 +1,9 @@
 import { formatTime } from "@/lib/timeFormatters";
 import { UserCardInfo } from "@/types";
-import ImagewError from "@/utils/ImagewError";
-import Image from "next/image";
 import Link from "next/link";
 import { GoDotFill } from "react-icons/go";
 import { MdImage } from "react-icons/md";
+import MyProfile from "../MyProfile";
 
 const UserCard = ({
     conversation_id,
@@ -30,22 +29,17 @@ const UserCard = ({
         <Link
             onClick={handleRead}
             href={`/chat/${conversation_id}`}
-            className={`w-full h-16 flex items-center gap-3 hover:bg-secondary/50 text-neutral-content transition-colors rounded-md px-2${
+            className={`w-full h-16 flex items-center gap-3 hover:bg-secondary/60 text-neutral-content transition-colors rounded-md px-2${
                 cur_conversation_id === conversation_id
                     ? " bg-secondary/30"
                     : " bg-transparent"
             }`}
         >
             <div className="w-[50px] h-[50px] rounded-full relative overflow-hidden">
-                {/* TODO: shift to Image only */}
-                <ImagewError
-                    src={dp ?? "/account.png"}
-                    alt="Acc"
-                    fallback="/account.png"
-                />
+                <MyProfile image={dp} />
             </div>
-            <div className="flex flex-1 w-[100px] relative items-start justify-start pt-2 flex-col h-full">
-                <div className="font-medium w-full overflow-ellipsis overflow-hidden pr-14">
+            <div className="flex flex-1 w-16 relative items-start justify-start pt-2 flex-col h-full">
+                <div className="font-medium w-full overflow-ellipsis overflow-hidden line-clamp-1 pr-14">
                     {name}
                 </div>
                 <div
@@ -69,7 +63,10 @@ const UserCard = ({
                         latest_message
                     )}
                 </div>
-                <div className="absolute text-xs right-2 top-2">
+                <div
+                    title={formatTime(last_contacted_at)}
+                    className="absolute text-xs bg-neutral p-1 rounded-md right-0 top-2"
+                >
                     {formatTime(last_contacted_at)}
                 </div>
                 {unread_message ? (
