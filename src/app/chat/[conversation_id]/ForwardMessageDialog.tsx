@@ -100,18 +100,18 @@ const ForwardMessageDialog = ({ chatUsers }: Props) => {
                                     conv.conversation_id === selectedConvId
                                         ? "bg-primary text-primary-content hover:bg-primary/80 "
                                         : "text-neutral-content hover:bg-primary/60 "
-                                }flex items-center gap-3 flex-1 cursor-pointer transition-colors rounded-md px-2 py-1`}
+                                }flex items-center justify-start gap-3 flex-1 cursor-pointer transition-colors rounded-md px-2 py-1`}
                                 key={conv.conversation_id}
                                 onClick={() => {
                                     setSelectedConvId(conv.conversation_id);
                                     setSelectedUserId(conv.id!);
                                 }}
                             >
-                                <div className="h-[50px] w-[50px] overflow-hidden relative rounded-full">
+                                <div className="h-11 w-11 overflow-hidden relative rounded-full">
                                     <MyProfile image={conv.dp} />
                                 </div>
-                                <div className="flex items-start justify-center flex-col h-full">
-                                    <div className="text-lg font-medium max-w-[120px] overflow-ellipsis overflow-hidden">
+                                <div className="flex flex-1 w-20 items-start justify-center flex-col h-full">
+                                    <div className="text-lg w-full font-medium overflow-ellipsis overflow-hidden">
                                         {conv.name}
                                     </div>
                                 </div>

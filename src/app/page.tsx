@@ -1,4 +1,3 @@
-import ThemeSetter from "@/components/ThemeSetter";
 import authOptions from "@/utils/nextauthOptions";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
@@ -17,7 +16,6 @@ export default async function Home() {
         //     </button>
         // </div>
         <div className="flex flex-col gap-y-4 h-full items-center overflow-hidden justify-center text-primary-content bg-gradient-to-br from-blue-600 to-purple-800">
-            <ThemeSetter />
             <div className="relative w-60 h-32 before:content-['*'] before:absolute before:inset-4 before:bg-purple-200 before:animate-myping before:blur-2xl">
                 <Image src="/logo.png" alt="Logo" fill className="" />
             </div>

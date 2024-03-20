@@ -1,11 +1,15 @@
+import MyProfile from "@/components/MyProfile";
 import { Message } from "@/dbtypes";
 import { UserCardInfo } from "@/types";
 import { queryClient } from "@/utils/ReactQueryProvider";
 import { socket } from "@/utils/socket";
+import { messageToast } from "@/utils/toasts";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 type Props = {
     initialData: UserCardInfo[];
@@ -26,8 +30,8 @@ const useConversation = ({ initialData }: Props) => {
     useEffect(() => {
         const soundRec = new Audio("/messageSound1.mp3");
         const soundSend = new Audio("/messageSound1.mp3");
-        soundSend.volume = 0.5;
-        soundRec.volume = 0.6;
+        soundSend.volume = 0.4;
+        soundRec.volume = 0.4;
         const getConv = (conversation: UserCardInfo) => {
             // console.log("new conversation");
             setChatUsers((prev) => [
@@ -60,6 +64,10 @@ const useConversation = ({ initialData }: Props) => {
                 conversation_id !== message.conversation_id.toString()
             ) {
                 soundRec.play();
+                const sender = chatUsers.find(
+                    (user) => user.id === message.sender_id
+                );
+                messageToast(sender, message);
             }
             // updating the chat according to latest message
             const newChats = chatUsers.map((conv) =>

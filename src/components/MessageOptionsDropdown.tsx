@@ -62,8 +62,8 @@ const MessageOptionsDropdown = ({
                 className="modal bg-transparent transition-opacity duration-200 p-3"
                 ref={dialogRef}
             >
-                <div className="modal-box bg-neutral max-w-md text-neutral-content p-3 rounded-md shadow-lg transition-all">
-                    <h3 className="font-bold text-lg">
+                <div className="modal-box bg-neutral text-center max-w-sm text-neutral-content p-3 rounded-md shadow-lg transition-all">
+                    <h3 className="font-bold text-xl">
                         Caution: Deleting Messages
                     </h3>
                     {error !== "" ? (
@@ -76,13 +76,7 @@ const MessageOptionsDropdown = ({
                         <span className="underline">irreversible</span> action.
                         Once a message is deleted, it cannot be recovered.
                     </p>
-                    <div className="modal-action gap-4">
-                        <button
-                            className="_btn-sm bg-error text-error-content"
-                            onClick={handleDelete}
-                        >
-                            Delete
-                        </button>
+                    <div className="modal-action gap-8 items-center justify-center">
                         <form
                             method="dialog"
                             className="flex items-center gap-4"
@@ -90,6 +84,12 @@ const MessageOptionsDropdown = ({
                             {/* if there is a button in form, it will close the modal */}
                             <button className="_btn-sm h-auto">Cancel</button>
                         </form>
+                        <button
+                            className="_btn-sm bg-error text-error-content"
+                            onClick={handleDelete}
+                        >
+                            Delete
+                        </button>
                     </div>
                 </div>
             </dialog>

@@ -2,7 +2,9 @@
 import { sentInviteStore } from "@/components/zustand/SentInviteStore";
 import { SentInvites } from "@/types";
 import { socket } from "@/utils/socket";
+import { generalToast } from "@/utils/toasts";
 import { useEffect, useState } from "react";
+import { FcBrokenLink } from "react-icons/fc";
 
 const useSentInvites = (invitations: SentInvites[]) => {
     const [invites, setInvites] = useState(invitations);
@@ -13,7 +15,7 @@ const useSentInvites = (invitations: SentInvites[]) => {
             setInvites((prev) => [invite, ...prev]);
         }
         function handleReject(username: string) {
-            console.log(username);
+            // console.log(username);
             setInvites((prev) =>
                 prev.map((invite) => {
                     if (invite.username === username)
@@ -22,7 +24,12 @@ const useSentInvites = (invitations: SentInvites[]) => {
                 })
             );
             audio.play();
-            console.log("rejected");
+            // console.log("rejected");
+            generalToast(
+                `${username} rejected your invitation.`,
+                "secondary",
+                <FcBrokenLink size="large" />
+            );
         }
 
         socket.on("send_invite", sentInvite);
