@@ -1,6 +1,8 @@
 "use client";
+import InvitationCard from "@/components/cards/InvitationCard";
 import { InviteNotification } from "@/types";
 import { socket } from "@/utils/socket";
+import { generalToast } from "@/utils/toasts";
 import React, { useEffect, useState } from "react";
 
 type Props = {
@@ -14,6 +16,10 @@ const useInvitation = (invitations: InviteNotification[]) => {
         function handleInvite(invite: InviteNotification) {
             setInvites((prev) => [invite, ...prev]);
             audio.play();
+            generalToast(
+                `You have a new invitation from ${invite.name}.`,
+                "success"
+            );
             // console.log(invite);
         }
 

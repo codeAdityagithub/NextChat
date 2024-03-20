@@ -7,7 +7,34 @@ const config: Config = {
         "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     ],
     theme: {
-        extend: {},
+        extend: {
+            animation: {
+                messagerec: "fadeInRight 300ms ease-out",
+                messagesend: "fadeInBottom 200ms ease-in forwards",
+            },
+            keyframes: {
+                fadeInRight: {
+                    "0%": {
+                        opacity: "0",
+                        transform: "translateX(2rem)",
+                    },
+                    "100%": {
+                        opacity: "1",
+                        transform: "translateX(0)",
+                    },
+                },
+                fadeInBottom: {
+                    "0%": {
+                        opacity: "0",
+                        transform: "translateY(2rem)",
+                    },
+                    "100%": {
+                        opacity: "1",
+                        transform: "translateY(0)",
+                    },
+                },
+            },
+        },
     },
     plugins: [require("daisyui")],
     daisyui: {

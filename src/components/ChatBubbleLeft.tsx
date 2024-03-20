@@ -59,7 +59,7 @@ const ChatBubbleLeft = ({
                     {name}
                 </div>
             ) : null}
-            <div className="chat-bubble bg-secondary rounded-md text-secondary-content relative  break-words max-w-[260px] sm:max-w-sm lg:max-w-lg">
+            <div className="chat-bubble animate-messagerec bg-secondary rounded-md text-secondary-content relative  break-words max-w-[260px] sm:max-w-sm lg:max-w-lg">
                 {content}
             </div>
             <div className="chat-footer text-xs text-base-content">
