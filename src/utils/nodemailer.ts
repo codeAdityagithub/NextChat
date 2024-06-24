@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 
 export async function sendMail(toEmail: string, otp: string) {
     const info = await transporter.sendMail({
-        from: process.env.SMTP_FROM,
+        from: process.env.SMTP_USER,
         // to: toEmail,
         // subject: "Your OTP for Verification on NextChat",
         // text: `Hello!\n\nYour OTP for verification is: ${otp}\n\nPlease use this code to complete the verification process.\n\nBest Regards,\nAditya | Nextchat`,
