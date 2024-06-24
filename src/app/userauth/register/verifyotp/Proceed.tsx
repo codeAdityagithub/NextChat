@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { toast } from "sonner";
 
 type Props = {
     token: string;
@@ -11,7 +12,6 @@ type Props = {
 
 const Proceed = ({ token }: Props) => {
     const router = useRouter();
-
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const [otp, setOtp] = useState("");
@@ -28,9 +28,8 @@ const Proceed = ({ token }: Props) => {
         },
         onSuccess() {
             setMessage("User created successfully");
-            setTimeout(() => {
-                router.replace(`/userauth/login`);
-            }, 2000);
+            toast("User created successfully");
+            router.replace(`/userauth/login`);
         },
     });
     const handleProceed = (e: FormEvent<HTMLFormElement>) => {

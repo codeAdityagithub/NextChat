@@ -21,7 +21,7 @@ type Props = {
 const ChatImage = ({ message, otherPerson, showDp }: Props) => {
     const session = useSession();
     const dialogRef = useRef<HTMLDialogElement>(null);
-
+    
     const { data, isLoading, isError } = useQuery({
         queryKey: ["chatImage", message.content],
         queryFn: async () => {

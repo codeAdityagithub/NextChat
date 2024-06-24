@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { ImSpinner9 } from "react-icons/im";
+import { toast } from "sonner";
 
 const checkValid = (inputVal: string) => {
     return inputVal.includes("|") || inputVal.includes("_");
@@ -66,12 +67,8 @@ const Register = () => {
             setMessage(res.message);
             e.currentTarget?.reset();
             // setOtpSent(true);
-            setTimeout(() => {
-                setMessage("");
-                router.replace(
-                    `/userauth/register/verifyotp?token=${res.token}`
-                );
-            }, 2000);
+            setMessage("");
+            router.replace(`/userauth/register/verifyotp?token=${res.token}`);
         }
     };
 
